@@ -24,7 +24,7 @@ O aplicativo usa o Retrofit para gerenciar requisições para a API do [Banco Ce
 12. No perfil do usuário, este pode vê e editar suas informações;
 13. Um extrato de todas as operações realizadas em um determinado período pode ser visualizada escolhendo a opção "Extrato de Transações" no menu superior.
 
-Para visualizar e entender como funciona o fluxo do aplicativo acesse o protótipo de telas disponível [aqui] (/prototype/prototipo-carteira-virtual-v4.html).
+Para visualizar e entender como funciona o fluxo do aplicativo acesse o protótipo de telas disponível [aqui] (/app/prototype/).
 
 
 ## Status do Projeto 
