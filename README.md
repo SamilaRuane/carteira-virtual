@@ -19,12 +19,12 @@ O aplicativo usa o Retrofit para gerenciar requisições para a API do [Banco Ce
 7. Cadastre-se e use as informações cadastradas para fazer o login;
 8. Digite o número do telefone e a senha cadastrados e clique em Login;
 9. Se as informações fornecidas forem as mesmas cadastradas você será redirecionado para a Tela principal a qual deve conter as informações de saldo e últimas transações da última conta escolhida pelo usuário, ou da conta principal (A conta BRL) se for o primeiro acesso; 
-10. Ao arrastar a tela para o lado ou clicar em algum dos ícones na barra inferior da tela, o usuário será redirecionado para a lista de contas ou para o perfil do usuário de acordo com a opção escolhida;
-11. Na lista de contas o usuário pode escolher qual das contas o mesmo quer visualizar e as informações referentes àquela conta são exibidas na primeira aba;
-12. No perfil do usuário, este pode vê e editar suas informações;
+10. Ao arrastar a tela para o lado ou clicar em algum dos ícones na barra inferior da tela, você será redirecionado para a lista de contas ou para o perfil do usuário de acordo com a opção escolhida;
+11. Na lista de contas é possível escolher qual das contas você quer visualizar e as informações referentes àquela conta são exibidas na primeira aba;
+12. No perfil do usuário, você vê e editar suas informações;
 13. Um extrato de todas as operações realizadas em um determinado período pode ser visualizada escolhendo a opção "Extrato de Transações" no menu superior.
 
-Para visualizar e entender como funciona o fluxo do aplicativo acesse o protótipo de telas disponível [aqui](/app/prototype/).
+Os passos descritos acima é o que deve acontecer para um usuário quando o aplicativo estiver pronto. Para visualizar e entender como funciona o fluxo do aplicativo acesse o protótipo de telas disponível [aqui](/app/prototype/), execute o arquivo no seu browser e interaja com as telas exibidas.
 
 
 ## Status do Projeto 
@@ -43,7 +43,7 @@ O projeto está em fase de desenvolvimento.
 4. Gerenciamento do Perfil de Usuário.
 5. Tela e controle da lista de contas do usuário.
 
-### Licença
+## Licença
 
 ```MIT License
 
