@@ -5,7 +5,7 @@
 Aplicativo voltado para o gerenciamento de uma carteira virtual, a qual gerencia 3 contas, sendo duas de criptomoedas e uma outra que especifica o saldo em dinheiro (BRL) que o usuário contém de modo que transações de compra, venda e troca são realizadas.
 
 
-##Dependências 
+## Dependências 
 O aplicativo usa o Retrofit para gerenciar requisições para a API do [Banco Central](https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios) e do [Mercado Bitcoin](https://www.mercadobitcoin.net/api-doc/). Esta dependência já está adicionada no arquivo gradle do aplicativo. Mais informações sobre como usar o retrofit acesse [Retrofit](http://square.github.io/retrofit/).
 
 ## Como usar
