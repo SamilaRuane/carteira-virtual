@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Carteira Virtual</string>
+    <string name="bitcoin_wallet_details_page_title">Carteira Bitcoin</string>
+    <string name="brita_wallet_details_page_title">Carteira Brita</string>
+    <string name="brl_wallet_details_page_title">Carteira BRL</string>
+    <string name="hint_login_user_phone_number">Digite seu número de telefone</string>
+    <string name="hint_login_user_password">Digite sua senha</string>
+    <string name="hint_user_name">Digite seu nome</string>
+    <string name="hint_user_email">Digite seu email</string>
+    <string name="hint_user_password">Digite sua Senha</string>
+    <string name="hint_user_password_confirmation">Confirme sua senha</string>
+    <string name="text_user_register">Não tem Conta? Cadastre-se</string>
+    <string name="text_user_recovery_password">Esqueci a Senha</string>
+    <string name="text_info_type_phone_number">Digite o número do seu celular</string>
+    <string name="text_info_type_code">Digite o código enviado para o seu celular</string>
+    <string name="text_label_to_operation_type">Tipo da Operação</string>
+    <string name="text_label_to_source_account">Conta de Origem</string>
+    <string name="text_label_to_destination_account">Conta de Destino</string>
+    <string name="text_label_to_amount">Valor</string>
+    <string name="btn_send">Enviar</string>
+    <string name="btn_confirm">Confirmar</string>
+    <string name="btn_login">Logar</string>
+
+    <string-array name = "transactiontypes">
+        <item>VENDA</item>
+        <item>COMPRA</item>
+        <item>TROCA</item>
+    </string-array>
+
+    <string-array name = "coins">
+        <item>BRITA</item>
+        <item>BITCOIN</item>
+        <item>BRL</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="material_design_tabs_padding_bottom">12dp</dimen>
+    <dimen name="material_design_tabs_height">48dp</dimen>
+    <dimen name="corners_dimen">5dp</dimen>
+    <dimen name="btn_stroke_dimen">1dp</dimen>
+    <dimen name="box_padding">10dp</dimen>
+</resources>
