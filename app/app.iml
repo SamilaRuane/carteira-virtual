@@ -21,6 +21,22 @@
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
     </facet>
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="3" platform="JVM 1.8" useProjectSettings="false">
+        <compilerSettings />
+        <compilerArguments>
+          <option name="jvmTarget" value="1.8" />
+          <option name="languageVersion" value="1.1" />
+          <option name="apiVersion" value="1.1" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
     <output url="file://$MODULE_DIR$/build/intermediates/classes/debug" />
@@ -125,7 +141,7 @@
     <orderEntry type="library" scope="TEST" name="objenesis-2.6" level="project" />
     <orderEntry type="library" name="transition-26.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="jsr305-2.0.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="mockito-core-2.15.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="mockito-core-2.16.0" level="project" />
     <orderEntry type="library" scope="TEST" name="runner-1.0.1" level="project" />
     <orderEntry type="library" name="support-compat-26.1.0" level="project" />
     <orderEntry type="library" name="constraint-layout-solver-1.0.2" level="project" />

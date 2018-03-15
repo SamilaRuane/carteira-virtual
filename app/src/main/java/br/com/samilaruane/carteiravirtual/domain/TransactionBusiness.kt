@@ -5,7 +5,6 @@ import br.com.samilaruane.carteiravirtual.domain.entities.Account
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.repository.db.TransactionRepository
-import br.com.samilaruane.carteiravirtual.repository.db.TransactionRepositoryImpl
 import java.util.*
 
 /**
@@ -16,7 +15,9 @@ class TransactionBusiness(val ctx : Context) {
     var sourceAccount : Account? = null
     var destinationAccount : Account? = null
 
-    var transactionRepository: TransactionRepository = TransactionRepositoryImpl.getInstance(ctx)
+    var transactionRepository: TransactionRepository = TransactionRepository.getInstance(ctx)
+
+
 
     fun manageTransaction (operationType: String, sourceAccount: String, destinationAccount: String, amount: Double, user : User){
 
@@ -65,6 +66,6 @@ class TransactionBusiness(val ctx : Context) {
         val transaction = Transaction (Date().time, type, amount,
                 sourceAccount,
                 destinationAccount)
-        transactionRepository.insert(transaction)
+        transactionRepository.create(transaction)
     }
 }

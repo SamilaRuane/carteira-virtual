@@ -7,10 +7,9 @@ import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.repository.db.AccountRepository
-import br.com.samilaruane.carteiravirtual.repository.db.AccountRepositoryImpl
 import br.com.samilaruane.carteiravirtual.repository.db.SearchFilter
 import br.com.samilaruane.carteiravirtual.repository.db.UserRepository
-import br.com.samilaruane.carteiravirtual.utils.OnEventResponse
+import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 
 /**
@@ -27,11 +26,11 @@ class UserBusiness(ctx : Context) {
 
     init {
         userRepository = UserRepository.getInstance(ctx)
-        accountRepository = AccountRepositoryImpl.getInstance(ctx)
+        accountRepository = AccountRepository.getInstance(ctx)
         context = ctx
     }
 
-    fun createUser (name :  String, email : String, phone : String, password : String, passwordConfirmation : String, listener : OnEventResponse){
+    fun createUser (name :  String, email : String, phone : String, password : String, passwordConfirmation : String, listener : EventResponseListener){
 
         if (password.equals(passwordConfirmation)) {
             val user = User(0, name, phone, email, password)
@@ -39,9 +38,9 @@ class UserBusiness(ctx : Context) {
 
             if (user.isValid()) {
                 if (userId != null) {
-                    accountRepository.insert(Account(userId, BRLCoin(), 100000.00))
-                    accountRepository.insert(Account(userId, BritaCoin(), 0.0))
-                    accountRepository.insert(Account(userId, BTCoin(), 0.0))
+                    accountRepository.create(Account(userId, BRLCoin(), 100000.00))
+                    accountRepository.create(Account(userId, BritaCoin(), 0.0))
+                    accountRepository.create(Account(userId, BTCoin(), 0.0))
                 }
 
                 listener.onSuccess()
@@ -51,7 +50,7 @@ class UserBusiness(ctx : Context) {
         listener.onError(context.getString(R.string.create_user_error_alert))
     }
     fun initAccounts (user : User){
-        val accounts = accountRepository.select(user.id.toString())
+        val accounts = accountRepository.select(SearchFilter.getByArgument(DatabaseConstants.ACCOUNT.TABLE_NAME, DatabaseConstants.ACCOUNT.COLUMNS.USER_ID, user.id.toString()))
         for (acc : Account in accounts){
             when(acc.getCoin().getCoinInitials()){
                 BaseConstants.BRITA_ACCOUNT -> britaAccount = acc
@@ -92,7 +91,13 @@ class UserBusiness(ctx : Context) {
     }
 
     fun getUserAccounts () : List <Account>{
-       return  accountRepository.select(SharedPreferencesHelper(context).getUserId().toString())
+       initAccounts(getCurrentUser())
+        val accounts = ArrayList<Account>()
+        accounts.add(britaAccount)
+        accounts.add(bitCoinAccount)
+        accounts.add(brlAccount)
+       return  accounts
+
     }
 
 }

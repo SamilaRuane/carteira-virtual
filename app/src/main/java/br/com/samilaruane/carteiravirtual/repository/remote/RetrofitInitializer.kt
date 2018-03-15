@@ -10,13 +10,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitInitializer {
 
     fun getMercadoBitcoinService () : MercadoBitcoinService?{
-        val retrofit = init(EndpointConstants.BASE.URL_API_MERCADO_BITCOIN)
+        val retrofit : Retrofit? = init(EndpointConstants.BASE.URL_API_MERCADO_BITCOIN)
         return retrofit?.create(MercadoBitcoinService :: class.java)
     }
 
     fun getBancoCentralService () : BancoCentralService?{
         val retrofit = init(EndpointConstants.BASE.URL_API_BANCO_CENTRAL)
-        return retrofit?.create(BancoCentralService ::class.java)
+        return retrofit?.create(BancoCentralService :: class.java)
     }
 
     private fun init(url : String) : Retrofit? = Retrofit.Builder()

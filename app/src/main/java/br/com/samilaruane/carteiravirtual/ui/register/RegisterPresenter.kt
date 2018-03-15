@@ -5,12 +5,12 @@ import android.telephony.SmsManager
 import br.com.samilaruane.carteiravirtual.domain.UserBusiness
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.utils.NumericTokenGenerator
-import br.com.samilaruane.carteiravirtual.utils.OnEventResponse
+import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 
 /**
  * Created by samila on 02/01/18.
  */
-class RegisterPresenter : RegisterContract.Presenter, OnEventResponse {
+class RegisterPresenter : RegisterContract.Presenter, EventResponseListener {
 
     lateinit var mView : RegisterContract.View
     lateinit var mUserBusiness: UserBusiness
