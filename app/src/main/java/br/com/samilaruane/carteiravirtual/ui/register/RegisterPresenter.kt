@@ -5,11 +5,12 @@ import android.telephony.SmsManager
 import br.com.samilaruane.carteiravirtual.domain.UserBusiness
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.utils.NumericTokenGenerator
+import br.com.samilaruane.carteiravirtual.utils.OnEventResponse
 
 /**
  * Created by samila on 02/01/18.
  */
-class RegisterPresenter : RegisterContract.Presenter {
+class RegisterPresenter : RegisterContract.Presenter, OnEventResponse {
 
     lateinit var mView : RegisterContract.View
     lateinit var mUserBusiness: UserBusiness
@@ -26,7 +27,7 @@ class RegisterPresenter : RegisterContract.Presenter {
     }
 
     override fun create(name :  String, email : String, phone : String, password : String, passwordConfirmation : String) {
-        mUserBusiness.createUser(name, email, phone, password, passwordConfirmation)
+        mUserBusiness.createUser(name, email, phone, password, passwordConfirmation, this)
     }
 
     override fun sendMessage(phoneNumber: String, msg: String) {
@@ -59,5 +60,13 @@ class RegisterPresenter : RegisterContract.Presenter {
 
     override fun getToken(): String {
         return sharedPreference.getToken()
+    }
+
+    override fun onSuccess() {
+
+    }
+
+    override fun onError(errorMessage: String) {
+        mView.showError(errorMessage)
     }
 }

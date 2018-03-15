@@ -1,7 +1,9 @@
 package br.com.samilaruane.carteiravirtual.domain
 
 import android.content.Context
-import br.com.samilaruane.carteiravirtual.constants.BaseConstants
+import br.com.samilaruane.carteiravirtual.domain.entities.Account
+import br.com.samilaruane.carteiravirtual.domain.entities.User
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.repository.db.TransactionRepository
 import br.com.samilaruane.carteiravirtual.repository.db.TransactionRepositoryImpl
 import java.util.*

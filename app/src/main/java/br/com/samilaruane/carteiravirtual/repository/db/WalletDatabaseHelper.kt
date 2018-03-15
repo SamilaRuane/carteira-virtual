@@ -3,8 +3,7 @@ package br.com.samilaruane.carteiravirtual.repository.db
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
-import br.com.samilaruane.carteiravirtual.constants.DatabaseConstants
+import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 
 /**
  * Created by samila on 25/12/17.

@@ -1,7 +1,7 @@
 package br.com.samilaruane.carteiravirtual.ui.transaction
 
-import br.com.samilaruane.carteiravirtual.base.BasePresenter
-import br.com.samilaruane.carteiravirtual.base.BaseView
+import br.com.samilaruane.carteiravirtual.ui.base.BasePresenter
+import br.com.samilaruane.carteiravirtual.ui.base.BaseView
 
 /**
  * Created by samila on 07/01/18.

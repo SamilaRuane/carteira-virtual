@@ -1,6 +1,6 @@
 package br.com.samilaruane.carteiravirtual.repository.remote
 
-import br.com.samilaruane.carteiravirtual.entities.BitcoinTicker
+import br.com.samilaruane.carteiravirtual.domain.entities.BitcoinTicker
 import retrofit2.Call
 import retrofit2.http.GET
 

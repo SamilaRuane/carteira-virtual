@@ -1,8 +1,7 @@
 package br.com.samilaruane.carteiravirtual.ui.register
 
-import br.com.samilaruane.carteiravirtual.base.BasePresenter
-import br.com.samilaruane.carteiravirtual.base.BaseView
-import br.com.samilaruane.carteiravirtual.domain.User
+import br.com.samilaruane.carteiravirtual.ui.base.BasePresenter
+import br.com.samilaruane.carteiravirtual.ui.base.BaseView
 
 /**
  * Created by samila on 02/01/18.

@@ -2,8 +2,8 @@ package br.com.samilaruane.carteiravirtual.repository.db
 
 import android.content.ContentValues
 import android.content.Context
-import br.com.samilaruane.carteiravirtual.constants.DatabaseConstants
-import br.com.samilaruane.carteiravirtual.domain.Transaction
+import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
+import br.com.samilaruane.carteiravirtual.domain.*
 
 /**
  * Created by samila on 07/01/18.
@@ -38,4 +38,18 @@ class TransactionRepositoryImpl private constructor(ctx : Context) : Transaction
 
         return db.insert(DatabaseConstants.TRANSACTION.TABLE_NAME, null, insertValues).toInt()
     }
+
+    override fun select(userId : String): List<Transaction> {
+        val db = mWalletDatabaseHelper.writableDatabase
+        val querySQL = "SELECT * FROM ${DatabaseConstants.TRANSACTION.TABLE_NAME} WHERE ${DatabaseConstants.TRANSACTION.COLUMNS.ID} == $userId"
+
+        val list = mutableListOf<Transaction>()
+        val cursor = db.rawQuery(querySQL, null)
+
+        while (cursor.moveToNext()){
+            //TODO Implementar lógica de recuperação de dados
+        }
+        return list
+    }
+
 }

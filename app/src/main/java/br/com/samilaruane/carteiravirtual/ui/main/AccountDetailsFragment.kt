@@ -16,6 +16,8 @@ class AccountDetailsFragment : Fragment {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //recycler_main.adapter = TransactionListAdapter (, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

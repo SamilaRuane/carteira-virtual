@@ -1,60 +1,59 @@
 package br.com.samilaruane.carteiravirtual.domain
 
 import android.content.Context
-import br.com.samilaruane.carteiravirtual.constants.BaseConstants
+import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.domain.entities.Account
+import br.com.samilaruane.carteiravirtual.domain.entities.User
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.repository.db.AccountRepository
 import br.com.samilaruane.carteiravirtual.repository.db.AccountRepositoryImpl
+import br.com.samilaruane.carteiravirtual.repository.db.SearchFilter
 import br.com.samilaruane.carteiravirtual.repository.db.UserRepository
-import br.com.samilaruane.carteiravirtual.repository.db.UserRepositoryImpl
+import br.com.samilaruane.carteiravirtual.utils.OnEventResponse
+import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 
 /**
  * Created by samila on 02/01/18.
  */
 class UserBusiness(ctx : Context) {
 
-    private var userRepository : UserRepository
-    private var accountRepository : AccountRepository
+    private val userRepository : UserRepository
+    private val accountRepository : AccountRepository
     lateinit var brlAccount : Account
     lateinit var britaAccount : Account
     lateinit var bitCoinAccount : Account
+    private val context : Context
 
     init {
-        userRepository = UserRepositoryImpl.getInstance(ctx)
+        userRepository = UserRepository.getInstance(ctx)
         accountRepository = AccountRepositoryImpl.getInstance(ctx)
+        context = ctx
     }
 
-    fun createUser (name :  String, email : String, phone : String, password : String, passwordConfirmation : String){
+    fun createUser (name :  String, email : String, phone : String, password : String, passwordConfirmation : String, listener : OnEventResponse){
 
         if (password.equals(passwordConfirmation)) {
             val user = User(0, name, phone, email, password)
-            val userId = userRepository.insert(user)
+            val userId = userRepository.create(user)
 
-            if (isValid(user)) {
+            if (user.isValid()) {
                 if (userId != null) {
-                    accountRepository.insert(Account(userId, BRLCoin (), 100000.00))
-                    accountRepository.insert(Account(userId, BritaCoin (), 0.0))
-                    accountRepository.insert(Account(userId, BTCoin (), 0.0))
-
+                    accountRepository.insert(Account(userId, BRLCoin(), 100000.00))
+                    accountRepository.insert(Account(userId, BritaCoin(), 0.0))
+                    accountRepository.insert(Account(userId, BTCoin(), 0.0))
                 }
+
+                listener.onSuccess()
             }
         }
-    }
 
-    private fun isValid (user : User?) : Boolean{
-        if(user != null){
-            if((!user.name.isEmpty()) &&
-                    (!user.email.isEmpty()) &&
-                    (!user.password.isEmpty()))
-            return true
-        }
-            return false
+        listener.onError(context.getString(R.string.create_user_error_alert))
     }
-
     fun initAccounts (user : User){
         val accounts = accountRepository.select(user.id.toString())
         for (acc : Account in accounts){
             when(acc.getCoin().getCoinInitials()){
-
                 BaseConstants.BRITA_ACCOUNT -> britaAccount = acc
                 BaseConstants.BITCOIN_ACCOUNT -> bitCoinAccount = acc
                 BaseConstants.BRL_ACCOUNT -> brlAccount = acc
@@ -73,24 +72,27 @@ class UserBusiness(ctx : Context) {
         return null
     }
 
-    fun getCurrentUser () : User{
-        return User (1, "", "", "", "")
+    fun getCurrentUser () : User {
+        val id = SharedPreferencesHelper(context).getUserId()
+        return userRepository.select(SearchFilter.getById(DatabaseConstants.USER.TABLE_NAME, DatabaseConstants.USER.COLUMNS.ID, id.toString())).single()
     }
 
     fun login (phone : String, password: String) : Boolean{
-        userRepository.select("")
         var user : User?
-        if(!phone.equals("") && !password.equals("") && phone != null && password != null) {
-            user = userRepository.selectUserByPhone(phone)
-            if(user != null){
-                if (user.password.equals(password)){
-                    return true
-                }
-            }
+        if(!phone.isNullOrEmpty() && !password.isNullOrEmpty()) {
+            user = userRepository.select(SearchFilter.getByArgument(DatabaseConstants.USER.TABLE_NAME, DatabaseConstants.USER.COLUMNS.PHONE, phone)).single()
+                  if(CredencialsManager.authenticateUser(user, password)) {
+                      SharedPreferencesHelper(context).saveUserId(user)
+                      return true
+                  }
+            return false
         }
 
         return false
     }
 
+    fun getUserAccounts () : List <Account>{
+       return  accountRepository.select(SharedPreferencesHelper(context).getUserId().toString())
+    }
 
 }

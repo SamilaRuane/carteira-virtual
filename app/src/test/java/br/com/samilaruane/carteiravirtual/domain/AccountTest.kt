@@ -1,5 +1,7 @@
 package br.com.samilaruane.carteiravirtual.domain
 
+import br.com.samilaruane.carteiravirtual.domain.entities.Account
+import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.domain.exceptions.InsufficientBalanceException
 import org.junit.Assert.*
 import org.junit.Test
@@ -15,7 +17,7 @@ class AccountTest {
     fun shouldNotWithdrawnAnAmountGraterThanAccountBalance (){
         //cenário
         val aCoin = BRLCoin()
-        val user = User ()
+        val user = User()
         val anBRLAccount = Account(user, aCoin)
 
         //ação
@@ -40,7 +42,7 @@ class AccountTest {
     fun shouldTakeAnAmountFromBRLAccountAndDepositInABTCAccount (){
         //cenário
         val btCoin = BTCoin()
-        val user = User ()
+        val user = User()
         val BRLAccount = Account(user, btCoin)
         val BTCAccount = Account(user, btCoin)
         val amount = 1.0
@@ -68,7 +70,7 @@ class AccountTest {
     fun shouldTakeAnAmountInBTCAccountAndDepositInBRLAccount (){
         //cenário
         val btCoin = BTCoin()
-        val user = User ()
+        val user = User()
         val BRLAccount = Account(user, btCoin)
         val BTCAccount = Account(user, btCoin)
         val amount = 1.0

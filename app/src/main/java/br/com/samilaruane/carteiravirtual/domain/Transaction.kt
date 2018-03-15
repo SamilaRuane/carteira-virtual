@@ -1,5 +1,7 @@
 package br.com.samilaruane.carteiravirtual.domain
 
+import br.com.samilaruane.carteiravirtual.domain.entities.Account
+
 /**
  * Created by samila on 21/12/17.
  */

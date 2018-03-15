@@ -1,6 +1,6 @@
 package br.com.samilaruane.carteiravirtual.repository.remote
 
-import br.com.samilaruane.carteiravirtual.entities.DollarExchangeRate
+import br.com.samilaruane.carteiravirtual.domain.entities.DollarExchangeRate
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

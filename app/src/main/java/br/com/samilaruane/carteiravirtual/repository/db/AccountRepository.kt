@@ -1,6 +1,6 @@
 package br.com.samilaruane.carteiravirtual.repository.db
 
-import br.com.samilaruane.carteiravirtual.domain.Account
+import br.com.samilaruane.carteiravirtual.domain.entities.Account
 
 
 /**

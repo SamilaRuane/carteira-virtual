@@ -1,6 +1,6 @@
 package br.com.samilaruane.carteiravirtual.repository.remote
 
-import br.com.samilaruane.carteiravirtual.constants.EndpointConstants
+import br.com.samilaruane.carteiravirtual.utils.constants.EndpointConstants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

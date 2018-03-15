@@ -1,29 +1,37 @@
 package br.com.samilaruane.carteiravirtual.ui.register
 
+import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.util.Log
 import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
 import br.com.samilaruane.carteiravirtual.utils.Dialog
 import br.com.samilaruane.carteiravirtual.utils.ErrorDialog
+import br.com.samilaruane.carteiravirtual.utils.PermissionManager
 
-class RegisterActivity : AppCompatActivity(), RegisterContract.View, SendCodeFragment.OnPhoneNumberTypedListener,
+class RegisterActivity : BaseActivity (), RegisterContract.View, SendCodeFragment.OnPhoneNumberTypedListener,
 ConfirmCodeFragment.OnCodeConfirmedListener,
 UserInfoFragment.OnRegisterFinishedListener{
 
     lateinit var registerPresenter : RegisterContract.Presenter
     lateinit var phoneNumber : String
 
+    private val REQUEST_DANGEROUS_PERMISSIONS_CODE = 1
+    private val permissions : Array<String> = arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_EXTERNAL_STORAGE)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        PermissionManager.requestPermissions (this, permissions, REQUEST_DANGEROUS_PERMISSIONS_CODE )
 
         registerPresenter = RegisterPresenter ()
         registerPresenter.attachView(this)
         initFragment(SendCodeFragment())
+
     }
 
     override fun showError(error: String) {
@@ -31,12 +39,6 @@ UserInfoFragment.OnRegisterFinishedListener{
         dialog.show(this, error)
     }
 
-    fun initFragment (fragment : Fragment){
-        supportFragmentManager.
-                beginTransaction().
-                replace(R.id.register_container, fragment).commit()
-
-    }
 
     override fun onCodeConfirmed(code: String) {
 
@@ -60,6 +62,22 @@ UserInfoFragment.OnRegisterFinishedListener{
     override fun onRegisterFinished(name: String, email: String, password: String, passwordConfirmation: String) {
         registerPresenter.create(name, email, phoneNumber, password, passwordConfirmation)
         startActivity(Intent(this, LoginActivity::class.java))
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+        if(requestCode == REQUEST_DANGEROUS_PERMISSIONS_CODE){
+            if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            }else{
+                val alert = ErrorDialog ()
+                val listener = DialogInterface.OnClickListener({ dialog, which ->
+                    dialog.dismiss()
+                    finish()
+                })
+                alert.showDialogWithCallback(this, getString(R.string.permissions_alert),listener)
+            }
+        }
     }
 
 }

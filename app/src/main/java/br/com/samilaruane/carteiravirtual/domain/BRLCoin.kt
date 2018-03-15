@@ -1,6 +1,6 @@
 package br.com.samilaruane.carteiravirtual.domain
 
-import br.com.samilaruane.carteiravirtual.constants.BaseConstants
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 
 /**
  * Created by samila on 18/12/17.

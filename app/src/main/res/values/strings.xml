@@ -20,6 +20,8 @@
     <string name="btn_send">Enviar</string>
     <string name="btn_confirm">Confirmar</string>
     <string name="btn_login">Logar</string>
+    <string name="permissions_alert">A permissão deve ser concedida para que o app funcione</string>
+    <string name="create_user_error_alert">Erro ao cadastrar usuário</string>
 
     <string-array name = "transactiontypes">
         <item>VENDA</item>

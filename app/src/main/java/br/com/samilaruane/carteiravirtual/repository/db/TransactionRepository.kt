@@ -8,4 +8,5 @@ import br.com.samilaruane.carteiravirtual.domain.Transaction
 interface TransactionRepository {
 
     fun insert (transaction: Transaction) : Int
+    fun select (userId : String) : List <Transaction>
 }

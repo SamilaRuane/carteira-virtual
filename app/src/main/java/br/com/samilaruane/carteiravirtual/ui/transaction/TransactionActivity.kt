@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.SpinnerAdapter
 import android.widget.Toast
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.constants.BaseConstants
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.utils.Dialog
 import br.com.samilaruane.carteiravirtual.utils.ErrorDialog
 import kotlinx.android.synthetic.main.activity_transaction.*

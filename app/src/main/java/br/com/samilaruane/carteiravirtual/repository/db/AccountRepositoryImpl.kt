@@ -2,9 +2,10 @@ package br.com.samilaruane.carteiravirtual.repository.db
 
 import android.content.ContentValues
 import android.content.Context
-import br.com.samilaruane.carteiravirtual.constants.BaseConstants
-import br.com.samilaruane.carteiravirtual.constants.DatabaseConstants
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 import br.com.samilaruane.carteiravirtual.domain.*
+import br.com.samilaruane.carteiravirtual.domain.entities.Account
 
 /**
  * Created by samila on 07/01/18.
@@ -54,7 +55,7 @@ class AccountRepositoryImpl private constructor(ctx : Context) : AccountReposito
                 BaseConstants.BRITA_ACCOUNT-> {coinReference = BritaCoin ()}
             }
 
-            val item = Account(userId,  coinReference, balance)
+            val item = Account(userId, coinReference, balance)
 
         list.add(item)
     }

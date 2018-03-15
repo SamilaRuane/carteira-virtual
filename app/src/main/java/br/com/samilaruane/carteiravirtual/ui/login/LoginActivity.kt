@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.ui.main.MainActivity
 import br.com.samilaruane.carteiravirtual.ui.register.RegisterActivity
 import br.com.samilaruane.carteiravirtual.utils.Dialog
 import br.com.samilaruane.carteiravirtual.utils.ErrorDialog
@@ -25,6 +24,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+
         loginPresenter = LoginPresenter()
 
         loginPresenter.attachView(this)
