@@ -7,10 +7,7 @@ import java.io.Serializable
 /**
  * Created by samila on 18/12/17.
  */
-class Account(private val userId: Long, private val coin: Coin, private var accountBalance: Double = 0.0) : Serializable {
-
-    private var id: Long = 0
-
+class Account(private var id: Long, private val userId: Long, private val coin: Coin, private var accountBalance: Double = 0.0) : Serializable {
 
     fun deposit(amount: Double): Boolean {
         if (amount < 0) return false
@@ -19,14 +16,9 @@ class Account(private val userId: Long, private val coin: Coin, private var acco
     }
 
     fun withdraw(amount: Double): Boolean {
-        //TODO Tratar em outro lugar
-        try {
             if (amount > this.accountBalance) throw  InsufficientBalanceException("Saldo Insuficiente")
             this.accountBalance -= amount
             return true
-        } catch(e: InsufficientBalanceException) {
-            return false
-        }
     }
 
     fun getAccountBalance(): Double {
