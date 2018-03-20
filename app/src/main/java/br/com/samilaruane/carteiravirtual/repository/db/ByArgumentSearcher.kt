@@ -8,6 +8,6 @@ class ByArgumentSearcher (val tableName:String,
                           val argument:String): Statment {
 
     override fun getQuery(): String {
-        return "SELECT * FROM $tableName WHERE $argumentColumn = $argument"
+        return "SELECT * FROM $tableName WHERE $argumentColumn = \"$argument\""
     }
 }
