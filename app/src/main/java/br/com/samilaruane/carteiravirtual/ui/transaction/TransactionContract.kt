@@ -10,6 +10,8 @@ interface TransactionContract {
 
     interface View : BaseView {
         fun initViews ()
+        fun onSuccess ()
+        fun onError (msg : String)
     }
 
     interface Presenter : BasePresenter<View>{
