@@ -9,7 +9,7 @@ import br.com.samilaruane.carteiravirtual.R
 import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
 import br.com.samilaruane.carteiravirtual.utils.Dialog
-import br.com.samilaruane.carteiravirtual.utils.ErrorDialog
+import br.com.samilaruane.carteiravirtual.utils.NeutralDialog
 import br.com.samilaruane.carteiravirtual.utils.PermissionManager
 
 class RegisterActivity : BaseActivity (), RegisterContract.View, SendCodeFragment.OnPhoneNumberTypedListener,
@@ -35,7 +35,7 @@ UserInfoFragment.OnRegisterFinishedListener{
     }
 
     override fun showError(error: String) {
-        val dialog : Dialog = ErrorDialog()
+        val dialog : Dialog = NeutralDialog()
         dialog.show(this, error)
     }
 
@@ -45,7 +45,7 @@ UserInfoFragment.OnRegisterFinishedListener{
         if (code.equals(registerPresenter.getToken())){
             initFragment(UserInfoFragment())
         }else {
-            val dialog = ErrorDialog ()
+            val dialog = NeutralDialog()
             dialog.show(this, "Token Inválido")
         }
 
@@ -61,7 +61,6 @@ UserInfoFragment.OnRegisterFinishedListener{
 
     override fun onRegisterFinished(name: String, email: String, password: String, passwordConfirmation: String) {
         registerPresenter.create(name, email, phoneNumber, password, passwordConfirmation)
-        startActivity(Intent(this, LoginActivity::class.java))
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -70,7 +69,7 @@ UserInfoFragment.OnRegisterFinishedListener{
             if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
             }else{
-                val alert = ErrorDialog ()
+                val alert = NeutralDialog()
                 val listener = DialogInterface.OnClickListener({ dialog, which ->
                     dialog.dismiss()
                     finish()
@@ -80,4 +79,13 @@ UserInfoFragment.OnRegisterFinishedListener{
         }
     }
 
+    override fun onSuccess() {
+        NeutralDialog().showDialogWithCallback(this, getString(R.string.success_on_registration), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                dialog?.dismiss()
+                navigateTo(LoginActivity::class.java)
+                finish()
+            }
+        })
+    }
 }

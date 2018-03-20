@@ -6,11 +6,12 @@ import br.com.samilaruane.carteiravirtual.domain.UserBusiness
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.utils.NumericTokenGenerator
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
+import br.com.samilaruane.carteiravirtual.utils.NeutralDialog
 
 /**
  * Created by samila on 02/01/18.
  */
-class RegisterPresenter : RegisterContract.Presenter, EventResponseListener {
+class RegisterPresenter : RegisterContract.Presenter, EventResponseListener<String> {
 
     lateinit var mView : RegisterContract.View
     lateinit var mUserBusiness: UserBusiness
@@ -62,8 +63,8 @@ class RegisterPresenter : RegisterContract.Presenter, EventResponseListener {
         return sharedPreference.getToken()
     }
 
-    override fun onSuccess() {
-
+    override fun onSuccess(obj: String) {
+        mView.onSuccess()
     }
 
     override fun onError(errorMessage: String) {

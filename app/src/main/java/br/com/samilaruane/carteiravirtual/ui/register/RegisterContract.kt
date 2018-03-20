@@ -8,7 +8,7 @@ import br.com.samilaruane.carteiravirtual.ui.base.BaseView
  */
 interface RegisterContract {
     interface View : BaseView {
-
+        fun onSuccess()
     }
 
     interface Presenter : BasePresenter<View> {
