@@ -40,7 +40,13 @@ class AccountRepository private constructor(ctx : Context) : Repository<Account>
     }
 
     override fun update(item: Account) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val db = mWalletDatabaseHelper.writableDatabase
+        val insertValues = ContentValues()
+        insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.USER_ID, item.getUserId())
+        insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.BALANCE, item.getAccountBalance())
+        insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.COIN_INITIALS, item.getCoin().getCoinInitials())
+
+        db.update(DatabaseConstants.ACCOUNT.TABLE_NAME,  insertValues, "id=${item.getId()}", null)
     }
 
     override fun select(statment: Statment): List<Account> {
@@ -52,6 +58,7 @@ class AccountRepository private constructor(ctx : Context) : Repository<Account>
         val cursor = db.rawQuery(querySQL, null)
 
         while (cursor.moveToNext()){
+            val id = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.ACCOUNT.COLUMNS.ID))
             val userId = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.ACCOUNT.COLUMNS.USER_ID))
             val balance = cursor.getDouble(cursor.getColumnIndex(DatabaseConstants.ACCOUNT.COLUMNS.BALANCE))
             val coin = cursor.getString(cursor.getColumnIndex(DatabaseConstants.ACCOUNT.COLUMNS.COIN_INITIALS))
@@ -63,7 +70,7 @@ class AccountRepository private constructor(ctx : Context) : Repository<Account>
                 BaseConstants.BRITA_ACCOUNT-> {coinReference = BritaCoin ()}
             }
 
-            val item = Account(userId, coinReference, balance)
+            val item = Account(id, userId, coinReference, balance)
 
             list.add(item)
         }
