@@ -10,6 +10,7 @@ class SharedPreferencesHelper(ctx : Context) {
     val SHARED_PREFERENCE_NAME = "tokens"
     val SHARED_PREFERENCE_USER_TOKEN = "userToken"
     val SHARED_PREFERENCE_USER_ID = "userId"
+    val SHARED_PREFERENCES_CHECK_IS_AUTH = "isAuth"
 
     val sharedPreference = ctx.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
 
@@ -29,5 +30,14 @@ class SharedPreferencesHelper(ctx : Context) {
 
     fun getUserId () : Long{
         return sharedPreference.getLong(SHARED_PREFERENCE_USER_ID, 0)
+    }
+
+    fun setIsAuth (auth : Boolean){
+        sharedPreference.edit().putBoolean(SHARED_PREFERENCES_CHECK_IS_AUTH, auth).commit()
+    }
+
+
+    fun isAuth () : Boolean {
+        return sharedPreference.getBoolean(SHARED_PREFERENCES_CHECK_IS_AUTH, false)
     }
 }

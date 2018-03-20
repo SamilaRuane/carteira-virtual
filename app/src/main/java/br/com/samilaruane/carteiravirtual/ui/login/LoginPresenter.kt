@@ -2,6 +2,7 @@ package br.com.samilaruane.carteiravirtual.ui.login
 
 import android.content.Context
 import br.com.samilaruane.carteiravirtual.domain.UserBusiness
+import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.ui.main.MainActivity
 
 /**
@@ -24,6 +25,7 @@ class LoginPresenter : LoginContract.Presenter {
 
     override fun login(phone: String, password: String) {
         if(userBusiness.login(phone, password)){
+            SharedPreferencesHelper(mView as Context).setIsAuth(true)
             mView.navigateTo(MainActivity :: class.java)
         }else {
             mView.showError("Usuário ou senha inválida")

@@ -6,15 +6,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
+import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
+import br.com.samilaruane.carteiravirtual.ui.main.MainActivity
 import br.com.samilaruane.carteiravirtual.ui.register.RegisterActivity
 import br.com.samilaruane.carteiravirtual.utils.Dialog
-import br.com.samilaruane.carteiravirtual.utils.ErrorDialog
+import br.com.samilaruane.carteiravirtual.utils.NeutralDialog
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
-class LoginActivity : AppCompatActivity(), LoginContract.View {
+class LoginActivity : BaseActivity (), LoginContract.View {
 
     private val TAG = "_MainActivityTAG"
 
@@ -25,6 +28,9 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        if(SharedPreferencesHelper(this).isAuth()){
+            navigateTo(MainActivity :: class.java)
+        }
 
         loginPresenter = LoginPresenter()
 
@@ -53,7 +59,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun showError(error: String) {
-        val dialog : Dialog = ErrorDialog()
+        val dialog : Dialog = NeutralDialog()
         dialog.show(this, error)
     }
 
@@ -71,7 +77,4 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         btn_login.setOnClickListener {  }
     }
 
-    override fun navigateTo(cls: Class<*>) {
-        startActivity(Intent (this, cls))
-    }
 }
