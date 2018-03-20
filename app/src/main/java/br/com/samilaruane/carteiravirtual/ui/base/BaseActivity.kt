@@ -1,5 +1,6 @@
 package br.com.samilaruane.carteiravirtual.ui.base
 
+import android.content.Intent
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import br.com.samilaruane.carteiravirtual.R
@@ -14,5 +15,9 @@ open class BaseActivity : AppCompatActivity() {
                 beginTransaction().
                 replace(R.id.register_container, fragment).commit()
 
+    }
+
+    fun navigateTo(cls: Class<*>) {
+        startActivity(Intent (this, cls))
     }
 }

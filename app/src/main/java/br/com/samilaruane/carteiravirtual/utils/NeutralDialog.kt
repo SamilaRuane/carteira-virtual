@@ -7,11 +7,12 @@ import android.support.v7.app.AlertDialog
 /**
  * Created by samila on 07/01/18.
  */
-class ErrorDialog : Dialog {
+class NeutralDialog : Dialog {
 
     override fun show(ctx: Context, message: String) {
         val alert = AlertDialog.Builder (ctx)
         alert.setMessage(message)
+        alert.setPositiveButton("Ok",{ dialog, wich -> dialog.dismiss() })
         alert.create().
                 show()
 
