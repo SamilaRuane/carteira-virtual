@@ -3,69 +3,172 @@ package br.com.samilaruane.carteiravirtual.domain
 import android.content.Context
 import br.com.samilaruane.carteiravirtual.domain.entities.Account
 import br.com.samilaruane.carteiravirtual.domain.entities.User
+import br.com.samilaruane.carteiravirtual.domain.exceptions.InsufficientBalanceException
+import br.com.samilaruane.carteiravirtual.repository.db.Repository
+import br.com.samilaruane.carteiravirtual.repository.db.SearchFilter
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.repository.db.TransactionRepository
+import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
+import br.com.samilaruane.carteiravirtual.utils.OperationType
+import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 import java.util.*
 
 /**
  * Created by samila on 07/01/18.
  */
-class TransactionBusiness(val ctx : Context) {
+//TODO resolver problemas com a troca de moedas, as conversões de uma moeda pra outra está errada
+class TransactionBusiness(val ctx : Context, user : User) : EventResponseListener<Double>{
 
+    private val baseAccount : Account?
+    private val bitcoinAccount : Account?
+    private val britaAccount : Account?
     var sourceAccount : Account? = null
     var destinationAccount : Account? = null
+    var amount : Double = 0.0
+    lateinit var operationType : OperationType
 
-    var transactionRepository: TransactionRepository = TransactionRepository.getInstance(ctx)
+    private val userBussiness : UserBusiness
+
+    private val transactionRepository: Repository<Transaction>
+
+    private var purchaseValue : Double = 0.0
+    private var saleValue : Double = 0.0
+
+    private lateinit var listener : EventResponseListener<String>
+
+    init {
+        userBussiness = UserBusiness(ctx)
+        baseAccount = userBussiness.getAccountByCoin(BaseConstants.BRL_ACCOUNT, user)
+        bitcoinAccount = userBussiness.getAccountByCoin(BaseConstants.BITCOIN_ACCOUNT, user)
+        britaAccount = userBussiness.getAccountByCoin(BaseConstants.BRITA_ACCOUNT, user)
+        transactionRepository = TransactionRepository.getInstance(ctx)
+    }
+
+    /*
+    * O que acontece em uma operação de compra de bitcoin?
+    *   1. Consulta cotação de compra da moeda
+    *   2. Multiplica pela quantidade que deseja comprar
+    *   3. Desconta da conta base o valor
+    * */
+
+    //TODO verificar as asserções nulas
+
+    fun process (operationType: OperationType, sourceCoin : String,
+                 destinationCoin : String, amount : Double, listener : EventResponseListener<String>){
 
 
+        this.listener = listener
 
-    fun manageTransaction (operationType: String, sourceAccount: String, destinationAccount: String, amount: Double, user : User){
+        when (sourceCoin){
+            BaseConstants.BITCOIN_ACCOUNT ->  sourceAccount = bitcoinAccount!!
+            BaseConstants.BRL_ACCOUNT -> sourceAccount = baseAccount!!
+            BaseConstants.BRITA_ACCOUNT -> sourceAccount = britaAccount!!
+        }
 
-        val userBussiness = UserBusiness(ctx)
-        this.sourceAccount = userBussiness.getAccountByCoin(sourceAccount, user)
-        this.destinationAccount = userBussiness.getAccountByCoin(destinationAccount, user)
+        when (destinationCoin){
+                BaseConstants.BITCOIN_ACCOUNT ->  destinationAccount = bitcoinAccount!!
+                BaseConstants.BRL_ACCOUNT -> destinationAccount = baseAccount!!
+                BaseConstants.BRITA_ACCOUNT -> destinationAccount = britaAccount!!
+        }
 
-        if(sourceAccount != null && destinationAccount != null) {
-            when (operationType) {
-                BaseConstants.SELL -> {
-                    sell(this.sourceAccount!!, this.destinationAccount!!, amount)
-                }
-                BaseConstants.BUY -> {
-                    buy(this.sourceAccount!!, this.destinationAccount!!, amount)
-                }
-                BaseConstants.TRADE -> {
-                    trade(this.sourceAccount!!, this.destinationAccount!!, amount)
-                }
+        this.amount = amount
+        this.operationType = operationType
 
+        when (operationType){
+            OperationType.BUY -> {
+                destinationAccount?.getCoin()?.getPurchaseQuotation(this)
+            }
+            OperationType.SALE -> {
+                sourceAccount?.getCoin()?.getSalePrice(this)
+            }
+            OperationType.TRADE -> {
+                destinationAccount?.getCoin()?.getPurchaseQuotation(this)
+                sourceAccount?.getCoin()?.getSalePrice(this)
+            }
+        }
+
+    }
+    /*
+    * @param sourceAccount : Will take money from
+    * @param destinationAccount : Will put money in
+    * */
+
+    private fun sell(sourceAccount: Account, destinationAccount: Account, amount: Double) {
+
+       try {
+           saleValue.times(amount)
+           sourceAccount?.withdraw(amount)
+       }catch (e : InsufficientBalanceException){
+           if(e.message != null) listener.onError(e.message)
+           return
+       }
+
+        destinationAccount?.deposit(saleValue)
+        saleValue = 0.0
+        saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.SELL)
+        listener.onSuccess("")
+    }
+
+    private fun buy(sourceAccount: Account, destinationAccount: Account, amount: Double) {
+
+        try {
+            purchaseValue.times(amount)
+            sourceAccount.withdraw(purchaseValue)
+        }catch (e : InsufficientBalanceException){
+            if(e.message != null) listener.onError(e.message)
+            return
+        }
+
+        destinationAccount.deposit(amount)
+        purchaseValue  = 0.0
+        saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.BUY)
+        listener.onSuccess("")
+    }
+
+    private fun trade(sourceAccount: Account, destinationAccount: Account, amount: Double) {
+        sell(sourceAccount, baseAccount!!, amount)
+        buy(baseAccount, destinationAccount, amount)
+
+        saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.TRADE)
+    }
+
+      private fun saveTransaction (sourceAccount: Account, destinationAccount : Account, amount : Double, type:String){
+
+          userBussiness.updateAccount(sourceAccount)
+          userBussiness.updateAccount(destinationAccount)
+
+            val transaction = Transaction (Date().time,
+                type,
+                amount,
+                sourceAccount.getCoin().getCoinInitials(),
+                destinationAccount.getCoin().getCoinInitials())
+
+        transactionRepository.create( transaction )
+    }
+
+    fun getTransactions () : List <Transaction>{
+        return transactionRepository.select(SearchFilter.getAll
+        (DatabaseConstants.TRANSACTION.TABLE_NAME))
+    }
+
+    override fun onSuccess(obj: Double) {
+
+        when (operationType){
+            OperationType.BUY -> {
+                purchaseValue = obj
+                buy(sourceAccount!!, destinationAccount!!, amount)
+            }
+            OperationType.SALE -> {
+                saleValue = obj
+                sell(sourceAccount!!, destinationAccount!!, amount)
+            }
+            OperationType.TRADE -> {
+                trade(sourceAccount!!, destinationAccount!!, amount)
             }
         }
     }
 
-    private fun sell(sourceAccount: Account, destinationAccount: Account, amount: Double) {
-        val sourceAccountCoin = sourceAccount.getCoin()
-        if (sourceAccount.withdraw(amount))
-            destinationAccount.deposit(amount * sourceAccountCoin.getSalePrice())
-        save(BaseConstants.SELL, amount, sourceAccount, destinationAccount)
-
-    }
-
-    private fun buy(sourceAccount: Account, destinationAccount: Account, amount: Double) {
-        val destinationAccountCoin = destinationAccount.getCoin()
-
-        if (sourceAccount.withdraw(amount * destinationAccountCoin.getPurchaseQuotation()))
-            destinationAccount.deposit(amount)
-        save(BaseConstants.BUY, amount, sourceAccount, destinationAccount)
-    }
-
-    private fun trade(sourceAccount: Account, destinationAccount: Account, amount: Double) {
-        val coinSourceAccount = sourceAccount.getCoin()
-        val coinDestinationAccount = destinationAccount.getCoin()
-        save(BaseConstants.TRADE, amount, sourceAccount, destinationAccount)
-    }
-    private fun save (type : String, amount : Double, sourceAccount: Account, destinationAccount: Account){
-        val transaction = Transaction (Date().time, type, amount,
-                sourceAccount,
-                destinationAccount)
-        transactionRepository.create(transaction)
+    override fun onError(errorMessage: String) {
+        listener.onError(errorMessage)
     }
 }

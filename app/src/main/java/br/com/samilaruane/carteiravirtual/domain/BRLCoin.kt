@@ -1,17 +1,18 @@
 package br.com.samilaruane.carteiravirtual.domain
 
+import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 
 /**
  * Created by samila on 18/12/17.
  */
 class BRLCoin : Coin {
-    override fun getSalePrice(): Double {
-        return 1.0
+    override fun getSalePrice(listener: EventResponseListener<Double>) {
+
     }
 
-    override fun getPurchaseQuotation(): Double {
-        return 1.0
+    override fun getPurchaseQuotation(listener: EventResponseListener<Double>) {
+
     }
 
     override fun getCoinInitials(): String {
