@@ -1,8 +1,9 @@
 package br.com.samilaruane.carteiravirtual.repository.remote
 
-import br.com.samilaruane.carteiravirtual.domain.entities.DollarExchangeRate
+import br.com.samilaruane.carteiravirtual.domain.entities.BancoCentralResponse
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 /**
@@ -10,6 +11,10 @@ import retrofit2.http.Query
  */
 interface BancoCentralService {
 
+    /*
+    * The URL had to be encoded by hand, because for some reason retrofit wasn't converting de @
+    * */
+
     @GET("CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)")
-    fun get (@Query("[moeda]") moeda : String, @Query("dataCotacao")data : String) : Call<DollarExchangeRate>
+    fun get (@Query("%40moeda", encoded = true) moeda : String, @Query("%40dataCotacao", encoded = true) dataCotacao : String, @Query("%24format", encoded = true) format : String) : Call<BancoCentralResponse>
 }
