@@ -4,51 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.samilaruane.carteiravirtual.ui.main.MainActivity"
+    tools:activity="br.com.samilaruane.carteiravirtual.ui.main.MainActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp">
 
-        <include
-            android:id="@+id/include"
-            layout="@layout/toolbar" />
+  <!--  <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />-->
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/main_tabs"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/material_design_tabs_height"
-            android:background="@color/baseColor"
-            android:theme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:elevation="5dp"
-            app:tabGravity="fill"
-            app:tabMode="fixed" />
+  <ProgressBar
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="268dp"
+      android:visibility="gone"
+      app:layout_constraintBottom_toTopOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="parent"
+      app:layout_constraintVertical_bias="1.0" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/main_view_page"
-            android:layout_width="356dp"
-            android:layout_height="417dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/main_tabs"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include" />
+  <android.support.design.widget.TabLayout
+      android:id="@+id/main_tabs"
+      android:layout_width="0dp"
+      android:layout_height="@dimen/material_design_tabs_height"
+      android:background="@color/baseColor"
+      android:elevation="5dp"
+      android:theme="@style/ThemeOverlay.AppCompat.Light"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:tabGravity="fill"
+      app:tabMode="fixed" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fbtn_new_transaction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="68dp"
-            android:layout_marginEnd="16dp"
-            android:elevation="5dp"
-            android:padding="4dp"
-            android:src="@drawable/ic_add_white_24dp"
-            app:fabSize="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+  <android.support.v4.view.ViewPager
+      android:id="@+id/main_view_page"
+      android:layout_width="356dp"
+      android:layout_height="431dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      app:layout_constraintBottom_toTopOf="@+id/main_tabs"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:layout_editor_absoluteY="24dp" />
+
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fbtn_new_transaction"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="68dp"
+      android:layout_marginEnd="16dp"
+      android:elevation="8dp"
+      android:padding="4dp"
+      android:src="@drawable/ic_transaction_white"
+      app:fabSize="normal"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

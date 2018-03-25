@@ -23,6 +23,10 @@
     <string name="permissions_alert">A permissão deve ser concedida para que o app funcione</string>
     <string name="create_user_error_alert">Erro ao cadastrar usuário</string>
     <string name="service_error_alert">Caro cliente, no momento não foi possível recuperar as informações. Tente Novamente em instantes</string>
+    <string name="coin_hint">Escolha uma moeda </string>
+    <string name="success_on_transaction"> Operação realizada com sucesso</string>
+    <string name="success_on_registration"> Cadastro realizado com sucesso </string>
+    <string name="fill_fields"> Preencha todos os campos </string>
 
     <string-array name = "transactiontypes">
         <item>VENDA</item>
@@ -33,7 +37,6 @@
     <string-array name = "coins">
         <item>BRITA</item>
         <item>BITCOIN</item>
-        <item>BRL</item>
     </string-array>
 
 </resources>
