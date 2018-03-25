@@ -4,20 +4,20 @@ import android.content.Context
 import br.com.samilaruane.carteiravirtual.domain.UserBusiness
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.ui.main.MainActivity
+import javax.inject.Inject
 
 /**
  * Created by samila on 27/12/17.
  */
 class LoginPresenter : LoginContract.Presenter {
 
-    lateinit var userBusiness: UserBusiness
-    lateinit var mView : LoginContract.View
+    var userBusiness: UserBusiness
+     var mView : LoginContract.View
 
-
-
-    override fun attachView(view: LoginContract.View) {
-        this.mView = view
-        userBusiness = UserBusiness(view as Context)
+    @Inject
+    constructor(userBusiness: UserBusiness, mView: LoginContract.View) {
+        this.userBusiness = userBusiness
+        this.mView = mView
     }
 
     override fun detachView() {

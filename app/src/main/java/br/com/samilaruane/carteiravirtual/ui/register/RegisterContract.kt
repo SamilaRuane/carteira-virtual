@@ -16,7 +16,6 @@ interface RegisterContract {
         fun sendMessage (phoneNumber : String, msg : String)
         fun generateToken() : String
         fun saveTokenOnPreference (phoneNumber: String, token : String)
-        fun extractNumbersOfTelephoneMask(maskedPhoneNumber : String) : String
         fun getToken () : String
     }
 

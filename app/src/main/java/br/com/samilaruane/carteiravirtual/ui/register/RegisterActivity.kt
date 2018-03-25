@@ -2,20 +2,25 @@ package br.com.samilaruane.carteiravirtual.ui.register
 
 import android.Manifest
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerRegisterComponent
+import br.com.samilaruane.carteiravirtual.dependencies.modules.RegisterModule
+import br.com.samilaruane.carteiravirtual.extension.alert
+import br.com.samilaruane.carteiravirtual.extension.component
 import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
 import br.com.samilaruane.carteiravirtual.utils.Dialog
 import br.com.samilaruane.carteiravirtual.utils.NeutralDialog
 import br.com.samilaruane.carteiravirtual.utils.PermissionManager
+import javax.inject.Inject
 
 class RegisterActivity : BaseActivity (), RegisterContract.View, SendCodeFragment.OnPhoneNumberTypedListener,
 ConfirmCodeFragment.OnCodeConfirmedListener,
 UserInfoFragment.OnRegisterFinishedListener{
 
+    @Inject
     lateinit var registerPresenter : RegisterContract.Presenter
     lateinit var phoneNumber : String
 
@@ -28,15 +33,14 @@ UserInfoFragment.OnRegisterFinishedListener{
         setContentView(R.layout.activity_register)
         PermissionManager.requestPermissions (this, permissions, REQUEST_DANGEROUS_PERMISSIONS_CODE )
 
-        registerPresenter = RegisterPresenter ()
-        registerPresenter.attachView(this)
+        initDependencies()
         initFragment(SendCodeFragment())
 
     }
 
     override fun showError(error: String) {
         val dialog : Dialog = NeutralDialog()
-        dialog.show(this, error)
+        alert( error, null )
     }
 
 
@@ -46,7 +50,7 @@ UserInfoFragment.OnRegisterFinishedListener{
             initFragment(UserInfoFragment())
         }else {
             val dialog = NeutralDialog()
-            dialog.show(this, "Token Inválido")
+            alert("Token Inválido", null )
         }
 
     }
@@ -69,23 +73,30 @@ UserInfoFragment.OnRegisterFinishedListener{
             if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
             }else{
-                val alert = NeutralDialog()
                 val listener = DialogInterface.OnClickListener({ dialog, which ->
                     dialog.dismiss()
                     finish()
                 })
-                alert.showDialogWithCallback(this, getString(R.string.permissions_alert),listener)
+                alert(getString(R.string.permissions_alert),listener)
             }
         }
     }
 
     override fun onSuccess() {
-        NeutralDialog().showDialogWithCallback(this, getString(R.string.success_on_registration), object : DialogInterface.OnClickListener {
+     alert(getString(R.string.success_on_registration), object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
                 dialog?.dismiss()
                 navigateTo(LoginActivity::class.java)
                 finish()
             }
         })
+    }
+
+    override fun initDependencies() {
+        DaggerRegisterComponent.builder()
+                .registerModule(RegisterModule (this))
+                .appComponent(component())
+                .build()
+                .inject(this)
     }
 }

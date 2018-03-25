@@ -1,27 +1,22 @@
 package br.com.samilaruane.carteiravirtual.repository.db
 
 import android.content.ContentValues
-import android.content.Context
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 import br.com.samilaruane.carteiravirtual.domain.entities.User
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by samila on 25/12/17.
  */
-class UserRepository private constructor(ctx : Context) : Repository <User>{
+@Singleton
+class UserRepository : Repository <User>{
 
-    var mWalletDatabaseHelper : WalletDatabaseHelper = WalletDatabaseHelper( ctx )
+     val mWalletDatabaseHelper : WalletDatabaseHelper
 
-    companion object {
-        var sInstance: Repository<User>? = null
-
-        fun getInstance (ctx : Context) : UserRepository{
-            if (sInstance == null){
-                sInstance = UserRepository(ctx)
-            }
-
-            return sInstance as UserRepository
-        }
+    @Inject
+    constructor(dbHelper: WalletDatabaseHelper) {
+        mWalletDatabaseHelper = dbHelper
     }
 
     override fun create(item: User) : Long {

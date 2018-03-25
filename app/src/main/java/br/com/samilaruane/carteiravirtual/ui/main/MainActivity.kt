@@ -4,45 +4,38 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerMainComponent
+import br.com.samilaruane.carteiravirtual.dependencies.modules.MainModule
+import br.com.samilaruane.carteiravirtual.extension.alert
+import br.com.samilaruane.carteiravirtual.extension.component
 import br.com.samilaruane.carteiravirtual.ui.adapters.TabsPagerAdapter
 import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.transaction.TransactionActivity
-import br.com.samilaruane.carteiravirtual.utils.Dialog
-import br.com.samilaruane.carteiravirtual.utils.NeutralDialog
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.toolbar.*
+import javax.inject.Inject
+
 
 class MainActivity : BaseActivity(), MainContract.View {
 
+    @Inject
     lateinit var presenter: MainContract.Presenter
-    val accountsExtract = AccountsExtract()
+    val accountsExtract = AccountsExtractFragment()
     val accountDetails = AccountDetailsFragment()
     val userProfile = UserProfileFragment()
-
-    companion object {
-        fun start(callerActivity: BaseActivity) {
-            //(Intent (callerActivity, MainActivity :: class.java))
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        presenter = MainPresenter()
-        presenter.attachView(this)
-
+        
+        initDependencies()
         initViews()
-
-
     }
 
     override fun initViews() {
 
-
         /****** Tabs Config ********/
         main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_account_balance_black_24dp))
-        main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_account_balance_wallet_black_24dp))
+        main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_extract))
         main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_person_black_24dp))
 
         /******* Add Tabs *********/
@@ -58,12 +51,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         fbtn_new_transaction.setOnClickListener {
             startActivity(Intent(this, TransactionActivity::class.java))
         }
-
-        if (toolbar != null) {
-            // toolbar.title = getString(R.string.app_name)
-            setSupportActionBar(toolbar)
-        }
-
     }
 
     override fun onResumeFragments() {
@@ -74,8 +61,14 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     override fun showError(error: String) {
-        val dialog: Dialog = NeutralDialog()
-        dialog.show(this, error)
+      alert(error, null)
     }
 
+    override fun initDependencies() {
+        DaggerMainComponent.builder()
+                .mainModule(MainModule(this))
+                .appComponent(component())
+                .build()
+                .inject(this)
+    }
 }

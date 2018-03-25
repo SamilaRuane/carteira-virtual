@@ -1,8 +1,9 @@
 package br.com.samilaruane.carteiravirtual.domain
 
-import br.com.samilaruane.carteiravirtual.domain.entities.Account
-import java.text.SimpleDateFormat
+import br.com.samilaruane.carteiravirtual.extension.formatter
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import java.util.*
+
 
 /**
  * Created by samila on 21/12/17.
@@ -13,14 +14,16 @@ data class Transaction(val date : Long,
                        val sourceCoin : String,
                        val destinationCoin : String){
 
-    private fun dateformatter (date : Long) : String{
-        val sdf = SimpleDateFormat ("dd/MM/yyyy")
-        val date = Date(date)
-
-        return sdf?.format(date)
-    }
 
      override fun toString(): String {
-        return "${dateformatter(date)} - $transactionType de $amount $destinationCoin por $sourceCoin"
-    }
+         val calendar = Calendar.getInstance()
+         calendar.timeInMillis = date
+        var transactionSummary : String
+             if (transactionType.equals(BaseConstants.SELL) || transactionType.equals(BaseConstants.BUY))
+                transactionSummary = "${calendar.formatter ("dd/MM/yyyy")} - $transactionType de $amount $destinationCoin"
+            else
+                 transactionSummary = "${calendar.formatter ("dd/MM/yyyy")} - $transactionType de $amount $destinationCoin por $sourceCoin"
+
+         return transactionSummary
+     }
 }

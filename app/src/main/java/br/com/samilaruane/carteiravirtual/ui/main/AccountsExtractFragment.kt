@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.com.samilaruane.carteiravirtual.R
 import br.com.samilaruane.carteiravirtual.domain.Transaction
+import br.com.samilaruane.carteiravirtual.extension.inflate
 import br.com.samilaruane.carteiravirtual.ui.adapters.AccountExtractAdapter
 import br.com.samilaruane.carteiravirtual.utils.OnDatabaseAccessListener
 import kotlinx.android.synthetic.main.fragment_account_extract.*
@@ -16,7 +17,9 @@ import kotlinx.android.synthetic.main.fragment_account_extract.*
 /**
  * Created by samila on 20/12/17.
  */
-class AccountsExtract : Fragment (), OnDatabaseAccessListener<List<Transaction>>{
+//TODO Adicionar filtro na tela de extrato
+
+class AccountsExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>{
 
     lateinit var transactions : List<Transaction>
     lateinit var presenter : MainContract.Presenter
@@ -28,7 +31,7 @@ class AccountsExtract : Fragment (), OnDatabaseAccessListener<List<Transaction>>
      }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_account_extract, container, false)
+        val view = container?.inflate(R.layout.fragment_account_extract)
         return view
     }
 

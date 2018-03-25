@@ -1,18 +1,28 @@
 package br.com.samilaruane.carteiravirtual.repository
 
 import android.content.Context
+import android.content.SharedPreferences
 import br.com.samilaruane.carteiravirtual.domain.entities.User
+import javax.inject.Inject
 
 /**
  * Created by samila on 02/01/18.
  */
-class SharedPreferencesHelper(ctx : Context) {
+class SharedPreferencesHelper {
     val SHARED_PREFERENCE_NAME = "tokens"
     val SHARED_PREFERENCE_USER_TOKEN = "userToken"
     val SHARED_PREFERENCE_USER_ID = "userId"
     val SHARED_PREFERENCES_CHECK_IS_AUTH = "isAuth"
 
-    val sharedPreference = ctx.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
+
+    private val context : Context
+    private val sharedPreference : SharedPreferences
+
+    @Inject
+    constructor(context: Context){
+        this.context = context
+        sharedPreference = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
+    }
 
     fun keepTokenForConfirmation (userPhoneNumber : String, token : String ){
         sharedPreference.edit().putString(SHARED_PREFERENCE_USER_TOKEN, token).commit ()

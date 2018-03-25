@@ -1,26 +1,26 @@
 package br.com.samilaruane.carteiravirtual.ui.transaction
 
-import android.content.Context
 import br.com.samilaruane.carteiravirtual.domain.TransactionBusiness
 import br.com.samilaruane.carteiravirtual.domain.UserBusiness
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.OperationType
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import javax.inject.Inject
 
 /**
  * Created by samila on 07/01/18.
  */
 class TransactionPresenter : TransactionContract.Presenter, EventResponseListener<String> {
 
-    lateinit var mView : TransactionContract.View
-    lateinit var mTransactionBusiness: TransactionBusiness
-    lateinit var mUserBusiness: UserBusiness
+    var mView : TransactionContract.View
+    var mTransactionBusiness: TransactionBusiness
+    var mUserBusiness: UserBusiness
 
-
-    override fun attachView(view: TransactionContract.View) {
-        mView = view
-        mUserBusiness = UserBusiness(mView as Context)
-        mTransactionBusiness = TransactionBusiness(mView as Context, mUserBusiness.getCurrentUser())
+    @Inject
+    constructor(mView: TransactionContract.View, mTransactionBusiness: TransactionBusiness, mUserBusiness: UserBusiness) {
+        this.mView = mView
+        this.mTransactionBusiness = mTransactionBusiness
+        this.mUserBusiness = mUserBusiness
     }
 
     override fun detachView() {
@@ -39,7 +39,7 @@ class TransactionPresenter : TransactionContract.Presenter, EventResponseListene
         mTransactionBusiness.process(type,
                 sourceAccount,
                 destinationAccount,
-                amount, this)
+                amount, mUserBusiness.getCurrentUser(),this)
     }
 
     override fun onSuccess(obj: String) {

@@ -6,25 +6,26 @@ import br.com.samilaruane.carteiravirtual.domain.UserBusiness
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.utils.NumericTokenGenerator
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
-import br.com.samilaruane.carteiravirtual.utils.NeutralDialog
+import javax.inject.Inject
 
 /**
  * Created by samila on 02/01/18.
  */
 class RegisterPresenter : RegisterContract.Presenter, EventResponseListener<String> {
 
-    lateinit var mView : RegisterContract.View
-    lateinit var mUserBusiness: UserBusiness
-    lateinit var sharedPreference : SharedPreferencesHelper
+    var mView : RegisterContract.View
+    var mUserBusiness: UserBusiness
+    var sharedPreference : SharedPreferencesHelper
 
-    override fun attachView(view: RegisterContract.View) {
-        mView = view
-        mUserBusiness = UserBusiness(view as Context)
-        sharedPreference = SharedPreferencesHelper(view as Context)
+    @Inject
+    constructor(mView: RegisterContract.View, mUserBusiness: UserBusiness, sharedPreference: SharedPreferencesHelper) {
+        this.mView = mView
+        this.mUserBusiness = mUserBusiness
+        this.sharedPreference = sharedPreference
     }
 
     override fun detachView() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mView = null!!
     }
 
     override fun create(name :  String, email : String, phone : String, password : String, passwordConfirmation : String) {
@@ -47,16 +48,6 @@ class RegisterPresenter : RegisterContract.Presenter, EventResponseListener<Stri
 
     override fun saveTokenOnPreference(phoneNumber : String, token: String) {
         sharedPreference.keepTokenForConfirmation(phoneNumber, token)
-    }
-
-    override fun extractNumbersOfTelephoneMask(maskedPhoneNumber: String) : String {
-
-        var numberNoCaracteres = maskedPhoneNumber.replace("+","")
-        numberNoCaracteres = numberNoCaracteres.replace("-", "")
-        numberNoCaracteres = numberNoCaracteres.replace("(", "")
-        numberNoCaracteres = numberNoCaracteres.replace(")", "")
-
-        return numberNoCaracteres
     }
 
     override fun getToken(): String {

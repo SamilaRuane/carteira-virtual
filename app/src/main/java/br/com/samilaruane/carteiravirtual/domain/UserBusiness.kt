@@ -1,33 +1,33 @@
 package br.com.samilaruane.carteiravirtual.domain
 
-import android.content.Context
-import br.com.samilaruane.carteiravirtual.R
 import br.com.samilaruane.carteiravirtual.domain.entities.Account
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
-import br.com.samilaruane.carteiravirtual.repository.db.AccountRepository
+import br.com.samilaruane.carteiravirtual.repository.db.Repository
 import br.com.samilaruane.carteiravirtual.repository.db.SearchFilter
-import br.com.samilaruane.carteiravirtual.repository.db.UserRepository
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
+import javax.inject.Inject
 
 /**
  * Created by samila on 02/01/18.
  */
-class UserBusiness(ctx: Context) {
+class UserBusiness {
 
-    private val userRepository: UserRepository
-    private val accountRepository: AccountRepository
+
+    private val userRepository: Repository<User>
     private var brlAccount: Account = Account(0, 0, BRLCoin(), 0.0)
     private var britaAccount: Account = Account(0, 0, BritaCoin(), 0.0)
     private var bitCoinAccount: Account = Account(0, 0, BTCoin(), 0.0)
-    private val context: Context
+    private var preferences : SharedPreferencesHelper
+    private val accountRepository : Repository<Account>
 
-    init {
-        userRepository = UserRepository.getInstance(ctx)
-        accountRepository = AccountRepository.getInstance(ctx)
-        context = ctx
+    @Inject
+    constructor(preferences : SharedPreferencesHelper, accountRepository: Repository<Account>, userRepository: Repository<User>) {
+        this.preferences = preferences
+        this.accountRepository = accountRepository
+        this.userRepository = userRepository
     }
 
     fun createUser(name: String, email: String, phone: String, password: String, passwordConfirmation: String, listener: EventResponseListener<String>) {
@@ -46,7 +46,7 @@ class UserBusiness(ctx: Context) {
                 listener.onSuccess("Usuário criado com sucesso!")
             }
         }else {
-            listener.onError(context.getString(R.string.create_user_error_alert))
+            listener.onError("Erro ao cadastrar usuário")
         }
     }
 
@@ -74,7 +74,7 @@ class UserBusiness(ctx: Context) {
     }
 
     fun getCurrentUser(): User {
-        val id = SharedPreferencesHelper(context).getUserId()
+        val id = preferences.getUserId()
         return userRepository.select(SearchFilter.getById(DatabaseConstants.USER.TABLE_NAME, DatabaseConstants.USER.COLUMNS.ID, id.toString())).single()
     }
 
@@ -84,7 +84,7 @@ class UserBusiness(ctx: Context) {
             user = userRepository.select(SearchFilter.getByArgument(DatabaseConstants.USER.TABLE_NAME, DatabaseConstants.USER.COLUMNS.PHONE, phone)).singleOrNull()
             if (user != null) {
                 if (CredencialsManager.authenticateUser(user, password)) {
-                    SharedPreferencesHelper(context).saveUserId(user)
+                    preferences.saveUserId(user)
                     return true
                 }
                 return false

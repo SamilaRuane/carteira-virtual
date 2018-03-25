@@ -1,48 +1,48 @@
 package br.com.samilaruane.carteiravirtual.domain
 
-import android.content.Context
 import br.com.samilaruane.carteiravirtual.domain.entities.Account
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.domain.exceptions.InsufficientBalanceException
 import br.com.samilaruane.carteiravirtual.repository.db.Repository
 import br.com.samilaruane.carteiravirtual.repository.db.SearchFilter
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
-import br.com.samilaruane.carteiravirtual.repository.db.TransactionRepository
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.OperationType
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by samila on 07/01/18.
  */
 //TODO resolver problemas com a troca de moedas, as conversões de uma moeda pra outra está errada
-class TransactionBusiness(val ctx : Context, user : User) : EventResponseListener<Double>{
+class TransactionBusiness : EventResponseListener<Double> {
 
-    private val baseAccount : Account?
-    private val bitcoinAccount : Account?
-    private val britaAccount : Account?
-    var sourceAccount : Account? = null
-    var destinationAccount : Account? = null
-    var amount : Double = 0.0
-    lateinit var operationType : OperationType
+    private var baseAccount: Account? = null
+    private var  bitcoinAccount: Account? = null
+    private var  britaAccount: Account? = null
+    var sourceAccount: Account? = null
+    var destinationAccount: Account? = null
+    var amount: Double = 0.0
+    lateinit var operationType: OperationType
 
-    private val userBussiness : UserBusiness
+    private val userBussiness: UserBusiness
 
     private val transactionRepository: Repository<Transaction>
 
-    private var purchaseValue : Double = 0.0
-    private var saleValue : Double = 0.0
+    private var purchaseValue: Double = 0.0
+    private var saleValue: Double = 0.0
+    private var tradeValue: Double = 0.0
 
-    private lateinit var listener : EventResponseListener<String>
+    private lateinit var listener: EventResponseListener<String>
 
-    init {
-        userBussiness = UserBusiness(ctx)
-        baseAccount = userBussiness.getAccountByCoin(BaseConstants.BRL_ACCOUNT, user)
-        bitcoinAccount = userBussiness.getAccountByCoin(BaseConstants.BITCOIN_ACCOUNT, user)
-        britaAccount = userBussiness.getAccountByCoin(BaseConstants.BRITA_ACCOUNT, user)
-        transactionRepository = TransactionRepository.getInstance(ctx)
+
+    @Inject
+    constructor(userBusiness: UserBusiness, transactionRepository: Repository<Transaction>) {
+        this.userBussiness = userBusiness
+        this.transactionRepository = transactionRepository
     }
+
 
     /*
     * O que acontece em uma operação de compra de bitcoin?
@@ -53,28 +53,31 @@ class TransactionBusiness(val ctx : Context, user : User) : EventResponseListene
 
     //TODO verificar as asserções nulas
 
-    fun process (operationType: OperationType, sourceCoin : String,
-                 destinationCoin : String, amount : Double, listener : EventResponseListener<String>){
+    fun process(operationType: OperationType, sourceCoin: String,
+                destinationCoin: String, amount: Double, user : User, listener: EventResponseListener<String>) {
 
+        baseAccount = userBussiness.getAccountByCoin(BaseConstants.BRL_ACCOUNT, user)
+        bitcoinAccount = userBussiness.getAccountByCoin(BaseConstants.BITCOIN_ACCOUNT, user)
+        britaAccount = userBussiness.getAccountByCoin(BaseConstants.BRITA_ACCOUNT, user)
 
         this.listener = listener
 
-        when (sourceCoin){
-            BaseConstants.BITCOIN_ACCOUNT ->  sourceAccount = bitcoinAccount!!
+        when (sourceCoin) {
+            BaseConstants.BITCOIN_ACCOUNT -> sourceAccount = bitcoinAccount!!
             BaseConstants.BRL_ACCOUNT -> sourceAccount = baseAccount!!
             BaseConstants.BRITA_ACCOUNT -> sourceAccount = britaAccount!!
         }
 
-        when (destinationCoin){
-                BaseConstants.BITCOIN_ACCOUNT ->  destinationAccount = bitcoinAccount!!
-                BaseConstants.BRL_ACCOUNT -> destinationAccount = baseAccount!!
-                BaseConstants.BRITA_ACCOUNT -> destinationAccount = britaAccount!!
+        when (destinationCoin) {
+            BaseConstants.BITCOIN_ACCOUNT -> destinationAccount = bitcoinAccount!!
+            BaseConstants.BRL_ACCOUNT -> destinationAccount = baseAccount!!
+            BaseConstants.BRITA_ACCOUNT -> destinationAccount = britaAccount!!
         }
 
         this.amount = amount
         this.operationType = operationType
 
-        when (operationType){
+        when (operationType) {
             OperationType.BUY -> {
                 destinationAccount?.getCoin()?.getPurchaseQuotation(this)
             }
@@ -95,13 +98,15 @@ class TransactionBusiness(val ctx : Context, user : User) : EventResponseListene
 
     private fun sell(sourceAccount: Account, destinationAccount: Account, amount: Double) {
 
-       try {
-           saleValue.times(amount)
-           sourceAccount?.withdraw(amount)
-       }catch (e : InsufficientBalanceException){
-           if(e.message != null) listener.onError(e.message)
-           return
-       }
+        if (operationType.equals(OperationType.TRADE)) tradeValue.times(amount)
+
+        try {
+            saleValue.times(amount)
+            sourceAccount?.withdraw(amount)
+        } catch (e: InsufficientBalanceException) {
+            if (e.message != null) listener.onError(e.message)
+            return
+        }
 
         destinationAccount?.deposit(saleValue)
         saleValue = 0.0
@@ -114,46 +119,46 @@ class TransactionBusiness(val ctx : Context, user : User) : EventResponseListene
         try {
             purchaseValue.times(amount)
             sourceAccount.withdraw(purchaseValue)
-        }catch (e : InsufficientBalanceException){
-            if(e.message != null) listener.onError(e.message)
+        } catch (e: InsufficientBalanceException) {
+            if (e.message != null) listener.onError(e.message)
             return
         }
 
         destinationAccount.deposit(amount)
-        purchaseValue  = 0.0
+        purchaseValue = 0.0
         saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.BUY)
         listener.onSuccess("")
     }
 
     private fun trade(sourceAccount: Account, destinationAccount: Account, amount: Double) {
         sell(sourceAccount, baseAccount!!, amount)
-        buy(baseAccount, destinationAccount, amount)
+        buy(baseAccount as Account, destinationAccount, tradeValue)
 
         saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.TRADE)
     }
 
-      private fun saveTransaction (sourceAccount: Account, destinationAccount : Account, amount : Double, type:String){
+    private fun saveTransaction(sourceAccount: Account, destinationAccount: Account, amount: Double, type: String) {
 
-          userBussiness.updateAccount(sourceAccount)
-          userBussiness.updateAccount(destinationAccount)
+        userBussiness.updateAccount(sourceAccount)
+        userBussiness.updateAccount(destinationAccount)
 
-            val transaction = Transaction (Date().time,
+        val transaction = Transaction(Date().time,
                 type,
                 amount,
                 sourceAccount.getCoin().getCoinInitials(),
                 destinationAccount.getCoin().getCoinInitials())
 
-        transactionRepository.create( transaction )
+        transactionRepository.create(transaction)
     }
 
-    fun getTransactions () : List <Transaction>{
+    fun getTransactions(): List <Transaction> {
         return transactionRepository.select(SearchFilter.getAll
         (DatabaseConstants.TRANSACTION.TABLE_NAME))
     }
 
     override fun onSuccess(obj: Double) {
 
-        when (operationType){
+        when (operationType) {
             OperationType.BUY -> {
                 purchaseValue = obj
                 buy(sourceAccount!!, destinationAccount!!, amount)

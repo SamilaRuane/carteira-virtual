@@ -5,4 +5,5 @@ package br.com.samilaruane.carteiravirtual.ui.base
  */
 interface BaseView {
     fun showError (error : String)
+    fun initDependencies ()
 }

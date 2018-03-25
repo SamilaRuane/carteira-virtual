@@ -2,12 +2,11 @@ package br.com.samilaruane.carteiravirtual.repository.remote
 
 import br.com.samilaruane.carteiravirtual.domain.entities.BancoCentralResponse
 import br.com.samilaruane.carteiravirtual.domain.entities.MercadoBitcoinResponse
-import br.com.samilaruane.carteiravirtual.utils.DataUtils
+import br.com.samilaruane.carteiravirtual.extension.*
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -45,22 +44,20 @@ class ServiceManager {
 
     fun getBritaQuotation (listener : EventResponseListener<BancoCentralResponse>?) {
         val calendar = Calendar.getInstance()
-        val sdf = SimpleDateFormat("MM-dd-yyyy")
 
-        if (DataUtils.isWorkingDay(calendar)) {
-            if(DataUtils.isSaturday(calendar)) DataUtils.addDays(calendar, -1)
-            else if (DataUtils.isSunday(calendar)) DataUtils.addDays(calendar, -2)
-
+        if (!calendar.isWorkingDay()) {
+            if(calendar.isSaturday()) calendar.addDays(-1)
+            else if (calendar.isSunday()) calendar.addDays(-2)
         }
-
-        val date: Date = calendar.time
-            val service = centralBank?.get("%27USD%27", "%27${sdf.format(date)}%27", "json")
+            val service = centralBank?.get("%27USD%27", "%27${calendar.formatter("MM-dd-yyyy")}%27", "json")
             service?.enqueue(object : Callback<BancoCentralResponse> {
                 override fun onResponse(call: Call<BancoCentralResponse>?, response: Response<BancoCentralResponse>?) {
-                    if (response?.isSuccessful!!) {
-                        listener?.onSuccess(response?.body()!!)
-                    }else {
-                        listener?.onError(ERROR_MESSAGE)
+                    response?.let {
+                        if (it.isSuccessful && it.body() != null && it.body()?.value != null && it.body()?.value!!.isNotEmpty()) {
+                            listener?.onSuccess(it.body()!!)
+                        } else {
+                            listener?.onError(ERROR_MESSAGE)
+                        }
                     }
                 }
 

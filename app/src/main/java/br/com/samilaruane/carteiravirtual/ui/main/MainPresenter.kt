@@ -1,6 +1,5 @@
 package br.com.samilaruane.carteiravirtual.ui.main
 
-import android.content.Context
 import br.com.samilaruane.carteiravirtual.domain.Transaction
 import br.com.samilaruane.carteiravirtual.domain.TransactionBusiness
 import br.com.samilaruane.carteiravirtual.domain.UserBusiness
@@ -8,20 +7,22 @@ import br.com.samilaruane.carteiravirtual.domain.entities.Account
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.OnDatabaseAccessListener
+import javax.inject.Inject
 
 /**
  * Created by samila on 07/01/18.
  */
 class MainPresenter : MainContract.Presenter {
 
-    lateinit var mView : MainContract.View
-    lateinit var mUserBussiness : UserBusiness
-    lateinit var mTransactionBussiness : TransactionBusiness
+     var mView : MainContract.View
+     var mUserBussiness : UserBusiness
+     var mTransactionBussiness : TransactionBusiness
 
-    override fun attachView(view: MainContract.View) {
-        mView = view
-        mUserBussiness = UserBusiness(mView as Context)
-        mTransactionBussiness = TransactionBusiness(mView as Context, mUserBussiness.getCurrentUser())
+    @Inject
+    constructor(mView: MainContract.View, mUserBussiness: UserBusiness, mTransactionBussiness: TransactionBusiness) {
+        this.mView = mView
+        this.mUserBussiness = mUserBussiness
+        this.mTransactionBussiness = mTransactionBussiness
     }
 
     override fun detachView() {

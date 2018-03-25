@@ -1,11 +1,14 @@
 package br.com.samilaruane.carteiravirtual.ui.login
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerLoginComponent
+import br.com.samilaruane.carteiravirtual.dependencies.modules.LoginModule
+import br.com.samilaruane.carteiravirtual.extension.alert
+import br.com.samilaruane.carteiravirtual.extension.component
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.main.MainActivity
@@ -16,25 +19,24 @@ import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.layout_progress.*
+import javax.inject.Inject
 
 class LoginActivity : BaseActivity (), LoginContract.View {
 
     private val TAG = "_MainActivityTAG"
 
-
-    lateinit var loginPresenter : LoginPresenter
+    @Inject
+    lateinit var loginPresenter : LoginContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        initDependencies()
+
         if(SharedPreferencesHelper(this).isAuth()){
             navigateTo(MainActivity :: class.java)
         }
-
-        loginPresenter = LoginPresenter()
-
-        loginPresenter.attachView(this)
 
         initViews()
 
@@ -60,7 +62,7 @@ class LoginActivity : BaseActivity (), LoginContract.View {
 
     override fun showError(error: String) {
         val dialog : Dialog = NeutralDialog()
-        dialog.show(this, error)
+       alert( error, null )
     }
 
 
@@ -77,4 +79,11 @@ class LoginActivity : BaseActivity (), LoginContract.View {
         btn_login.setOnClickListener {  }
     }
 
+    override fun initDependencies() {
+        DaggerLoginComponent.builder()
+                .loginModule(LoginModule(this))
+                .appComponent(component())
+                .build()
+                .inject (this)
+    }
 }

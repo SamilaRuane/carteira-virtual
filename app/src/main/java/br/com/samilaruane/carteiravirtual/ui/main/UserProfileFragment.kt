@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.com.samilaruane.carteiravirtual.R
 import br.com.samilaruane.carteiravirtual.domain.entities.User
+import br.com.samilaruane.carteiravirtual.extension.alert
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
@@ -49,6 +50,6 @@ class UserProfileFragment : Fragment, EventResponseListener<User> {
     }
 
     override fun onError(errorMessage: String) {
-        NeutralDialog().show(activity, errorMessage)
+        activity.alert(errorMessage, null)
     }
 }
