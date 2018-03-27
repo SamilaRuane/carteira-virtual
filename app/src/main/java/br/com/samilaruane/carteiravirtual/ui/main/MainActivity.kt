@@ -3,19 +3,22 @@ package br.com.samilaruane.carteiravirtual.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.view.View
 import br.com.samilaruane.carteiravirtual.R
 import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerMainComponent
 import br.com.samilaruane.carteiravirtual.dependencies.modules.MainModule
+import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.extension.alert
 import br.com.samilaruane.carteiravirtual.extension.component
 import br.com.samilaruane.carteiravirtual.ui.adapters.TabsPagerAdapter
 import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.transaction.TransactionActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.nio.file.attribute.UserPrincipalNotFoundException
 import javax.inject.Inject
 
 
-class MainActivity : BaseActivity(), MainContract.View {
+class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.UserProfileListener{
 
     @Inject
     lateinit var presenter: MainContract.Presenter
@@ -23,6 +26,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     val accountDetails = AccountDetailsFragment()
     val userProfile = UserProfileFragment()
 
+    /* Activity Lifecycle */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +35,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         initViews()
     }
 
+    /* MainContract */
     override fun initViews() {
 
         /****** Tabs Config ********/
@@ -51,6 +56,8 @@ class MainActivity : BaseActivity(), MainContract.View {
         fbtn_new_transaction.setOnClickListener {
             startActivity(Intent(this, TransactionActivity::class.java))
         }
+
+        userProfile.setOnClickListener(this)
     }
 
     override fun onResumeFragments() {
@@ -70,5 +77,13 @@ class MainActivity : BaseActivity(), MainContract.View {
                 .appComponent(component())
                 .build()
                 .inject(this)
+    }
+
+    /* Fragment Listeners */
+    override fun onSaveUserClicked(user: User) {
+        if(presenter.updateProfile(user))
+            alert( getString(R.string.edit_profile_success_message), null )
+        else
+            showError(getString(R.string.edit_profile_error_message))
     }
 }

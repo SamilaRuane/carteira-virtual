@@ -19,5 +19,6 @@ interface MainContract {
         fun loadAccounts(listener : OnDatabaseAccessListener <List<Account>>)
         fun loadTransactions (listener : OnDatabaseAccessListener<List<Transaction>>)
         fun getUserInfo (listener : EventResponseListener<User>)
+        fun updateProfile (user : User) : Boolean
     }
 }

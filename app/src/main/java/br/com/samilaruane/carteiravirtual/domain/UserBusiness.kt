@@ -142,4 +142,9 @@ class UserBusiness {
         return false
     }
 
+    fun updateUser ( user : User ) : Boolean {
+        userRepository.update(user)
+        return true
+    }
+
 }

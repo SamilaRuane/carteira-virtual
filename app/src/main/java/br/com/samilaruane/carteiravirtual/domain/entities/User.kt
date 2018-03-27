@@ -3,8 +3,8 @@ package br.com.samilaruane.carteiravirtual.domain.entities
 /**
  * Created by samila on 22/12/17.
  */
-data class User (val id : Long, val name : String,
-                 val phone : String, val email : String,
+data class User (val id : Long, var name : String,
+                 var phone : String, var email : String,
                  var password: String ){
 
     fun isValid() : Boolean {

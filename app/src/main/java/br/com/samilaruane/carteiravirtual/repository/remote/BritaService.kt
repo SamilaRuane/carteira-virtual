@@ -15,6 +15,7 @@ import java.util.*
 class BritaService : Service<BancoCentralResponse> {
     override fun getCoinQuotation(listener: EventResponseListener<BancoCentralResponse>) {
         val calendar = Calendar.getInstance()
+        calendar.addDays(-1)
 
         if (!calendar.isWorkingDay()) {
             if(calendar.isSaturday()) calendar.addDays(-1)

@@ -34,6 +34,8 @@
     <string name="recovery_password_error_on_change_pass"> Ocorreu um erro ao alterar a senha, verifique a nova senha atende os requisitos exigidos </string>
     <string name="recovery_password_ask_phone_number"> Digite o número de telefone cadastrado </string>
     <string name="recovery_password_ask_new_pass"> Digite a nova senha </string>
+    <string name="edit_profile_success_message"> Alterações salvas com sucesso </string>
+    <string name="edit_profile_error_message"> Erro ao salvar as alterações do usuário </string>
 
     <string-array name = "transactiontypes">
         <item>VENDA</item>

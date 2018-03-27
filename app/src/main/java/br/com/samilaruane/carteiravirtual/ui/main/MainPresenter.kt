@@ -40,4 +40,8 @@ class MainPresenter : MainContract.Presenter {
     override fun getUserInfo(listener : EventResponseListener<User>) {
         listener.onSuccess(mUserBussiness.getCurrentUser())
     }
+
+    override fun updateProfile(user: User): Boolean {
+        return mUserBussiness.updateUser(user)
+    }
 }
