@@ -13,4 +13,10 @@ class BaseConstants {
         val BITCOIN_ACCOUNT = "BITCOIN"
         val BRL_ACCOUNT = "BRL"
     }
+
+    object MESSAGES {
+        val GENERIC_ERROR = "Caro cliente, no momento não foi possível recuperar as informações. Tente Novamente em instantes"
+        val INVALID_PASSWORD = "Usuário ou senha inválida"
+        val USER_NOT_FOUND = "Usuário não cadastrado no sistema"
+    }
 }

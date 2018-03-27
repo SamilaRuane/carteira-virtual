@@ -15,5 +15,8 @@ interface LoginContract {
 
     interface Presenter : BasePresenter<View> {
         fun login(phone : String, password : String)
+        fun sendRecoveryCode (phoneNumber : String, msg : String) : Boolean
+        fun ckeckRecoveryCode (code : String) : Boolean
+        fun changePassword (newPass : String) : Boolean
     }
 }

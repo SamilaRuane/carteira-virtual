@@ -36,6 +36,15 @@ class UserRepository : Repository <User>{
     }
 
     override fun update(item: User) {
+        val db = mWalletDatabaseHelper.writableDatabase
+
+        val insertValues = ContentValues()
+        insertValues.put(DatabaseConstants.USER.COLUMNS.NAME, item.name)
+        insertValues.put(DatabaseConstants.USER.COLUMNS.EMAIL, item.email)
+        insertValues.put(DatabaseConstants.USER.COLUMNS.PHONE, item.phone)
+        insertValues.put(DatabaseConstants.USER.COLUMNS.PASSWORD, item.password)
+
+        db.update(DatabaseConstants.USER.TABLE_NAME,  insertValues,"id=${item.id}", null)
     }
 
     override fun select(statment: Statment): List<User> {

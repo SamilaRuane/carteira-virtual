@@ -1,11 +1,11 @@
 package br.com.samilaruane.carteiravirtual.ui.register
 
-import android.content.Context
 import android.telephony.SmsManager
 import br.com.samilaruane.carteiravirtual.domain.UserBusiness
+import br.com.samilaruane.carteiravirtual.extension.generateToken
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
-import br.com.samilaruane.carteiravirtual.utils.NumericTokenGenerator
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -42,8 +42,7 @@ class RegisterPresenter : RegisterContract.Presenter, EventResponseListener<Stri
     }
 
     override fun generateToken(): String {
-        val generator = NumericTokenGenerator()
-        return  generator.generateToken()
+        return Random().generateToken ()
     }
 
     override fun saveTokenOnPreference(phoneNumber : String, token: String) {

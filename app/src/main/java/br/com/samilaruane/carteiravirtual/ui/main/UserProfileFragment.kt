@@ -12,7 +12,6 @@ import br.com.samilaruane.carteiravirtual.extension.alert
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
-import br.com.samilaruane.carteiravirtual.utils.NeutralDialog
 import kotlinx.android.synthetic.main.fragment_user_profile.*
 
 

@@ -1,28 +1,39 @@
 package br.com.samilaruane.carteiravirtual.domain
 
 import br.com.samilaruane.carteiravirtual.domain.entities.BancoCentralResponse
-import br.com.samilaruane.carteiravirtual.domain.entities.DollarExchangeRate
-import br.com.samilaruane.carteiravirtual.repository.remote.ServiceManager
+import br.com.samilaruane.carteiravirtual.repository.remote.Service
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by samila on 18/12/17.
  */
+@Singleton
 class BritaCoin : Coin, EventResponseListener<BancoCentralResponse> {
 
-    lateinit var listener : EventResponseListener<Double>
-    var isSale = false
-    var isBuy = false
+    private lateinit var listener : EventResponseListener<Double>
+    private var isSale = false
+    private var isBuy = false
+
+    val service : Service<BancoCentralResponse>
+
+
+    @Inject
+    constructor(service: Service<BancoCentralResponse>) {
+        this.service = service
+    }
+
 
     override fun getSalePrice(listener: EventResponseListener <Double>) {
-        ServiceManager().getBritaQuotation(this)
+        service.getCoinQuotation(this)
         isSale = true
         this.listener = listener
     }
 
     override fun getPurchaseQuotation(listener: EventResponseListener <Double>) {
-        ServiceManager().getBritaQuotation(this)
+        service.getCoinQuotation(this)
         isBuy = true
         this.listener = listener
     }

@@ -63,6 +63,7 @@
         android:text="@string/btn_login"
         android:paddingRight="@dimen/button_left_right_padding"
         android:paddingLeft="@dimen/button_left_right_padding"
+        android:textColor="@color/baseColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
