@@ -15,10 +15,14 @@ import javax.inject.Singleton
 class AccountRepository  : Repository<Account>{
 
     val mWalletDatabaseHelper : WalletDatabaseHelper
+    val britacoin : BritaCoin
+    val bitcoin : BTCoin
 
     @Inject
-    constructor(mWalletDatabaseHelper: WalletDatabaseHelper) {
+    constructor(mWalletDatabaseHelper: WalletDatabaseHelper, britacoin:BritaCoin, bitcoin : BTCoin) {
         this.mWalletDatabaseHelper = mWalletDatabaseHelper
+        this.britacoin = britacoin
+        this.bitcoin = bitcoin
     }
 
     override fun create(item: Account): Long {
@@ -62,8 +66,8 @@ class AccountRepository  : Repository<Account>{
             var coinReference : Coin = BRLCoin ()
 
             when (coin){
-                BaseConstants.BITCOIN_ACCOUNT -> {coinReference = BTCoin()}
-                BaseConstants.BRITA_ACCOUNT-> {coinReference = BritaCoin ()}
+                BaseConstants.BITCOIN_ACCOUNT -> {coinReference = bitcoin}
+                BaseConstants.BRITA_ACCOUNT-> {coinReference = britacoin}
             }
 
             val item = Account(id, userId, coinReference, balance)

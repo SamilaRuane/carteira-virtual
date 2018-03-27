@@ -16,6 +16,7 @@ class Account(private var id: Long, private val userId: Long, private val coin: 
     }
 
     fun withdraw(amount: Double): Boolean {
+            if(amount < 0 ) return false
             if (amount > this.accountBalance) throw  InsufficientBalanceException("Saldo Insuficiente")
             this.accountBalance -= amount
             return true

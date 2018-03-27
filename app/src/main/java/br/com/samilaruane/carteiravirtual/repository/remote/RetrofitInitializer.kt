@@ -13,14 +13,14 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 class RetrofitInitializer {
 
-    fun getMercadoBitcoinService () : MercadoBitcoinService?{
+    fun getMercadoBitcoinService () : MercadoBitcoinAPI?{
         val retrofit : Retrofit? = init(EndpointConstants.BASE.URL_API_MERCADO_BITCOIN)
-        return retrofit?.create(MercadoBitcoinService :: class.java)
+        return retrofit?.create(MercadoBitcoinAPI:: class.java)
     }
 
-    fun getBancoCentralService () : BancoCentralService?{
+    fun getBancoCentralService () : BancoCentralAPI?{
         val retrofit = init(EndpointConstants.BASE.URL_API_BANCO_CENTRAL)
-        return retrofit?.create(BancoCentralService :: class.java)
+        return retrofit?.create(BancoCentralAPI:: class.java)
     }
 
     private fun init(url : String) : Retrofit? {

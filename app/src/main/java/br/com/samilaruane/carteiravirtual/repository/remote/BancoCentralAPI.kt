@@ -9,7 +9,7 @@ import retrofit2.http.Query
 /**
  * Created by samila on 23/12/17.
  */
-interface BancoCentralService {
+interface BancoCentralAPI {
 
     /*
     * The URL had to be encoded by hand, because for some reason retrofit wasn't converting de @
