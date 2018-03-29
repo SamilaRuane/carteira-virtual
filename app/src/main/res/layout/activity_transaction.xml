@@ -102,48 +102,25 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/textbox_background"/>
 
-        <TextView
-            android:id="@+id/txt_result_balance"
+        <Button
+            android:id="@+id/btn_save_transaction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="R$ 100.000,00"
-            android:textSize="24sp"
-            android:layout_marginTop="20dp"
-            tools:layout_editor_absoluteX="112dp"
-            tools:layout_editor_absoluteY="351dp" />
-
+            android:layout_margin="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/button_background"
+            android:text="@string/btn_confirm"
+            android:textColor="@color/baseColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_save_transaction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/button_background"
-        android:text="@string/btn_confirm"
-        android:textColor="@color/baseColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <include layout="@layout/layout_progress" />
 
-    <!--<ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+
 </android.support.constraint.ConstraintLayout>

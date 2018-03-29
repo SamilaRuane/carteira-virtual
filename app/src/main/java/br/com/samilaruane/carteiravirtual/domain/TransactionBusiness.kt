@@ -15,52 +15,38 @@ import javax.inject.Inject
 /**
  * Created by samila on 07/01/18.
  */
-//TODO resolver problemas com a troca de moedas, as conversões de uma moeda pra outra está errada
-class TransactionBusiness : EventResponseListener<Double> {
 
-    private var baseAccount: Account? = null
-    private var  bitcoinAccount: Account? = null
-    private var  britaAccount: Account? = null
-    var sourceAccount: Account? = null
-    var destinationAccount: Account? = null
-    var amount: Double = 0.0
-    lateinit var operationType: OperationType
-
-    private val userBussiness: UserBusiness
-
-    private val transactionRepository: Repository<Transaction>
-
-    private var purchaseValue: Double = 0.0
-    private var saleValue: Double = 0.0
-    private var tradeValue: Double = 0.0
+class TransactionBusiness : EventResponseListener<String> {
 
     private lateinit var listener: EventResponseListener<String>
+    private var baseAccount: Account? = null
+    private val userBusiness: UserBusiness
+    private val transactionRepository: Repository<Transaction>
+    private val brita : BritaCoin
+    private val bitcoin : BTCoin
 
 
     @Inject
-    constructor(userBusiness: UserBusiness, transactionRepository: Repository<Transaction>) {
-        this.userBussiness = userBusiness
+    constructor(userBusiness: UserBusiness, transactionRepository: Repository<Transaction>, brita : BritaCoin, bitcoin : BTCoin) {
+        this.userBusiness = userBusiness
         this.transactionRepository = transactionRepository
+        this.brita = brita
+        this.bitcoin = bitcoin
+    }
+    fun callServices (listener: EventResponseListener<String>){
+        brita.loadCoin(this)
+        bitcoin.loadCoin(this)
+        this.listener = listener
     }
 
-
-    /*
-    * O que acontece em uma operação de compra de bitcoin?
-    *   1. Consulta cotação de compra da moeda
-    *   2. Multiplica pela quantidade que deseja comprar
-    *   3. Desconta da conta base o valor
-    * */
-
-    //TODO verificar as asserções nulas
-
     fun process(operationType: OperationType, sourceCoin: String,
-                destinationCoin: String, amount: Double, user : User, listener: EventResponseListener<String>) {
+                destinationCoin: String, amount: Double, user : User) {
 
-        baseAccount = userBussiness.getAccountByCoin(BaseConstants.BRL_ACCOUNT, user)
-        bitcoinAccount = userBussiness.getAccountByCoin(BaseConstants.BITCOIN_ACCOUNT, user)
-        britaAccount = userBussiness.getAccountByCoin(BaseConstants.BRITA_ACCOUNT, user)
-
-        this.listener = listener
+            baseAccount = userBusiness.getAccountByCoin(BaseConstants.BRL_ACCOUNT, user)
+        val bitcoinAccount = userBusiness.getAccountByCoin(BaseConstants.BITCOIN_ACCOUNT, user)
+        val britaAccount = userBusiness.getAccountByCoin(BaseConstants.BRITA_ACCOUNT, user)
+        var sourceAccount: Account? = null
+        var destinationAccount: Account? = null
 
         when (sourceCoin) {
             BaseConstants.BITCOIN_ACCOUNT -> sourceAccount = bitcoinAccount!!
@@ -74,73 +60,76 @@ class TransactionBusiness : EventResponseListener<Double> {
             BaseConstants.BRITA_ACCOUNT -> destinationAccount = britaAccount!!
         }
 
-        this.amount = amount
-        this.operationType = operationType
-
         when (operationType) {
             OperationType.BUY -> {
-                destinationAccount?.getCoin()?.getPurchaseQuotation(this)
+                buy(sourceAccount!!, destinationAccount!!, amount)
             }
             OperationType.SALE -> {
-                sourceAccount?.getCoin()?.getSalePrice(this)
+                sell(sourceAccount!!, destinationAccount!!, amount)
             }
             OperationType.TRADE -> {
-                destinationAccount?.getCoin()?.getPurchaseQuotation(this)
-                sourceAccount?.getCoin()?.getSalePrice(this)
+                trade(sourceAccount!!, destinationAccount!!, amount)
             }
         }
 
     }
+
     /*
     * @param sourceAccount : Will take money from
     * @param destinationAccount : Will put money in
     * */
 
     private fun sell(sourceAccount: Account, destinationAccount: Account, amount: Double) {
-
-        if (operationType.equals(OperationType.TRADE)) tradeValue.times(amount)
-
         try {
-            saleValue.times(amount)
-            sourceAccount?.withdraw(amount)
+            val saleValue = sourceAccount.getCoin().getSalePrice()
+
+                saleValue.times(amount)
+                sourceAccount?.withdraw(amount)
+                destinationAccount?.deposit(saleValue)
+                saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.SELL)
+                listener.onSuccess(BaseConstants.MESSAGES.SUCCESS_ON_TASK)
         } catch (e: InsufficientBalanceException) {
             if (e.message != null) listener.onError(e.message)
             return
         }
-
-        destinationAccount?.deposit(saleValue)
-        saleValue = 0.0
-        saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.SELL)
-        listener.onSuccess("")
     }
 
     private fun buy(sourceAccount: Account, destinationAccount: Account, amount: Double) {
-
         try {
+            val purchaseValue = destinationAccount.getCoin().getPurchaseQuotation()
             purchaseValue.times(amount)
             sourceAccount.withdraw(purchaseValue)
+            destinationAccount.deposit(amount)
+            saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.BUY)
+            listener.onSuccess(BaseConstants.MESSAGES.SUCCESS_ON_TASK)
         } catch (e: InsufficientBalanceException) {
             if (e.message != null) listener.onError(e.message)
             return
         }
-
-        destinationAccount.deposit(amount)
-        purchaseValue = 0.0
-        saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.BUY)
-        listener.onSuccess("")
     }
 
     private fun trade(sourceAccount: Account, destinationAccount: Account, amount: Double) {
-        sell(sourceAccount, baseAccount!!, amount)
-        buy(baseAccount as Account, destinationAccount, tradeValue)
+        try {
+            val saleValue = sourceAccount.getCoin().getSalePrice()
+            saleValue.times(amount)
+            val tradeValue = saleValue / destinationAccount.getCoin().getPurchaseQuotation()
 
-        saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.TRADE)
+            sourceAccount.withdraw(amount)
+            destinationAccount.deposit(tradeValue)
+
+            saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.TRADE)
+            listener.onSuccess(BaseConstants.MESSAGES.SUCCESS_ON_TASK)
+        }catch (e : InsufficientBalanceException){
+            if(e.message != null)
+                listener.onError(e.message)
+                return
+        }
     }
 
     private fun saveTransaction(sourceAccount: Account, destinationAccount: Account, amount: Double, type: String) {
 
-        userBussiness.updateAccount(sourceAccount)
-        userBussiness.updateAccount(destinationAccount)
+        userBusiness.updateAccount(sourceAccount)
+        userBusiness.updateAccount(destinationAccount)
 
         val transaction = Transaction(Date().time,
                 type,
@@ -151,29 +140,12 @@ class TransactionBusiness : EventResponseListener<Double> {
         transactionRepository.create(transaction)
     }
 
-    fun getTransactions(): List <Transaction> {
-        return transactionRepository.select(SearchFilter.getAll
-        (DatabaseConstants.TRANSACTION.TABLE_NAME))
-    }
+    fun getTransactions(): List <Transaction> = transactionRepository
+            .select(SearchFilter
+            .getAll(DatabaseConstants.TRANSACTION.TABLE_NAME))
 
-    override fun onSuccess(obj: Double) {
+    override fun onSuccess(obj: String) = listener.onSuccess(obj)
 
-        when (operationType) {
-            OperationType.BUY -> {
-                purchaseValue = obj
-                buy(sourceAccount!!, destinationAccount!!, amount)
-            }
-            OperationType.SALE -> {
-                saleValue = obj
-                sell(sourceAccount!!, destinationAccount!!, amount)
-            }
-            OperationType.TRADE -> {
-                trade(sourceAccount!!, destinationAccount!!, amount)
-            }
-        }
-    }
+    override fun onError(errorMessage: String) = listener.onError(errorMessage)
 
-    override fun onError(errorMessage: String) {
-        listener.onError(errorMessage)
-    }
 }

@@ -8,22 +8,24 @@ import java.util.*
 /**
  * Created by samila on 21/12/17.
  */
-data class Transaction(val date : Long,
-                       val transactionType : String,
-                       val amount : Double,
-                       val sourceCoin : String,
-                       val destinationCoin : String){
+data class Transaction(val date: Long,
+                       val transactionType: String,
+                       val amount: Double,
+                       val sourceCoin: String,
+                       val destinationCoin: String) {
 
 
-     override fun toString(): String {
-         val calendar = Calendar.getInstance()
-         calendar.timeInMillis = date
-        var transactionSummary : String
-             if (transactionType.equals(BaseConstants.SELL) || transactionType.equals(BaseConstants.BUY))
-                transactionSummary = "${calendar.formatter ("dd/MM/yyyy")} - $transactionType de $amount $destinationCoin"
-            else
-                 transactionSummary = "${calendar.formatter ("dd/MM/yyyy")} - $transactionType de $amount $destinationCoin por $sourceCoin"
+    override fun toString(): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = date
+        var transactionSummary: String
+        if (transactionType.equals(BaseConstants.BUY))
+            transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $destinationCoin"
+        else if (transactionType.equals(BaseConstants.SELL))
+            transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin"
+        else
+            transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin por ${destinationCoin}"
 
-         return transactionSummary
-     }
+        return transactionSummary
+    }
 }

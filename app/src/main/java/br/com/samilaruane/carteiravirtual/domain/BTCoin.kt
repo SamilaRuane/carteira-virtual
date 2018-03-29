@@ -1,9 +1,11 @@
 package br.com.samilaruane.carteiravirtual.domain
 
 import br.com.samilaruane.carteiravirtual.domain.entities.MercadoBitcoinResponse
+import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.repository.remote.Service
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,43 +15,47 @@ import javax.inject.Singleton
 @Singleton
 class BTCoin : Coin, EventResponseListener<MercadoBitcoinResponse> {
 
-    lateinit var listener: EventResponseListener<Double>
-    var isSale = false
-    var isBuy = false
+    lateinit var mListener: EventResponseListener<String>
 
     val service: Service<MercadoBitcoinResponse>
+    val preferences : SharedPreferencesHelper
 
     @Inject
-    constructor(service: Service<MercadoBitcoinResponse>) {
+    constructor(service: Service<MercadoBitcoinResponse>, preferences : SharedPreferencesHelper) {
         this.service = service
+        this.preferences = preferences
     }
 
 
-    override fun getSalePrice(listener: EventResponseListener<Double>) {
+    override fun loadCoin(listener: EventResponseListener<String>) {
         service.getCoinQuotation(this)
-        isSale = true
-        this.listener = listener
+        mListener = listener
     }
 
-    override fun getPurchaseQuotation(listener: EventResponseListener<Double>) {
-        service.getCoinQuotation(this)
-        isBuy = true
-        this.listener = listener
-    }
+    override fun getSalePrice(): Double = JSONObject(preferences
+            .getBitcoinQuotation())
+            .get(BaseConstants.SALE_PRICE)
+            .toString()
+            .toDouble()
 
-    override fun getCoinInitials(): String {
-        return BaseConstants.BITCOIN_ACCOUNT
-    }
+    override fun getPurchaseQuotation(): Double = JSONObject(preferences
+            .getBitcoinQuotation())
+            .get(BaseConstants.PURCHASE_QUOTATION)
+            .toString()
+            .toDouble()
+
+    override fun getCoinInitials(): String = BaseConstants.BITCOIN_ACCOUNT
+
 
     override fun onSuccess(obj: MercadoBitcoinResponse) {
-        if (isSale) listener.onSuccess(obj.ticker.sell)
-        else if (isBuy) listener.onSuccess(obj.ticker.sell)
-
-        isSale = false
-        isBuy = false
+        val map = HashMap<String,String> ()
+        map.put (BaseConstants.SALE_PRICE,obj.ticker.sell.toString())
+        map.put (BaseConstants.PURCHASE_QUOTATION,obj.ticker.buy.toString())
+        preferences.setBitcoinQuotation(JSONObject(map).toString())
+        mListener.onSuccess("")
     }
 
     override fun onError(errorMessage: String) {
-        listener.onError(errorMessage)
+        mListener.onError(errorMessage)
     }
 }

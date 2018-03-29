@@ -1,11 +1,8 @@
 package br.com.samilaruane.carteiravirtual.domain
 
 
-import br.com.samilaruane.carteiravirtual.domain.entities.BancoCentralResponse
-import br.com.samilaruane.carteiravirtual.repository.remote.Service
-import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
-import org.hamcrest.CoreMatchers
-import org.junit.Assert
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import org.hamcrest.CoreMatchers.*
 import org.junit.Assert.assertThat
 import org.junit.Test
 import org.mockito.Mockito
@@ -17,20 +14,46 @@ import org.mockito.Mockito
 class CoinTest {
 
     @Test
-    fun shouldReturnQuotation()  {
+    fun shouldReturnPurchaseQuotation()  {
         //cenário
-        val service : Service<*>? = Mockito.mock(Service  :: class.java)
-        val listener = Mockito.mock(EventResponseListener :: class.java)
-
-        val aCoin  = BritaCoin(service as Service<BancoCentralResponse>)
-
-        //service.when()
+        val target : Coin = Mockito.mock(Coin :: class.java)
+        Mockito.`when`(target.getPurchaseQuotation()).thenReturn(1.0)
 
         //ação
-       // val salePrice : Double = aCoin.getSalePrice(listener as EventResponseListener<Double>)
+        val purchaseQuotation : Double = target.getPurchaseQuotation()
 
         //Verificação
 
+        assertThat(purchaseQuotation, `is`(1.0))
 
+    }
+
+    @Test
+    fun shouldReturnSalePrice () {
+
+        //cenário
+        val target : Coin = Mockito.mock(Coin :: class.java)
+        Mockito.`when`(target.getSalePrice()).thenReturn(1.0)
+
+
+
+        //ação
+         val salePrice : Double = target.getSalePrice()
+
+        //Verificação
+        assertThat(salePrice, `is`(1.0))
+    }
+
+    @Test
+    fun shouldReturnBitcoinInitials (){
+        //cenário
+        val target : Coin = Mockito.mock(Coin :: class.java)
+        Mockito.`when`(target.getCoinInitials()).thenReturn(BaseConstants.BITCOIN_ACCOUNT)
+
+        //ação
+        val result = target.getCoinInitials()
+
+        //Verificação
+        assertThat(result, `is`(BaseConstants.BITCOIN_ACCOUNT))
     }
 }

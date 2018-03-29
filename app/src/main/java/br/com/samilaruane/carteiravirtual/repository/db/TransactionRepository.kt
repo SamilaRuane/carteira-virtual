@@ -34,11 +34,11 @@ class TransactionRepository  : Repository<Transaction>{
     }
 
     override fun delete(item: Transaction) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun update(item: Transaction) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun select(statment: Statment): List<Transaction> {

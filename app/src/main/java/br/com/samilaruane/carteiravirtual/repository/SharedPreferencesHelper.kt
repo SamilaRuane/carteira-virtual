@@ -13,6 +13,8 @@ class SharedPreferencesHelper {
     val SHARED_PREFERENCE_USER_TOKEN = "userToken"
     val SHARED_PREFERENCE_USER_ID = "userId"
     val SHARED_PREFERENCES_CHECK_IS_AUTH = "isAuth"
+    val SHARED_PREFERENCES_BRITA_QUOTATION = "britaQuotation"
+    val SHARED_PREFERENCES_BITCOIN_QUOTATION = "bitcoinQuotation"
 
 
     private val context : Context
@@ -49,5 +51,21 @@ class SharedPreferencesHelper {
 
     fun isAuth () : Boolean {
         return sharedPreference.getBoolean(SHARED_PREFERENCES_CHECK_IS_AUTH, false)
+    }
+
+    fun setBritaQuotation (body : String){
+        sharedPreference.edit().putString(SHARED_PREFERENCES_BRITA_QUOTATION, body).commit()
+    }
+
+    fun getBritaQuotation () : String {
+        return sharedPreference.getString(SHARED_PREFERENCES_BRITA_QUOTATION, "")
+    }
+
+    fun setBitcoinQuotation (body : String){
+        sharedPreference.edit().putString(SHARED_PREFERENCES_BITCOIN_QUOTATION, body).commit()
+    }
+
+    fun getBitcoinQuotation () : String {
+        return sharedPreference.getString(SHARED_PREFERENCES_BITCOIN_QUOTATION, "")
     }
 }

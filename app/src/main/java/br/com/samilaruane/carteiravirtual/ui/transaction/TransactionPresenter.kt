@@ -24,7 +24,7 @@ class TransactionPresenter : TransactionContract.Presenter, EventResponseListene
     }
 
     override fun detachView() {
-        mView = null!! //TODO checar se é correto fazer esse tipo de atribuição.
+        mView = null!!
     }
 
     override fun saveTransaction(operationType: String, sourceAccount: String, destinationAccount: String, amount: Double) {
@@ -39,14 +39,18 @@ class TransactionPresenter : TransactionContract.Presenter, EventResponseListene
         mTransactionBusiness.process(type,
                 sourceAccount,
                 destinationAccount,
-                amount, mUserBusiness.getCurrentUser(),this)
+                amount, mUserBusiness.getCurrentUser())
     }
 
     override fun onSuccess(obj: String) {
-        mView.onSuccess()
+        mView.onSuccess(obj)
     }
 
     override fun onError(errorMessage: String) {
-        mView.onError(errorMessage)
+        mView.showError(errorMessage)
+    }
+
+    override fun loadServiceData() {
+        mTransactionBusiness.callServices(this)
     }
 }

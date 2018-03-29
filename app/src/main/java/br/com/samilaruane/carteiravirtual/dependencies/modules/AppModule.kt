@@ -56,9 +56,9 @@ class AppModule {
             UserBusiness(preferences, accountRepository, userRepository, britacoin, bitcoin)
 
     @Provides
-    fun provideTransactionBussiness(userBussiness: UserBusiness, transactionRepository: Repository<Transaction>): TransactionBusiness =
-            TransactionBusiness( userBussiness, transactionRepository )
- @Provides
+    fun provideTransactionBussiness(userBussiness: UserBusiness, transactionRepository: Repository<Transaction>, brita : BritaCoin, bitcoin : BTCoin): TransactionBusiness =
+            TransactionBusiness( userBussiness, transactionRepository, brita, bitcoin )
+    @Provides
     fun provideAccountRepository(dbHelper: WalletDatabaseHelper, britacoin:BritaCoin, bitcoin : BTCoin): Repository<Account> =
             AccountRepository(dbHelper, britacoin, bitcoin)
 
@@ -75,8 +75,8 @@ class AppModule {
     fun provideBitcoinService () : Service<MercadoBitcoinResponse> = BitcoinService()
 
     @Provides
-    fun provideBtcoin(bitcoinService: Service<MercadoBitcoinResponse>) : BTCoin = BTCoin(bitcoinService)
+    fun provideBtcoin(bitcoinService: Service<MercadoBitcoinResponse>, preferences : SharedPreferencesHelper) : BTCoin = BTCoin(bitcoinService, preferences)
 
     @Provides
-    fun provideBritacoin(britaService: Service<BancoCentralResponse>) : BritaCoin = BritaCoin(britaService)
+    fun provideBritacoin(britaService: Service<BancoCentralResponse>, preferences : SharedPreferencesHelper) : BritaCoin = BritaCoin(britaService, preferences)
 }

@@ -14,7 +14,7 @@ import br.com.samilaruane.carteiravirtual.ui.adapters.TabsPagerAdapter
 import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.transaction.TransactionActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.nio.file.attribute.UserPrincipalNotFoundException
+import kotlinx.android.synthetic.main.layout_progress.*
 import javax.inject.Inject
 
 
@@ -22,8 +22,9 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
 
     @Inject
     lateinit var presenter: MainContract.Presenter
-    val accountsExtract = AccountsExtractFragment()
-    val accountDetails = AccountDetailsFragment()
+
+    val accountsExtract = ExtractFragment()
+    val accountDetails = MainFragment()
     val userProfile = UserProfileFragment()
 
     /* Activity Lifecycle */
@@ -58,6 +59,8 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
         }
 
         userProfile.setOnClickListener(this)
+        presenter.loadCoins()
+        layout_progress.visibility = View.VISIBLE
     }
 
     override fun onResumeFragments() {
@@ -85,5 +88,9 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
             alert( getString(R.string.edit_profile_success_message), null )
         else
             showError(getString(R.string.edit_profile_error_message))
+    }
+
+    override fun onSuccess(msg: String) {
+        layout_progress.visibility = View.GONE
     }
 }

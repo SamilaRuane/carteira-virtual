@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by samila on 07/01/18.
  */
-class MainPresenter : MainContract.Presenter {
+class MainPresenter : MainContract.Presenter, EventResponseListener<String> {
 
      var mView : MainContract.View
      var mUserBussiness : UserBusiness
@@ -43,5 +43,17 @@ class MainPresenter : MainContract.Presenter {
 
     override fun updateProfile(user: User): Boolean {
         return mUserBussiness.updateUser(user)
+    }
+
+    override fun loadCoins() {
+        mTransactionBussiness.callServices(this)
+    }
+
+    override fun onSuccess(obj: String) {
+        mView.onSuccess(obj)
+    }
+
+    override fun onError(errorMessage: String) {
+        mView.showError(errorMessage)
     }
 }

@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_type_code.*
 /**
  * Created by samila on 02/01/18.
  */
-class ConfirmCodeFragment : Fragment(){
+class CodeFragment : Fragment(){
 
     lateinit var mListener : OnCodeConfirmedListener
 

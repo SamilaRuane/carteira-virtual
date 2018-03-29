@@ -17,37 +17,9 @@ class MainModule {
 
     private val activity: MainContract.View
 
-   /* @Inject
-    lateinit var accountRepository : Repository<Account>
-
-    @Inject
-    lateinit var userRepository : Repository <User>
-
-    @Inject
-    lateinit var transactionRepository : Repository<Transaction>*/
-
     constructor(activity: MainContract.View) {
         this.activity = activity
     }
-
-  /*  @Inject
-    lateinit var mWalletDatabaseHelper : WalletDatabaseHelper
-
-    @Inject
-    lateinit var userBussiness : UserBusiness
-
-    @Inject
-    lateinit var transactionBusiness : TransactionBusiness
-
-    @Inject
-    lateinit var accountRepository : Repository<Account>
-
-    @Inject
-    lateinit var userRepository : Repository <User>
-
-    @Inject
-    lateinit var transactionRepository : Repository<Transaction>*/
-
 
     @Provides
     fun provideMainPresenter(view: MainContract.View, mUserBussiness: UserBusiness, mTransactionBussiness: TransactionBusiness): MainContract.Presenter =

@@ -46,7 +46,6 @@ class WalletDatabaseHelper (context: Context?) : SQLiteOpenHelper (context, DATA
 """
 
     override fun onCreate(db: SQLiteDatabase?) {
-
         db?.let {
             it.execSQL(createTableUser)
             it.execSQL(createTableAccount)

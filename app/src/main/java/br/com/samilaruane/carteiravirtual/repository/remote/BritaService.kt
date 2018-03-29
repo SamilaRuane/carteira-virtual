@@ -34,9 +34,7 @@ class BritaService : Service<BancoCentralResponse> {
             }
 
             override fun onFailure(call: Call<BancoCentralResponse>?, t: Throwable?) {
-                //TODO verify if the failure was caused by internet connection
                 listener?.onError(BaseConstants.MESSAGES.GENERIC_ERROR)
-
             }
         })
     }

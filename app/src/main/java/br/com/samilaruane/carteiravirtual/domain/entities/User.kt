@@ -12,12 +12,10 @@ data class User (val id : Long, var name : String,
     }
 
     private fun isEmailValid () : Boolean {
-        //TODO create and call a class that validates the email with the specific rules
         return email.isNotEmpty()
     }
 
     private fun isPhoneValid () : Boolean {
-        // TODO create and call a class that validates the phone with the specific rules
         return phone.isNotEmpty()
     }
 }

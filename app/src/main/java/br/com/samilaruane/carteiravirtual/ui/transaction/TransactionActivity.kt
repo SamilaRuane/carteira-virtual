@@ -22,15 +22,19 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
     @Inject
     lateinit var mPresenter: TransactionContract.Presenter
 
-
+    /* Activity Lifecycle */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction)
         initDependencies()
         initViews()
+        layout_progress.visibility = View.VISIBLE
+        mPresenter.loadServiceData()
     }
 
+    /* Transaction Contract */
     override fun showError(error: String) {
+        layout_progress.visibility = View.GONE
         alert( error, null )
     }
 
@@ -73,8 +77,8 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
                     }
                     BaseConstants.TRADE -> {
                         mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(),
-                                spinner_source_account.selectedItem.toString(),
-                                spinner_destination_account.selectedItem.toString(), edt_transaction_amount.text.toString().toDouble())
+                                spinner_destination_account.selectedItem.toString(), spinner_source_account.selectedItem.toString(),
+                                edt_transaction_amount.text.toString().toDouble())
                     }
 
                 }
@@ -101,16 +105,10 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
         }
     }
 
-    override fun onSuccess() {
+    override fun onSuccess(msg : String) {
         layout_progress.visibility = View.GONE
-        alert(getString(R.string.success_on_transaction),
-                DialogInterface.OnClickListener { dialog, which -> finish() })
-
-    }
-
-    override fun onError(msg: String) {
-        layout_progress.visibility = View.GONE
-       alert(msg, null)
+        if(msg.isNotEmpty())
+            alert(msg,DialogInterface.OnClickListener { dialog, which -> finish() })
     }
 
     override fun initDependencies() {

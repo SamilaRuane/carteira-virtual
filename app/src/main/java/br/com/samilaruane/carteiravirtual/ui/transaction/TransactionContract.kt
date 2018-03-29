@@ -10,11 +10,11 @@ interface TransactionContract {
 
     interface View : BaseView {
         fun initViews ()
-        fun onSuccess ()
-        fun onError (msg : String)
+        fun onSuccess (msg : String)
     }
 
     interface Presenter : BasePresenter<View>{
         fun saveTransaction (operationType : String, sourceAccount : String, destinationAccount : String, amount: Double )
+        fun loadServiceData ()
     }
 }

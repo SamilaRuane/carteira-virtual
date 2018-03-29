@@ -36,7 +36,7 @@ class AccountRepository  : Repository<Account>{
     }
 
     override fun delete(item: Account) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun update(item: Account) {

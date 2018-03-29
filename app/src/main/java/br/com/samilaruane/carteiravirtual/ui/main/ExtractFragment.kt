@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_account_extract.*
  */
 //TODO Adicionar filtro na tela de extrato
 
-class AccountsExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>{
+class ExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>{
 
     lateinit var transactions : List<Transaction>
     lateinit var presenter : MainContract.Presenter
@@ -37,10 +37,14 @@ class AccountsExtractFragment : Fragment (), OnDatabaseAccessListener<List<Trans
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         val adapter = AccountExtractAdapter(activity, transactions)
         recycler_account_extract?.adapter = adapter
         recycler_account_extract?.layoutManager = LinearLayoutManager(activity)
-
     }
 
     override fun onSelectSuccess(obj: List<Transaction>) {

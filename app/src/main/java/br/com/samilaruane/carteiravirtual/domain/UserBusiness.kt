@@ -45,6 +45,10 @@ class UserBusiness {
 
     fun createUser(name: String, email: String, phone: String, password: String, passwordConfirmation: String, listener: EventResponseListener<String>) {
 
+        if(checkIfExists(phone)) {
+            listener.onError("Número já cadastrado")
+            return
+        }
         if (password.equals(passwordConfirmation)) {
             val user = User(0, name, phone, email, password)
             val userId = userRepository.create(user)
@@ -56,10 +60,10 @@ class UserBusiness {
                     accountRepository.create(Account(0, userId, bitcoin, 0.0))
                 }
 
-                listener.onSuccess("Usuário criado com sucesso!")
+                listener.onSuccess(BaseConstants.MESSAGES.SUCCESS_ON_CREATE_USER)
             }
-        }else {
-            listener.onError("Erro ao cadastrar usuário")
+        } else {
+            listener.onError(BaseConstants.MESSAGES.PASSWORD_NOT_MATCH)
         }
     }
 

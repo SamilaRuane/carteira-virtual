@@ -9,7 +9,6 @@ import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 class CredencialsManager {
 
     companion object {
-
         fun authenticateUser(user: User, password: String): Boolean {
             if (user.password.equals(password)) {
                 return true

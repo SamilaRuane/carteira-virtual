@@ -1,9 +1,11 @@
 package br.com.samilaruane.carteiravirtual.domain
 
 import br.com.samilaruane.carteiravirtual.domain.entities.BancoCentralResponse
+import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.repository.remote.Service
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,45 +15,50 @@ import javax.inject.Singleton
 @Singleton
 class BritaCoin : Coin, EventResponseListener<BancoCentralResponse> {
 
-    private lateinit var listener : EventResponseListener<Double>
-    private var isSale = false
-    private var isBuy = false
+    private lateinit var mListener : EventResponseListener<String>
 
     val service : Service<BancoCentralResponse>
+    val preferences : SharedPreferencesHelper
 
 
     @Inject
-    constructor(service: Service<BancoCentralResponse>) {
+    constructor(service: Service<BancoCentralResponse>, preferences : SharedPreferencesHelper) {
         this.service = service
+        this.preferences = preferences
     }
 
 
-    override fun getSalePrice(listener: EventResponseListener <Double>) {
+    override fun loadCoin(listener: EventResponseListener<String>) {
         service.getCoinQuotation(this)
-        isSale = true
-        this.listener = listener
-    }
-
-    override fun getPurchaseQuotation(listener: EventResponseListener <Double>) {
-        service.getCoinQuotation(this)
-        isBuy = true
-        this.listener = listener
+        mListener = listener
     }
 
     override fun getCoinInitials(): String {
         return BaseConstants.BRITA_ACCOUNT
     }
 
-    override fun onSuccess(obj: BancoCentralResponse) {
-        if(obj.value != null && !obj.value.isEmpty())
-            if(isSale) listener.onSuccess(obj.value[0].cotacaoVenda)
-            else if(isBuy) listener.onSuccess(obj.value[0].cotacaoCompra)
+    override fun getSalePrice(): Double = JSONObject(preferences.getBritaQuotation())
+            .get(BaseConstants.SALE_PRICE)
+            .toString()
+            .toDouble()
 
-        isSale = false
-        isBuy = false
+
+    override fun getPurchaseQuotation(): Double = JSONObject(preferences.getBritaQuotation())
+            .get(BaseConstants.PURCHASE_QUOTATION)
+            .toString()
+            .toDouble()
+
+    override fun onSuccess(obj: BancoCentralResponse) {
+        val map = HashMap<String, String>()
+            if(obj.value != null && !obj.value.isEmpty()) {
+                map.put(BaseConstants.SALE_PRICE,obj.value[0].cotacaoVenda.toString())
+                map.put(BaseConstants.PURCHASE_QUOTATION,obj.value[0].cotacaoCompra.toString() )
+                preferences.setBritaQuotation(JSONObject(map).toString())
+            }
+        mListener.onSuccess("")
     }
 
     override fun onError(errorMessage: String) {
-        listener.onError(errorMessage)
+        mListener.onError(errorMessage)
     }
 }

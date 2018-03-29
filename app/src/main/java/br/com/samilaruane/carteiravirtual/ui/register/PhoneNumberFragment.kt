@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_type_phone_number.*
 /**
  * Created by samila on 02/01/18.
  */
-class SendCodeFragment : Fragment () {
+class PhoneNumberFragment : Fragment () {
 
     lateinit var mListener : OnPhoneNumberTypedListener
 
