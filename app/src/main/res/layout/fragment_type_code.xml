@@ -10,20 +10,18 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="22dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="180dp"
         android:text="@string/text_info_type_code"
-        android:textColor="@color/baseColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edt_type_code"
+        android:id="@+id/edt_type_phone_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="270dp"
@@ -48,22 +46,23 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/button_background"
         android:text="@string/btn_confirm"
+        android:textColor="@color/baseColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_type_code" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_type_phone_number" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="100dp"
-        android:layout_height="0dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="100dp"
         android:layout_marginTop="52dp"
-        app:layout_constraintBottom_toTopOf="@+id/edt_type_code"
+        app:layout_constraintBottom_toTopOf="@+id/edt_type_phone_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_phone_android_white_24dp" />
+        app:srcCompat="@drawable/ic_phone_android" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,71 +1,93 @@
 package br.com.samilaruane.carteiravirtual.ui.transaction
 
+import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.SpinnerAdapter
 import android.widget.Toast
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.constants.BaseConstants
-import br.com.samilaruane.carteiravirtual.utils.Dialog
-import br.com.samilaruane.carteiravirtual.utils.ErrorDialog
+import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerTransactionComponent
+import br.com.samilaruane.carteiravirtual.dependencies.modules.TransactionModule
+import br.com.samilaruane.carteiravirtual.extension.alert
+import br.com.samilaruane.carteiravirtual.extension.component
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import kotlinx.android.synthetic.main.activity_transaction.*
+import kotlinx.android.synthetic.main.layout_progress.*
+import javax.inject.Inject
 
 class TransactionActivity : AppCompatActivity(), TransactionContract.View, AdapterView.OnItemSelectedListener {
 
-    lateinit var mPresenter : TransactionContract.Presenter
+    @Inject
+    lateinit var mPresenter: TransactionContract.Presenter
 
-
+    /* Activity Lifecycle */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction)
-        mPresenter = TransactionPresenter ()
-        mPresenter.attachView(this)
-
+        initDependencies()
         initViews()
-        btn_save_transaction.setOnClickListener {
-
-            if(!edt_transaction_amount.text.toString().equals("")) {
-
-                if (spinner_transaction_type.selectedItem.toString().equals(BaseConstants.SELL) ||
-                        spinner_transaction_type.selectedItem.toString().equals(BaseConstants.BUY)) {
-                    mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(),
-                            spinner_source_account.selectedItem.toString(),
-                            BaseConstants.BRL_ACCOUNT, edt_transaction_amount.text.toString().toDouble())
-                } else {
-                    mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(),
-                            spinner_source_account.selectedItem.toString(),
-                            spinner_destination_account.selectedItem.toString(), edt_transaction_amount.text.toString().toDouble())
-                }
-            }else {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-            }
-        }
-
+        layout_progress.visibility = View.VISIBLE
+        mPresenter.loadServiceData()
     }
 
+    /* Transaction Contract */
     override fun showError(error: String) {
-        val dialog : Dialog = ErrorDialog()
-        dialog.show(this, error)
+        layout_progress.visibility = View.GONE
+        alert( error, null )
     }
 
     override fun initViews() {
-        spinner_transaction_type.adapter = ArrayAdapter<String> (this,
+
+        layout_progress.visibility = View.GONE
+
+
+        spinner_transaction_type.adapter = ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
                 resources.getStringArray(R.array.transactiontypes))
-        spinner_source_account.adapter = ArrayAdapter<String> (this,
+
+        spinner_source_account.adapter = ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
                 resources.getStringArray(R.array.coins))
-        spinner_destination_account.adapter = ArrayAdapter<String> (this,
+
+        spinner_destination_account.adapter = ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1,
                 resources.getStringArray(R.array.coins))
 
         spinner_transaction_type.onItemSelectedListener = this
+
+        btn_save_transaction.setOnClickListener {
+
+            if (edt_transaction_amount.text.toString().isNotEmpty()) {
+                layout_progress.visibility = View.VISIBLE
+
+                when (spinner_transaction_type.selectedItem.toString()) {
+                    BaseConstants.SELL -> {
+                        mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(),
+                                spinner_source_account.selectedItem.toString(),
+                                BaseConstants.BRL_ACCOUNT, edt_transaction_amount.text.toString().toDouble())
+                    }
+                    BaseConstants.BUY -> {
+                        mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(), BaseConstants.BRL_ACCOUNT,
+                                spinner_source_account.selectedItem.toString(), edt_transaction_amount.text.toString().toDouble())
+                    }
+                    BaseConstants.TRADE -> {
+                        mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(),
+                                spinner_destination_account.selectedItem.toString(), spinner_source_account.selectedItem.toString(),
+                                edt_transaction_amount.text.toString().toDouble())
+                    }
+
+                }
+
+            } else {
+                Toast.makeText(this, getString(R.string.fill_fields), Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -74,12 +96,26 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if (spinner_transaction_type.getItemAtPosition(position).equals(BaseConstants.SELL) ||
-                spinner_transaction_type.getItemAtPosition(position).equals(BaseConstants.BUY)){
+                spinner_transaction_type.getItemAtPosition(position).equals(BaseConstants.BUY)) {
             txt_destination_account.visibility = View.GONE
             spinner_destination_account.visibility = View.GONE
-        }else{
+        } else {
             txt_destination_account.visibility = View.VISIBLE
             spinner_destination_account.visibility = View.VISIBLE
         }
+    }
+
+    override fun onSuccess(msg : String) {
+        layout_progress.visibility = View.GONE
+        if(msg.isNotEmpty())
+            alert(msg,DialogInterface.OnClickListener { dialog, which -> finish() })
+    }
+
+    override fun initDependencies() {
+        DaggerTransactionComponent.builder()
+                .transactionModule( TransactionModule(this))
+                .appComponent(component())
+                .build()
+                .inject(this)
     }
 }

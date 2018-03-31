@@ -1,65 +1,96 @@
 package br.com.samilaruane.carteiravirtual.ui.main
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.util.Log
+import android.view.View
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.entities.DollarExchangeRate
-import br.com.samilaruane.carteiravirtual.adapters.TabsPagerAdapter
-import br.com.samilaruane.carteiravirtual.repository.remote.RetrofitInitializer
+import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerMainComponent
+import br.com.samilaruane.carteiravirtual.dependencies.modules.MainModule
+import br.com.samilaruane.carteiravirtual.domain.entities.User
+import br.com.samilaruane.carteiravirtual.extension.alert
+import br.com.samilaruane.carteiravirtual.extension.component
+import br.com.samilaruane.carteiravirtual.ui.adapters.TabsPagerAdapter
+import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.transaction.TransactionActivity
-import br.com.samilaruane.carteiravirtual.utils.Dialog
-import br.com.samilaruane.carteiravirtual.utils.ErrorDialog
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.toolbar.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.android.synthetic.main.layout_progress.*
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainContract.View {
 
+class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.UserProfileListener{
+
+    @Inject
+    lateinit var presenter: MainContract.Presenter
+
+    val accountsExtract = ExtractFragment()
+    val accountDetails = MainFragment()
+    val userProfile = UserProfileFragment()
+
+    /* Activity Lifecycle */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        
+        initDependencies()
         initViews()
-
-        fbtn_new_transaction.setOnClickListener {
-            startActivity(Intent(this, TransactionActivity :: class.java))
-        }
     }
 
+    /* MainContract */
     override fun initViews() {
-        /***** Create Fragments ****/
-        val accountDetails = AccountDetailsFragment()
-        val accountList = AccountListFragment()
-        val userProfile = UserProfileFragment()
-
-        setSupportActionBar(toolbar)
-
 
         /****** Tabs Config ********/
-        main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_attach_money_black_24dp))
-        main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_account_balance_wallet_black_24dp))
+        main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_account_balance_black_24dp))
+        main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_extract))
         main_tabs.addTab(main_tabs.newTab().setIcon(R.drawable.ic_person_black_24dp))
 
         /******* Add Tabs *********/
         val pageAdapter = TabsPagerAdapter(supportFragmentManager)
         pageAdapter.addFragment(accountDetails)
-        pageAdapter.addFragment(accountList)
+        pageAdapter.addFragment(accountsExtract)
         pageAdapter.addFragment(userProfile)
 
         main_view_page.adapter = pageAdapter
         main_view_page.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(main_tabs))
         main_tabs.setOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(main_view_page))
 
+        fbtn_new_transaction.setOnClickListener {
+            startActivity(Intent(this, TransactionActivity::class.java))
+        }
+
+        userProfile.setOnClickListener(this)
+
+    }
+    override fun onResumeFragments() {
+        layout_progress.visibility = View.VISIBLE
+        presenter.loadCoins()
+        presenter.loadAccounts(accountDetails)
+        presenter.loadTransactions(accountsExtract)
+        presenter.getUserInfo(userProfile)
+        super.onResumeFragments()
     }
 
     override fun showError(error: String) {
-        val dialog : Dialog = ErrorDialog()
-        dialog.show(this, error)
+      alert(error, null)
     }
 
+    override fun initDependencies() {
+        DaggerMainComponent.builder()
+                .mainModule(MainModule(this))
+                .appComponent(component())
+                .build()
+                .inject(this)
+    }
+
+    /* Fragment Listeners */
+    override fun onSaveUserClicked(user: User) {
+        if(presenter.updateProfile(user))
+            alert( getString(R.string.edit_profile_success_message), null )
+        else
+            showError(getString(R.string.edit_profile_error_message))
+    }
+
+    override fun onSuccess(msg: String) {
+        layout_progress.visibility = View.GONE
+    }
 }

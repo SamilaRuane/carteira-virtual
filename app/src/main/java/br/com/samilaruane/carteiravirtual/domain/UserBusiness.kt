@@ -1,60 +1,72 @@
 package br.com.samilaruane.carteiravirtual.domain
 
-import android.content.Context
-import br.com.samilaruane.carteiravirtual.constants.BaseConstants
-import br.com.samilaruane.carteiravirtual.repository.db.AccountRepository
-import br.com.samilaruane.carteiravirtual.repository.db.AccountRepositoryImpl
-import br.com.samilaruane.carteiravirtual.repository.db.UserRepository
-import br.com.samilaruane.carteiravirtual.repository.db.UserRepositoryImpl
+import br.com.samilaruane.carteiravirtual.domain.entities.Account
+import br.com.samilaruane.carteiravirtual.domain.entities.User
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
+import br.com.samilaruane.carteiravirtual.repository.db.Repository
+import br.com.samilaruane.carteiravirtual.repository.db.SearchFilter
+import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
+import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
+import javax.inject.Inject
 
 /**
  * Created by samila on 02/01/18.
  */
-class UserBusiness(ctx : Context) {
+class UserBusiness {
 
-    private var userRepository : UserRepository
-    private var accountRepository : AccountRepository
-    lateinit var brlAccount : Account
-    lateinit var britaAccount : Account
-    lateinit var bitCoinAccount : Account
 
-    init {
-        userRepository = UserRepositoryImpl.getInstance(ctx)
-        accountRepository = AccountRepositoryImpl.getInstance(ctx)
+    private val userRepository: Repository<User>
+    private val britacoin : BritaCoin
+    private val bitcoin: BTCoin
+    private var brlAccount: Account
+    private var britaAccount: Account
+    private var bitCoinAccount: Account
+    private var preferences : SharedPreferencesHelper
+    private val accountRepository : Repository<Account>
+
+    @Inject
+    constructor(preferences : SharedPreferencesHelper, accountRepository: Repository<Account>, userRepository: Repository<User>, britacoin: BritaCoin, bitcoin: BTCoin) {
+        this.preferences = preferences
+        this.accountRepository = accountRepository
+        this.userRepository = userRepository
+        this.britacoin = britacoin
+        this.bitcoin = bitcoin
+
+        brlAccount = Account(0, 0, BRLCoin(), 0.0)
+        britaAccount = Account(0, 0, britacoin, 0.0)
+        bitCoinAccount = Account(0, 0, bitcoin, 0.0)
+
     }
 
-    fun createUser (name :  String, email : String, phone : String, password : String, passwordConfirmation : String){
+    fun createUser(name: String, email: String, phone: String, password: String, passwordConfirmation: String, listener: EventResponseListener<String>) {
 
+        if(checkIfExists(phone)) {
+            listener.onError("Número já cadastrado")
+            return
+        }
         if (password.equals(passwordConfirmation)) {
             val user = User(0, name, phone, email, password)
-            val userId = userRepository.insert(user)
+            val userId = userRepository.create(user)
 
-            if (isValid(user)) {
+            if (user.isValid()) {
                 if (userId != null) {
-                    accountRepository.insert(Account(userId, BRLCoin (), 100000.00))
-                    accountRepository.insert(Account(userId, BritaCoin (), 0.0))
-                    accountRepository.insert(Account(userId, BTCoin (), 0.0))
-
+                    accountRepository.create(Account(0, userId, BRLCoin(), 100000.00))
+                    accountRepository.create(Account(0, userId, britacoin, 0.0))
+                    accountRepository.create(Account(0, userId, bitcoin, 0.0))
                 }
+
+                listener.onSuccess(BaseConstants.MESSAGES.SUCCESS_ON_CREATE_USER)
             }
+        } else {
+            listener.onError(BaseConstants.MESSAGES.PASSWORD_NOT_MATCH)
         }
     }
 
-    private fun isValid (user : User?) : Boolean{
-        if(user != null){
-            if((!user.name.isEmpty()) &&
-                    (!user.email.isEmpty()) &&
-                    (!user.password.isEmpty()))
-            return true
-        }
-            return false
-    }
-
-    fun initAccounts (user : User){
-        val accounts = accountRepository.select(user.id.toString())
-        for (acc : Account in accounts){
-            when(acc.getCoin().getCoinInitials()){
-
+    fun initAccounts(user: User) {
+        val accounts = accountRepository.select(SearchFilter.getByArgument(DatabaseConstants.ACCOUNT.TABLE_NAME, DatabaseConstants.ACCOUNT.COLUMNS.USER_ID, user.id.toString()))
+        for (acc: Account in accounts) {
+            when (acc.getCoin().getCoinInitials()) {
                 BaseConstants.BRITA_ACCOUNT -> britaAccount = acc
                 BaseConstants.BITCOIN_ACCOUNT -> bitCoinAccount = acc
                 BaseConstants.BRL_ACCOUNT -> brlAccount = acc
@@ -62,9 +74,10 @@ class UserBusiness(ctx : Context) {
 
         }
     }
-    fun getAccountByCoin (coinName : String, user : User) : Account?{
+
+    fun getAccountByCoin(coinName: String, user: User): Account? {
         initAccounts(user)
-        when (coinName){
+        when (coinName) {
             BaseConstants.BRL_ACCOUNT -> return brlAccount
             BaseConstants.BRITA_ACCOUNT -> return britaAccount
             BaseConstants.BITCOIN_ACCOUNT -> return bitCoinAccount
@@ -73,24 +86,64 @@ class UserBusiness(ctx : Context) {
         return null
     }
 
-    fun getCurrentUser () : User{
-        return User (1, "", "", "", "")
+    fun getCurrentUser(): User {
+        val id = preferences.getUserId()
+        return userRepository.select(SearchFilter.getById(DatabaseConstants.USER.TABLE_NAME, DatabaseConstants.USER.COLUMNS.ID, id.toString())).single()
     }
 
-    fun login (phone : String, password: String) : Boolean{
-        userRepository.select("")
-        var user : User?
-        if(!phone.equals("") && !password.equals("") && phone != null && password != null) {
-            user = userRepository.selectUserByPhone(phone)
-            if(user != null){
-                if (user.password.equals(password)){
+    fun login(phone: String, password: String): Boolean {
+        var user: User?
+        if (!phone.isNullOrEmpty() && !password.isNullOrEmpty()) {
+            user = userRepository.select(SearchFilter.getByArgument(DatabaseConstants.USER.TABLE_NAME, DatabaseConstants.USER.COLUMNS.PHONE, phone)).singleOrNull()
+            if (user != null) {
+                if (CredencialsManager.authenticateUser(user, password)) {
+                    preferences.saveUserId(user)
                     return true
                 }
+                return false
             }
         }
-
         return false
     }
 
+    fun getUserAccounts(): List <Account> {
+        initAccounts(getCurrentUser())
+        val accounts = ArrayList<Account>()
+        accounts.add(britaAccount)
+        accounts.add(bitCoinAccount)
+        accounts.add(brlAccount)
+        return accounts
+    }
+
+    fun updateAccount (account : Account?){
+        account?.let {
+            accountRepository.update(it)
+        }
+    }
+
+    fun checkIfExists (phoneNumber : String) : Boolean {
+        if(!phoneNumber.isNullOrEmpty()){
+            val user = userRepository.select(SearchFilter.getByArgument(DatabaseConstants.USER.TABLE_NAME, DatabaseConstants.USER.COLUMNS.PHONE, phoneNumber)).singleOrNull()
+            if(user != null){
+                preferences.saveUserId(user)
+                return true
+            } else return false
+        } else return false
+    }
+
+    fun changeUserPassword (newPass : String) : Boolean{
+        val user = getCurrentUser()
+        if(!newPass.isNullOrEmpty()) {
+            user.password = newPass
+            userRepository.update(user)
+            return true
+        }
+        return false
+    }
+
+    fun updateUser ( user : User ) : Boolean {
+        userRepository.update(user)
+        return true
+    }
 
 }

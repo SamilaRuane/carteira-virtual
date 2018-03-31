@@ -5,4 +5,14 @@
     <dimen name="corners_dimen">5dp</dimen>
     <dimen name="btn_stroke_dimen">1dp</dimen>
     <dimen name="box_padding">10dp</dimen>
+    <dimen name="app_bar_height">56dp</dimen>
+    <dimen name="app_bar_side_padding">16dp</dimen>
+    <dimen name="app_bar_title_left_padding">72dp</dimen>
+    <dimen name="app_bar_title_bottom_padding">20dp</dimen>
+    <dimen name="button_height">36dp</dimen>
+    <dimen name="button_touchable_target">36dp</dimen>
+    <dimen name="button_corner_radius">2dp</dimen>
+    <dimen name="button_text">14pt</dimen>
+    <dimen name="button_left_right_padding">16pt</dimen>
+
 </resources>

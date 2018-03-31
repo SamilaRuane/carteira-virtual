@@ -1,50 +1,65 @@
 package br.com.samilaruane.carteiravirtual.ui.register
 
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.util.Log
 import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerRegisterComponent
+import br.com.samilaruane.carteiravirtual.dependencies.modules.RegisterModule
+import br.com.samilaruane.carteiravirtual.extension.alert
+import br.com.samilaruane.carteiravirtual.extension.component
+import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
-import br.com.samilaruane.carteiravirtual.utils.Dialog
-import br.com.samilaruane.carteiravirtual.utils.ErrorDialog
+import javax.inject.Inject
 
-class RegisterActivity : AppCompatActivity(), RegisterContract.View, SendCodeFragment.OnPhoneNumberTypedListener,
-ConfirmCodeFragment.OnCodeConfirmedListener,
+class RegisterActivity : BaseActivity (), RegisterContract.View, PhoneNumberFragment.OnPhoneNumberTypedListener,
+CodeFragment.OnCodeConfirmedListener,
 UserInfoFragment.OnRegisterFinishedListener{
 
+    @Inject
     lateinit var registerPresenter : RegisterContract.Presenter
     lateinit var phoneNumber : String
 
+
+    /* Activity Lifecycle */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        registerPresenter = RegisterPresenter ()
-        registerPresenter.attachView(this)
-        initFragment(SendCodeFragment())
+        initDependencies()
+        initFragment(PhoneNumberFragment())
+
     }
 
+   /* Register Contract */
     override fun showError(error: String) {
-        val dialog : Dialog = ErrorDialog()
-        dialog.show(this, error)
+        alert( error, null )
     }
 
-    fun initFragment (fragment : Fragment){
-        supportFragmentManager.
-                beginTransaction().
-                replace(R.id.register_container, fragment).commit()
-
+    override fun onSuccess() {
+        alert(getString(R.string.success_on_registration), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                dialog?.dismiss()
+                navigateTo(LoginActivity::class.java)
+                finish()
+            }
+        })
     }
 
+    override fun initDependencies() {
+        DaggerRegisterComponent.builder()
+                .registerModule(RegisterModule (this))
+                .appComponent(component())
+                .build()
+                .inject(this)
+    }
+
+    /* Fragments Listeners */
     override fun onCodeConfirmed(code: String) {
 
         if (code.equals(registerPresenter.getToken())){
             initFragment(UserInfoFragment())
         }else {
-            val dialog = ErrorDialog ()
-            dialog.show(this, "Token Inválido")
+            alert("Token Inválido", null )
         }
 
     }
@@ -54,12 +69,15 @@ UserInfoFragment.OnRegisterFinishedListener{
         val token = registerPresenter.generateToken()
         registerPresenter.sendMessage(phoneNumber, token)
         registerPresenter.saveTokenOnPreference(phoneNumber, token)
-        initFragment(ConfirmCodeFragment())
+        alert(getString(R.string.send_code_message), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                initFragment(CodeFragment())
+            }
+        })
+
     }
 
     override fun onRegisterFinished(name: String, email: String, password: String, passwordConfirmation: String) {
         registerPresenter.create(name, email, phoneNumber, password, passwordConfirmation)
-        startActivity(Intent(this, LoginActivity::class.java))
     }
-
 }

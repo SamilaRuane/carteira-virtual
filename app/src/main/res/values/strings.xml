@@ -20,6 +20,23 @@
     <string name="btn_send">Enviar</string>
     <string name="btn_confirm">Confirmar</string>
     <string name="btn_login">Logar</string>
+    <string name="permissions_alert">A permissão deve ser concedida para que o app funcione</string>
+    <string name="create_user_error_alert">Erro ao cadastrar usuário</string>
+    <string name="service_error_alert">Caro cliente, no momento não foi possível recuperar as informações. Tente Novamente em instantes</string>
+    <string name="coin_hint">Escolha uma moeda </string>
+    <string name="success_on_transaction"> Operação realizada com sucesso</string>
+    <string name="success_on_registration"> Cadastro realizado com sucesso </string>
+    <string name="fill_fields"> Preencha todos os campos </string>
+    <string name="recovery_password_description"> Digite o código enviado para seu celular para recuperar sua senha </string>
+    <string name="recovery_password_message"> Utilize este código para recuperar a sua senha </string>
+    <string name="recovery_password_error_message"> Usuário não cadastrado no sistema </string>
+    <string name="recovery_password_success_message"> Senha alterada com sucesso </string>
+    <string name="recovery_password_error_on_change_pass"> Ocorreu um erro ao alterar a senha, verifique a nova senha atende os requisitos exigidos </string>
+    <string name="recovery_password_ask_phone_number"> Digite o número de telefone cadastrado </string>
+    <string name="recovery_password_ask_new_pass"> Digite a nova senha </string>
+    <string name="edit_profile_success_message"> Alterações salvas com sucesso </string>
+    <string name="edit_profile_error_message"> Erro ao salvar as alterações do usuário </string>
+    <string name="send_code_message"> Uma mensagem está sendo enviada para o número informado. Isso pode levar alguns instantes.</string>
 
     <string-array name = "transactiontypes">
         <item>VENDA</item>
@@ -30,7 +47,6 @@
     <string-array name = "coins">
         <item>BRITA</item>
         <item>BITCOIN</item>
-        <item>BRL</item>
     </string-array>
 
 </resources>

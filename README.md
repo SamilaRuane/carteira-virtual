@@ -18,30 +18,24 @@ O aplicativo usa o Retrofit para gerenciar requisições para a API do [Banco Ce
 6. Se o token for válido você será redirecionado para uma tela de cadastro;
 7. Cadastre-se e use as informações cadastradas para fazer o login;
 8. Digite o número do telefone e a senha cadastrados e clique em Login;
-9. Se as informações fornecidas forem as mesmas cadastradas você será redirecionado para a Tela principal a qual deve conter as informações de saldo e últimas transações da última conta escolhida pelo usuário, ou da conta principal (A conta BRL) se for o primeiro acesso; 
-10. Ao arrastar a tela para o lado ou clicar em algum dos ícones na barra inferior da tela, você será redirecionado para a lista de contas ou para o perfil do usuário de acordo com a opção escolhida;
-11. Na lista de contas é possível escolher qual das contas você quer visualizar e as informações referentes àquela conta são exibidas na primeira aba;
-12. No perfil do usuário, você vê e editar suas informações;
-13. Um extrato de todas as operações realizadas em um determinado período pode ser visualizada escolhendo a opção "Extrato de Transações" no menu superior.
-
-Os passos descritos acima é o que deve acontecer para um usuário quando o aplicativo estiver pronto. Para visualizar e entender como funciona o fluxo do aplicativo acesse o protótipo de telas disponível [aqui](/app/prototype/), execute o arquivo no seu browser e interaja com as telas exibidas.
-
+9. Se as informações fornecidas forem as mesmas cadastradas você será redirecionado para a Tela principal a qual contém as informações de saldo de todas as contas do usuário, além de apresentar a cotação de compra e venda de cada criptomoeda;
+10. Ao arrastar a tela para o lado ou clicar em algum dos ícones na barra inferior da tela, você será redirecionado para o extrato das transações ou para as informações do perfil do usuário de acordo com a opção escolhida;
+11. No extrato é possível visualizar a data e as transações realizadas, podendo ser venda ou compra de alguma das criptomoedas ou troca entre elas;
+12. No perfil do usuário, é possível visualizar e editar as informações do usuário;
 
 ## Status do Projeto 
 
 O projeto está em fase de desenvolvimento.
 
 ### Features implementadas
-1. Registro de usuário com validação via geração de token; 
+1. Registro de novo usuário com validação via geração de token; 
 2. Login do usuário com número de telefone e senha;
-3. Gerenciamento de Transações; 
+3. Gerenciamento de transações;
+4. Tela com o saldo das contas do usuário;
+5. Visualização e edição do perfil do usuário;
+6. Extrato das transações
+6. Recuperação de senha;
 
-### Features que faltam implementar 
-1. Funcionalidade para recuperação de senha.
-2. Finalização da tela principal.
-3. Geração de extrato.
-4. Gerenciamento do Perfil de Usuário.
-5. Tela e controle da lista de contas do usuário.
 
 ## Licença
 
