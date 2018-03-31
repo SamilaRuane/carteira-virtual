@@ -59,7 +59,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
 
         if(requestCode == REQUEST_DANGEROUS_PERMISSIONS_CODE){
-            if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
             }else{
                 val listener = DialogInterface.OnClickListener({ dialog, which ->
@@ -97,8 +97,8 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     private fun initViews() {
         btn_login.setOnClickListener {
             if (edt_login_phone_number != null && edt_login_password != null &&
-                    !edt_login_phone_number.equals("") &&
-                    !edt_login_password.equals("")) {
+                    !edt_login_phone_number.text.equals("") &&
+                    !edt_login_password.text.equals("")) {
                 loginPresenter.login(edt_login_phone_number.text.toString(), edt_login_password.text.toString())
             } else {
                 Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT)

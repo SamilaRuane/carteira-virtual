@@ -12,18 +12,7 @@ import javax.inject.Inject
 /**
  * Created by samila on 27/12/17.
  */
-class LoginPresenter : LoginContract.Presenter {
-
-    val userBusiness: UserBusiness
-    val mView : LoginContract.View
-    val preferences : SharedPreferencesHelper
-
-    @Inject
-    constructor(userBusiness: UserBusiness, mView: LoginContract.View, preferences : SharedPreferencesHelper) {
-        this.userBusiness = userBusiness
-        this.mView = mView
-        this.preferences = preferences
-    }
+class LoginPresenter @Inject constructor(val userBusiness: UserBusiness, val mView: LoginContract.View, val preferences: SharedPreferencesHelper) : LoginContract.Presenter {
 
     override fun detachView() {
         mView = null!!
@@ -57,7 +46,7 @@ class LoginPresenter : LoginContract.Presenter {
     }
 
     override fun ckeckRecoveryCode(code: String): Boolean =
-            code.equals(preferences.getToken())
+            code == preferences.getToken()
 
     override fun changePassword(newPass: String) : Boolean =
         userBusiness.changeUserPassword(newPass)

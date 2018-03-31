@@ -8,7 +8,7 @@ import javax.inject.Inject
 /**
  * Created by samila on 02/01/18.
  */
-class SharedPreferencesHelper {
+class SharedPreferencesHelper @Inject constructor(context: Context) {
     val SHARED_PREFERENCE_NAME = "tokens"
     val SHARED_PREFERENCE_USER_TOKEN = "userToken"
     val SHARED_PREFERENCE_USER_ID = "userId"
@@ -17,14 +17,7 @@ class SharedPreferencesHelper {
     val SHARED_PREFERENCES_BITCOIN_QUOTATION = "bitcoinQuotation"
 
 
-    private val context : Context
     private val sharedPreference : SharedPreferences
-
-    @Inject
-    constructor(context: Context){
-        this.context = context
-        sharedPreference = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
-    }
 
     fun keepTokenForConfirmation (userPhoneNumber : String, token : String ){
         sharedPreference.edit().putString(SHARED_PREFERENCE_USER_TOKEN, token).commit ()
@@ -67,5 +60,9 @@ class SharedPreferencesHelper {
 
     fun getBitcoinQuotation () : String {
         return sharedPreference.getString(SHARED_PREFERENCES_BITCOIN_QUOTATION, "")
+    }
+
+    init {
+        sharedPreference = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
     }
 }

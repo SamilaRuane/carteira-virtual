@@ -13,18 +13,9 @@ import javax.inject.Singleton
  * Created by samila on 18/12/17.
  */
 @Singleton
-class BTCoin : Coin, EventResponseListener<MercadoBitcoinResponse> {
+class BTCoin @Inject constructor(val service: Service<MercadoBitcoinResponse>, val preferences: SharedPreferencesHelper) : Coin, EventResponseListener<MercadoBitcoinResponse> {
 
     lateinit var mListener: EventResponseListener<String>
-
-    val service: Service<MercadoBitcoinResponse>
-    val preferences : SharedPreferencesHelper
-
-    @Inject
-    constructor(service: Service<MercadoBitcoinResponse>, preferences : SharedPreferencesHelper) {
-        this.service = service
-        this.preferences = preferences
-    }
 
 
     override fun loadCoin(listener: EventResponseListener<String>) {

@@ -1,10 +1,13 @@
 package br.com.samilaruane.carteiravirtual.repository.db
 
 import android.content.ContentValues
+import br.com.samilaruane.carteiravirtual.domain.BRLCoin
+import br.com.samilaruane.carteiravirtual.domain.BTCoin
+import br.com.samilaruane.carteiravirtual.domain.BritaCoin
+import br.com.samilaruane.carteiravirtual.domain.Coin
+import br.com.samilaruane.carteiravirtual.domain.entities.Account
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
-import br.com.samilaruane.carteiravirtual.domain.*
-import br.com.samilaruane.carteiravirtual.domain.entities.Account
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,18 +15,7 @@ import javax.inject.Singleton
  * Created by samila on 07/01/18.
  */
 @Singleton
-class AccountRepository  : Repository<Account>{
-
-    val mWalletDatabaseHelper : WalletDatabaseHelper
-    val britacoin : BritaCoin
-    val bitcoin : BTCoin
-
-    @Inject
-    constructor(mWalletDatabaseHelper: WalletDatabaseHelper, britacoin:BritaCoin, bitcoin : BTCoin) {
-        this.mWalletDatabaseHelper = mWalletDatabaseHelper
-        this.britacoin = britacoin
-        this.bitcoin = bitcoin
-    }
+class AccountRepository @Inject constructor(val mWalletDatabaseHelper: WalletDatabaseHelper, val britacoin: BritaCoin, val bitcoin: BTCoin) : Repository<Account>{
 
     override fun create(item: Account): Long {
         val db = mWalletDatabaseHelper.writableDatabase

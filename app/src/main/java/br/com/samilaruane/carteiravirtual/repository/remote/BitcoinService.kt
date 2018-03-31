@@ -12,11 +12,11 @@ import retrofit2.Response
  */
 class BitcoinService : Service <MercadoBitcoinResponse> {
     override fun getCoinQuotation(listener: EventResponseListener<MercadoBitcoinResponse>) {
-        val service = RetrofitInitializer()?.getMercadoBitcoinService()?.get()
+        val service = RetrofitInitializer().getMercadoBitcoinService()?.get()
         service?.enqueue(object : Callback<MercadoBitcoinResponse> {
             override fun onResponse(call: Call<MercadoBitcoinResponse>?, response: Response<MercadoBitcoinResponse>?) {
                 if(response?.isSuccessful!!){
-                    listener.onSuccess(response?.body()!!)
+                    listener.onSuccess(response.body()!!)
                 }else {
                     listener.onError(BaseConstants.MESSAGES.GENERIC_ERROR)
                 }

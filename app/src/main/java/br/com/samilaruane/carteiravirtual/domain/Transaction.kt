@@ -18,13 +18,13 @@ data class Transaction(val date: Long,
     override fun toString(): String {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = date
-        var transactionSummary: String
-        if (transactionType.equals(BaseConstants.BUY))
+        val transactionSummary: String
+        if (transactionType == BaseConstants.BUY)
             transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $destinationCoin"
-        else if (transactionType.equals(BaseConstants.SELL))
+        else if (transactionType == BaseConstants.SELL)
             transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin"
         else
-            transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin por ${destinationCoin}"
+            transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin por $destinationCoin"
 
         return transactionSummary
     }

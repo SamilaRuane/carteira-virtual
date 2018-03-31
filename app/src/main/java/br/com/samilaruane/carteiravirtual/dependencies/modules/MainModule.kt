@@ -13,13 +13,7 @@ import dagger.Provides
  */
 
 @Module
-class MainModule {
-
-    private val activity: MainContract.View
-
-    constructor(activity: MainContract.View) {
-        this.activity = activity
-    }
+class MainModule(private val activity: MainContract.View) {
 
     @Provides
     fun provideMainPresenter(view: MainContract.View, mUserBussiness: UserBusiness, mTransactionBussiness: TransactionBusiness): MainContract.Presenter =

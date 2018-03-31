@@ -12,18 +12,7 @@ import javax.inject.Inject
 /**
  * Created by samila on 07/01/18.
  */
-class MainPresenter : MainContract.Presenter, EventResponseListener<String> {
-
-     var mView : MainContract.View
-     var mUserBussiness : UserBusiness
-     var mTransactionBussiness : TransactionBusiness
-
-    @Inject
-    constructor(mView: MainContract.View, mUserBussiness: UserBusiness, mTransactionBussiness: TransactionBusiness) {
-        this.mView = mView
-        this.mUserBussiness = mUserBussiness
-        this.mTransactionBussiness = mTransactionBussiness
-    }
+class MainPresenter @Inject constructor(var mView: MainContract.View, var mUserBussiness: UserBusiness, var mTransactionBussiness: TransactionBusiness) : MainContract.Presenter, EventResponseListener<String> {
 
     override fun detachView() {
         mView = null!!

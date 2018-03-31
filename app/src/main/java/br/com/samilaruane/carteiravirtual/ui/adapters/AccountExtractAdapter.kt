@@ -1,6 +1,5 @@
 package br.com.samilaruane.carteiravirtual.ui.adapters
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +12,10 @@ import kotlinx.android.synthetic.main.transaction_item.view.*
 /**
  * Created by samila on 22/12/17.
  */
-class AccountExtractAdapter(private val ctx : Context, private val transactions : List<Transaction> ) : RecyclerView.Adapter<AccountExtractAdapter.ViewHolder> (){
+class AccountExtractAdapter(private val transactions : List<Transaction> ) : RecyclerView.Adapter<AccountExtractAdapter.ViewHolder> (){
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder?.let{
-            it.bindView(transactions[position])
-        }
+        holder?.bindView(transactions[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {

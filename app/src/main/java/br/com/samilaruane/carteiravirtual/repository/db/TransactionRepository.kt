@@ -1,8 +1,8 @@
 package br.com.samilaruane.carteiravirtual.repository.db
 
 import android.content.ContentValues
+import br.com.samilaruane.carteiravirtual.domain.Transaction
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
-import br.com.samilaruane.carteiravirtual.domain.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -10,14 +10,9 @@ import javax.inject.Singleton
  * Created by samila on 07/01/18.
  */
 @Singleton
-class TransactionRepository  : Repository<Transaction>{
+class TransactionRepository @Inject constructor(dbHelper: WalletDatabaseHelper) : Repository<Transaction>{
 
-    val mWalletDatabaseHelper : WalletDatabaseHelper
-
-    @Inject
-    constructor(dbHelper: WalletDatabaseHelper){
-        mWalletDatabaseHelper = dbHelper
-    }
+    val mWalletDatabaseHelper : WalletDatabaseHelper = dbHelper
 
     override fun create(item: Transaction): Long {
         val db = mWalletDatabaseHelper.writableDatabase

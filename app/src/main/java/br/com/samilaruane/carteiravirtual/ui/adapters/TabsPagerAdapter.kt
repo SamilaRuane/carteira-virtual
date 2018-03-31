@@ -7,9 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter
 /**
  * Created by samila on 20/12/17.
  */
-class TabsPagerAdapter : FragmentPagerAdapter {
-
-    constructor(fm: FragmentManager?) : super(fm)
+class TabsPagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
 
     var mFragment = ArrayList<Fragment> ()
 

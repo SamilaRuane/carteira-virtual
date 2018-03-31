@@ -21,20 +21,20 @@ class BritaService : Service<BancoCentralResponse> {
             if(calendar.isSaturday()) calendar.addDays(-1)
             else if (calendar.isSunday()) calendar.addDays(-2)
         }
-        val service = RetrofitInitializer()?.getBancoCentralService()?.get("%27USD%27", "%27${calendar.formatter("MM-dd-yyyy")}%27", "json")
+        val service = RetrofitInitializer().getBancoCentralService()?.get("%27USD%27", "%27${calendar.formatter("MM-dd-yyyy")}%27", "json")
         service?.enqueue(object : Callback<BancoCentralResponse> {
             override fun onResponse(call: Call<BancoCentralResponse>?, response: Response<BancoCentralResponse>?) {
                 response?.let {
                     if (it.isSuccessful && it.body() != null && it.body()?.value != null && it.body()?.value!!.isNotEmpty()) {
-                        listener?.onSuccess(it.body()!!)
+                        listener.onSuccess(it.body()!!)
                     } else {
-                        listener?.onError(BaseConstants.MESSAGES.GENERIC_ERROR)
+                        listener.onError(BaseConstants.MESSAGES.GENERIC_ERROR)
                     }
                 }
             }
 
             override fun onFailure(call: Call<BancoCentralResponse>?, t: Throwable?) {
-                listener?.onError(BaseConstants.MESSAGES.GENERIC_ERROR)
+                listener.onError(BaseConstants.MESSAGES.GENERIC_ERROR)
             }
         })
     }

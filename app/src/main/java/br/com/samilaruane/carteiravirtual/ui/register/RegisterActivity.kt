@@ -36,12 +36,10 @@ UserInfoFragment.OnRegisterFinishedListener{
     }
 
     override fun onSuccess() {
-        alert(getString(R.string.success_on_registration), object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                dialog?.dismiss()
-                navigateTo(LoginActivity::class.java)
-                finish()
-            }
+        alert(getString(R.string.success_on_registration), DialogInterface.OnClickListener { dialog, which ->
+            dialog?.dismiss()
+            navigateTo(LoginActivity::class.java)
+            finish()
         })
     }
 
@@ -56,7 +54,7 @@ UserInfoFragment.OnRegisterFinishedListener{
     /* Fragments Listeners */
     override fun onCodeConfirmed(code: String) {
 
-        if (code.equals(registerPresenter.getToken())){
+        if (code == registerPresenter.getToken()){
             initFragment(UserInfoFragment())
         }else {
             alert("Token Inválido", null )
@@ -69,11 +67,7 @@ UserInfoFragment.OnRegisterFinishedListener{
         val token = registerPresenter.generateToken()
         registerPresenter.sendMessage(phoneNumber, token)
         registerPresenter.saveTokenOnPreference(phoneNumber, token)
-        alert(getString(R.string.send_code_message), object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                initFragment(CodeFragment())
-            }
-        })
+        alert(getString(R.string.send_code_message), DialogInterface.OnClickListener { dialog, which -> initFragment(CodeFragment()) })
 
     }
 

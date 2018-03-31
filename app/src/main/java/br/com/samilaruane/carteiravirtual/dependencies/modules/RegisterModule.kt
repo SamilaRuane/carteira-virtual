@@ -11,13 +11,7 @@ import dagger.Provides
  * Created by samila on 25/03/18.
  */
 @Module
-class RegisterModule {
-
-    private val activity: RegisterContract.View
-
-    constructor(activity: RegisterContract.View) {
-        this.activity = activity
-    }
+class RegisterModule(private val activity: RegisterContract.View) {
 
     @Provides
     fun provideRegisterView(): RegisterContract.View = activity

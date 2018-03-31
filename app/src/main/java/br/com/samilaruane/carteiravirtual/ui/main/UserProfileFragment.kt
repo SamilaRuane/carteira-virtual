@@ -14,18 +14,16 @@ import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
-import kotlinx.android.synthetic.main.dialog_recovery_password.view.*
 import kotlinx.android.synthetic.main.fragment_user_profile.*
 
 
 /**
  * Created by samila on 20/12/17.
  */
-class UserProfileFragment : Fragment, EventResponseListener<User> {
+class UserProfileFragment : Fragment(), EventResponseListener<User> {
 
     private var user : User = User (0, "", "", "", "")
     private lateinit var mListener : UserProfileListener
-    constructor() : super()
 
     /* Fragment Lifecycle */
 

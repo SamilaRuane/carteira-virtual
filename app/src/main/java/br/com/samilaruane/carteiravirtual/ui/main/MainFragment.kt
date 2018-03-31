@@ -20,9 +20,8 @@ import java.util.*
 /**
  * Created by samila on 20/12/17.
  */
-class MainFragment : Fragment, OnDatabaseAccessListener<List<Account>> {
+class MainFragment : Fragment(), OnDatabaseAccessListener<List<Account>> {
 
-    constructor() : super()
     private lateinit var accounts : List <Account>
 
 

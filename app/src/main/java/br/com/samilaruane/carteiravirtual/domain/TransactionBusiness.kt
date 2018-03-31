@@ -5,9 +5,9 @@ import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.domain.exceptions.InsufficientBalanceException
 import br.com.samilaruane.carteiravirtual.repository.db.Repository
 import br.com.samilaruane.carteiravirtual.repository.db.SearchFilter
-import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.OperationType
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 import java.util.*
 import javax.inject.Inject
@@ -16,23 +16,12 @@ import javax.inject.Inject
  * Created by samila on 07/01/18.
  */
 
-class TransactionBusiness : EventResponseListener<String> {
+class TransactionBusiness @Inject constructor(private val userBusiness: UserBusiness, private val transactionRepository: Repository<Transaction>, private val brita: BritaCoin, private val bitcoin: BTCoin) : EventResponseListener<String> {
 
     private lateinit var listener: EventResponseListener<String>
     private var baseAccount: Account? = null
-    private val userBusiness: UserBusiness
-    private val transactionRepository: Repository<Transaction>
-    private val brita : BritaCoin
-    private val bitcoin : BTCoin
 
 
-    @Inject
-    constructor(userBusiness: UserBusiness, transactionRepository: Repository<Transaction>, brita : BritaCoin, bitcoin : BTCoin) {
-        this.userBusiness = userBusiness
-        this.transactionRepository = transactionRepository
-        this.brita = brita
-        this.bitcoin = bitcoin
-    }
     fun callServices (listener: EventResponseListener<String>){
         brita.loadCoin(this)
         bitcoin.loadCoin(this)
@@ -84,8 +73,8 @@ class TransactionBusiness : EventResponseListener<String> {
             val saleValue = sourceAccount.getCoin().getSalePrice()
 
                 saleValue.times(amount)
-                sourceAccount?.withdraw(amount)
-                destinationAccount?.deposit(saleValue)
+            sourceAccount.withdraw(amount)
+            destinationAccount.deposit(saleValue)
                 saveTransaction(sourceAccount, destinationAccount, amount, BaseConstants.SELL)
                 listener.onSuccess(BaseConstants.MESSAGES.SUCCESS_ON_TASK)
         } catch (e: InsufficientBalanceException) {

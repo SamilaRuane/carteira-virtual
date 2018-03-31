@@ -1,9 +1,6 @@
 package br.com.samilaruane.carteiravirtual.domain
 
 import br.com.samilaruane.carteiravirtual.domain.entities.Account
-import br.com.samilaruane.carteiravirtual.domain.entities.BancoCentralResponse
-import br.com.samilaruane.carteiravirtual.domain.entities.MercadoBitcoinResponse
-import br.com.samilaruane.carteiravirtual.repository.remote.BitcoinService
 import br.com.samilaruane.carteiravirtual.repository.remote.Service
 import org.junit.Before
 import org.junit.Test

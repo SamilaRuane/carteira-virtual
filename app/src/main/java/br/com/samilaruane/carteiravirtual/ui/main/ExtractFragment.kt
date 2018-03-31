@@ -42,7 +42,7 @@ class ExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>
 
     override fun onResume() {
         super.onResume()
-        val adapter = AccountExtractAdapter(activity, transactions)
+        val adapter = AccountExtractAdapter(transactions)
         recycler_account_extract?.adapter = adapter
         recycler_account_extract?.layoutManager = LinearLayoutManager(activity)
         if(transactions.isNotEmpty() || transactions != null){

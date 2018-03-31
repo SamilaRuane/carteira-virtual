@@ -95,8 +95,8 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (spinner_transaction_type.getItemAtPosition(position).equals(BaseConstants.SELL) ||
-                spinner_transaction_type.getItemAtPosition(position).equals(BaseConstants.BUY)) {
+        if (spinner_transaction_type.getItemAtPosition(position) == BaseConstants.SELL ||
+                spinner_transaction_type.getItemAtPosition(position) == BaseConstants.BUY) {
             txt_destination_account.visibility = View.GONE
             spinner_destination_account.visibility = View.GONE
         } else {

@@ -13,31 +13,12 @@ import javax.inject.Inject
 /**
  * Created by samila on 02/01/18.
  */
-class UserBusiness {
+class UserBusiness @Inject constructor(private var preferences: SharedPreferencesHelper, private val accountRepository: Repository<Account>, private val userRepository: Repository<User>, private val britacoin: BritaCoin, private val bitcoin: BTCoin) {
 
 
-    private val userRepository: Repository<User>
-    private val britacoin : BritaCoin
-    private val bitcoin: BTCoin
     private var brlAccount: Account
     private var britaAccount: Account
     private var bitCoinAccount: Account
-    private var preferences : SharedPreferencesHelper
-    private val accountRepository : Repository<Account>
-
-    @Inject
-    constructor(preferences : SharedPreferencesHelper, accountRepository: Repository<Account>, userRepository: Repository<User>, britacoin: BritaCoin, bitcoin: BTCoin) {
-        this.preferences = preferences
-        this.accountRepository = accountRepository
-        this.userRepository = userRepository
-        this.britacoin = britacoin
-        this.bitcoin = bitcoin
-
-        brlAccount = Account(0, 0, BRLCoin(), 0.0)
-        britaAccount = Account(0, 0, britacoin, 0.0)
-        bitCoinAccount = Account(0, 0, bitcoin, 0.0)
-
-    }
 
     fun createUser(name: String, email: String, phone: String, password: String, passwordConfirmation: String, listener: EventResponseListener<String>) {
 
@@ -45,7 +26,7 @@ class UserBusiness {
             listener.onError("Número já cadastrado")
             return
         }
-        if (password.equals(passwordConfirmation)) {
+        if (password == passwordConfirmation) {
             val user = User(0, name, phone, email, password)
             val userId = userRepository.create(user)
 
@@ -92,7 +73,7 @@ class UserBusiness {
     }
 
     fun login(phone: String, password: String): Boolean {
-        var user: User?
+        val user: User?
         if (!phone.isNullOrEmpty() && !password.isNullOrEmpty()) {
             user = userRepository.select(SearchFilter.getByArgument(DatabaseConstants.USER.TABLE_NAME, DatabaseConstants.USER.COLUMNS.PHONE, phone)).singleOrNull()
             if (user != null) {
@@ -144,6 +125,12 @@ class UserBusiness {
     fun updateUser ( user : User ) : Boolean {
         userRepository.update(user)
         return true
+    }
+
+    init {
+        brlAccount = Account(0, 0, BRLCoin(), 0.0)
+        britaAccount = Account(0, 0, britacoin, 0.0)
+        bitCoinAccount = Account(0, 0, bitcoin, 0.0)
     }
 
 }

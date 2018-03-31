@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.register.RegisterActivity" />
-        <activity android:name=".ui.transaction.TransactionActivity"></activity>
+        <activity android:name=".ui.transaction.TransactionActivity" />
     </application>
 
 </manifest>

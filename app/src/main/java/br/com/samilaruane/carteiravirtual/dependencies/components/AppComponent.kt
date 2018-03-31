@@ -2,17 +2,13 @@ package br.com.samilaruane.carteiravirtual.dependencies.components
 
 import br.com.samilaruane.carteiravirtual.App
 import br.com.samilaruane.carteiravirtual.dependencies.modules.AppModule
-import br.com.samilaruane.carteiravirtual.dependencies.modules.MainModule
 import br.com.samilaruane.carteiravirtual.domain.BTCoin
 import br.com.samilaruane.carteiravirtual.domain.BritaCoin
 import br.com.samilaruane.carteiravirtual.domain.Transaction
 import br.com.samilaruane.carteiravirtual.domain.entities.Account
-import br.com.samilaruane.carteiravirtual.domain.entities.BancoCentralResponse
-import br.com.samilaruane.carteiravirtual.domain.entities.MercadoBitcoinResponse
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.repository.db.Repository
-import br.com.samilaruane.carteiravirtual.repository.remote.Service
 import dagger.Component
 import javax.inject.Singleton
 
