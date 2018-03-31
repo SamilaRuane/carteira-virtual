@@ -5,6 +5,7 @@ import br.com.samilaruane.carteiravirtual.domain.UserBusiness
 import br.com.samilaruane.carteiravirtual.extension.generateToken
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
+import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import java.util.*
 import javax.inject.Inject
 
@@ -29,7 +30,17 @@ class RegisterPresenter : RegisterContract.Presenter, EventResponseListener<Stri
     }
 
     override fun create(name :  String, email : String, phone : String, password : String, passwordConfirmation : String) {
-        mUserBusiness.createUser(name, email, phone, password, passwordConfirmation, this)
+       if(name.isEmpty() ||
+                email.isEmpty() ||
+                phone.isEmpty() ||
+                password.isEmpty() ||
+                password.isEmpty()) mView.showError(BaseConstants.MESSAGES.EMPTY_FIELDS)
+        else {
+            mUserBusiness.createUser(
+                    name, email,
+                    phone, password,
+                    passwordConfirmation, this)
+        }
     }
 
     override fun sendMessage(phoneNumber: String, msg: String) {

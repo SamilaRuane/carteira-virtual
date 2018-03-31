@@ -59,11 +59,11 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
         }
 
         userProfile.setOnClickListener(this)
-        presenter.loadCoins()
-        layout_progress.visibility = View.VISIBLE
-    }
 
+    }
     override fun onResumeFragments() {
+        layout_progress.visibility = View.VISIBLE
+        presenter.loadCoins()
         presenter.loadAccounts(accountDetails)
         presenter.loadTransactions(accountsExtract)
         presenter.getUserInfo(userProfile)

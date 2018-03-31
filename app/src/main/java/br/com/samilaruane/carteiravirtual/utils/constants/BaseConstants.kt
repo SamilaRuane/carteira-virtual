@@ -24,5 +24,6 @@ class BaseConstants {
         val SUCCESS_ON_TASK = "Operação realizada com Sucesso"
         val PASSWORD_NOT_MATCH = "Senhas não conferem"
         val SUCCESS_ON_CREATE_USER = "Usuário cadastrado com Sucesso"
+        val EMPTY_FIELDS = "Preencha todos os campos"
     }
 }

@@ -69,7 +69,12 @@ UserInfoFragment.OnRegisterFinishedListener{
         val token = registerPresenter.generateToken()
         registerPresenter.sendMessage(phoneNumber, token)
         registerPresenter.saveTokenOnPreference(phoneNumber, token)
-        initFragment(CodeFragment())
+        alert(getString(R.string.send_code_message), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                initFragment(CodeFragment())
+            }
+        })
+
     }
 
     override fun onRegisterFinished(name: String, email: String, password: String, passwordConfirmation: String) {

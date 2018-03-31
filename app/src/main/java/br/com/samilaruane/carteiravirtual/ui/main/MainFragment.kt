@@ -40,21 +40,6 @@ class MainFragment : Fragment, OnDatabaseAccessListener<List<Account>> {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val preferences = SharedPreferencesHelper (activity)
-        if(preferences.getBitcoinQuotation().isNotEmpty() && preferences.getBritaQuotation().isNotEmpty()) {
-            txt_brita_salePrice.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
-            txt_brita_purchase_quot.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
-            txt_bitcoin_salePrice.text = JSONObject(preferences.getBitcoinQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
-            txt_bitcoin_purchase_quot.text = JSONObject(preferences.getBitcoinQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
-        }
-
-        val date = Calendar.getInstance()
-        today.text = date.formatter("dd")
-        this_month.text = date.formatter("MMM")
-        this_year.text = date.formatter("yyyy")
-        day_of_week.text = date.dayOfWeek()
-
     }
 
     override fun onResume() {
@@ -66,6 +51,20 @@ class MainFragment : Fragment, OnDatabaseAccessListener<List<Account>> {
             txt_bitcoin_coint_initials.text = accounts[1].getCoin().getCoinInitials()
             txt_brl_account_balance.text = accounts[2].getAccountBalance().roundTo(2).toString()
            // txt_brl_initials.text = accounts[2].getCoin().getCoinInitials()
+
+            val preferences = SharedPreferencesHelper (activity)
+            if(preferences.getBitcoinQuotation().isNotEmpty() && preferences.getBritaQuotation().isNotEmpty()) {
+                txt_brita_salePrice.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
+                txt_brita_purchase_quot.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
+                txt_bitcoin_salePrice.text = JSONObject(preferences.getBitcoinQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
+                txt_bitcoin_purchase_quot.text = JSONObject(preferences.getBitcoinQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
+            }
+
+            val date = Calendar.getInstance()
+            today.text = date.formatter("dd")
+            this_month.text = date.formatter("MMM")
+            this_year.text = date.formatter("yyyy")
+            day_of_week.text = date.dayOfWeek()
         }
     }
 

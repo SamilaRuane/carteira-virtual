@@ -12,12 +12,12 @@ import br.com.samilaruane.carteiravirtual.extension.inflate
 import br.com.samilaruane.carteiravirtual.ui.adapters.AccountExtractAdapter
 import br.com.samilaruane.carteiravirtual.utils.OnDatabaseAccessListener
 import kotlinx.android.synthetic.main.fragment_account_extract.*
+import kotlinx.android.synthetic.main.transaction_item.*
 
 
 /**
  * Created by samila on 20/12/17.
  */
-//TODO Adicionar filtro na tela de extrato
 
 class ExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>{
 
@@ -45,6 +45,13 @@ class ExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>
         val adapter = AccountExtractAdapter(activity, transactions)
         recycler_account_extract?.adapter = adapter
         recycler_account_extract?.layoutManager = LinearLayoutManager(activity)
+        if(transactions.isNotEmpty() || transactions != null){
+            recycler_account_extract.visibility = View.VISIBLE
+            transaction_empty_view.visibility = View.GONE
+        }else{
+            recycler_account_extract.visibility = View.GONE
+            txt_transaction.visibility = View.VISIBLE
+        }
     }
 
     override fun onSelectSuccess(obj: List<Transaction>) {

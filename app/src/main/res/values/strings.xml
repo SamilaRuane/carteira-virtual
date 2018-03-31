@@ -36,6 +36,7 @@
     <string name="recovery_password_ask_new_pass"> Digite a nova senha </string>
     <string name="edit_profile_success_message"> Alterações salvas com sucesso </string>
     <string name="edit_profile_error_message"> Erro ao salvar as alterações do usuário </string>
+    <string name="send_code_message"> Uma mensagem está sendo enviada para o número informado. Isso pode levar alguns instantes.</string>
 
     <string-array name = "transactiontypes">
         <item>VENDA</item>

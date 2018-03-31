@@ -1,15 +1,11 @@
 package br.com.samilaruane.carteiravirtual.domain
 
 import br.com.samilaruane.carteiravirtual.domain.entities.Account
-import br.com.samilaruane.carteiravirtual.domain.entities.BancoCentralResponse
-import br.com.samilaruane.carteiravirtual.domain.entities.MercadoBitcoinResponse
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.repository.db.Repository
 import br.com.samilaruane.carteiravirtual.repository.db.SearchFilter
-import br.com.samilaruane.carteiravirtual.repository.remote.BitcoinService
-import br.com.samilaruane.carteiravirtual.repository.remote.Service
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 import javax.inject.Inject
@@ -131,9 +127,8 @@ class UserBusiness {
             if(user != null){
                 preferences.saveUserId(user)
                 return true
-            }
-        }
-            return false
+            } else return false
+        } else return false
     }
 
     fun changeUserPassword (newPass : String) : Boolean{
