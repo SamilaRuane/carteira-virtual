@@ -28,7 +28,7 @@ class BTCoin : Coin, EventResponseListener<MercadoBitcoinResponse> {
 
 
     override fun loadCoin(listener: EventResponseListener<String>) {
-        service.getCoinQuotation(this)
+        service.getCoinQuotation(this, "")
         mListener = listener
     }
 

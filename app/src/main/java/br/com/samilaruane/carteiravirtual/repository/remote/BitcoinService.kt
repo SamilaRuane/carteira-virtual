@@ -11,7 +11,7 @@ import retrofit2.Response
  * Created by samila on 25/03/18.
  */
 class BitcoinService : Service <MercadoBitcoinResponse> {
-    override fun getCoinQuotation(listener: EventResponseListener<MercadoBitcoinResponse>) {
+    override fun getCoinQuotation(listener: EventResponseListener<MercadoBitcoinResponse>, date : String) {
         val service = RetrofitInitializer()?.getMercadoBitcoinService()?.get()
         service?.enqueue(object : Callback<MercadoBitcoinResponse> {
             override fun onResponse(call: Call<MercadoBitcoinResponse>?, response: Response<MercadoBitcoinResponse>?) {
