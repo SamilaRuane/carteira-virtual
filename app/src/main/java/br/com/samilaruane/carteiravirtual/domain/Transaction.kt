@@ -12,7 +12,8 @@ data class Transaction(val date: Long,
                        val transactionType: String,
                        val amount: Double,
                        val sourceCoin: String,
-                       val destinationCoin: String) {
+                       val destinationCoin: String,
+                       val userId : Long) {
 
 
     override fun toString(): String {

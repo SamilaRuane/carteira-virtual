@@ -135,14 +135,15 @@ class TransactionBusiness : EventResponseListener<String> {
                 type,
                 amount,
                 sourceAccount.getCoin().getCoinInitials(),
-                destinationAccount.getCoin().getCoinInitials())
+                destinationAccount.getCoin().getCoinInitials(),
+                userBusiness.getCurrentUser().id)
 
         transactionRepository.create(transaction)
     }
 
     fun getTransactions(): List <Transaction> = transactionRepository
             .select(SearchFilter
-            .getAll(DatabaseConstants.TRANSACTION.TABLE_NAME))
+            .getById(DatabaseConstants.TRANSACTION.TABLE_NAME, DatabaseConstants.TRANSACTION.COLUMNS.USER_ID, userBusiness.getCurrentUser().id.toString()))
 
     override fun onSuccess(obj: String) = listener.onSuccess(obj)
 
