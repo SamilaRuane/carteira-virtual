@@ -19,7 +19,7 @@ class BTCoin @Inject constructor(val service: Service<MercadoBitcoinResponse>, v
 
 
     override fun loadCoin(listener: EventResponseListener<String>) {
-        service.getCoinQuotation(this)
+        service.getCoinQuotation(this, "")
         mListener = listener
     }
 

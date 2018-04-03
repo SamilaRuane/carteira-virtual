@@ -141,23 +141,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/holo_green_dark"
-
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="0dp">
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_transaction_white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -184,15 +169,10 @@
                         style="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
                         android:text="preço de compra"
+                        android:layout_marginEnd="16dp"
                         android:textColor="@color/baseColor"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toTopOf="@+id/txt_brita_purchase_quot"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/txt_brita_purchase_quot" />
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/txt_brita_salePrice"
@@ -215,17 +195,10 @@
                         style="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:text="preço de venda"
+                        android:layout_marginEnd="16dp"
                         android:textColor="@color/baseColor"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/txt_brita_purchase_quot"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_brita_purchase_quot" />
+                        android:textSize="14sp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -321,17 +294,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/txt_bitcoin_coint_initials" />
 
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="32dp"
-                    android:src="@drawable/ic_transaction_white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

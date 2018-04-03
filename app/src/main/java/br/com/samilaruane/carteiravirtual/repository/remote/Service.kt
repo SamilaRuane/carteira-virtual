@@ -7,4 +7,6 @@ import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
  */
 interface Service<out T> {
     fun getCoinQuotation(listener : EventResponseListener<T>)
+interface Service<T> {
+    fun getCoinQuotation(listener : EventResponseListener<T>, date:String)
 }

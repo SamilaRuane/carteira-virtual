@@ -33,10 +33,11 @@ class DatabaseConstants {
         object COLUMNS {
             val TYPE = "type"
             val ID = "id"
-            val SOURCE_ACCOUNT = "source_account_id"
-            val DESTINATION_ACCOUNT = "destination_account_id"
+            val SOURCE_ACCOUNT = "source_account"
+            val DESTINATION_ACCOUNT = "destination_account"
             val DATE = "date"
             val AMOUNT = "amount"
+            val USER_ID = "user_id"
         }
     }
 

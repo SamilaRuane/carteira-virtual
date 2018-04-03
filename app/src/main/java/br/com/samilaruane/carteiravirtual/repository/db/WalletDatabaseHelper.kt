@@ -37,6 +37,7 @@ class WalletDatabaseHelper (context: Context?) : SQLiteOpenHelper (context, DATA
     private val createTableTransaction = """
                         CREATE TABLE ${DatabaseConstants.TRANSACTION.TABLE_NAME} (
                         ${DatabaseConstants.TRANSACTION.COLUMNS.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
+                        ${DatabaseConstants.TRANSACTION.COLUMNS.USER_ID} INTEGER,
                         ${DatabaseConstants.TRANSACTION.COLUMNS.TYPE} TEXT,
                         ${DatabaseConstants.TRANSACTION.COLUMNS.DATE} INTEGER,
                         ${DatabaseConstants.TRANSACTION.COLUMNS.AMOUNT} INTEGER,

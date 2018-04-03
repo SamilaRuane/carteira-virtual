@@ -22,7 +22,7 @@
     <string name="btn_login">Logar</string>
     <string name="permissions_alert">A permissão deve ser concedida para que o app funcione</string>
     <string name="create_user_error_alert">Erro ao cadastrar usuário</string>
-    <string name="service_error_alert">Caro cliente, no momento não foi possível recuperar as informações. Tente Novamente em instantes</string>
+    <string name="service_error_alert">Caro cliente, no momento não foi possível atualizar as informações. Tente Novamente em instantes</string>
     <string name="coin_hint">Escolha uma moeda </string>
     <string name="success_on_transaction"> Operação realizada com sucesso</string>
     <string name="success_on_registration"> Cadastro realizado com sucesso </string>

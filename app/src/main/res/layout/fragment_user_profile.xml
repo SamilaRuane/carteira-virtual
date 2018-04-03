@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <Button
+                        <TextView
                             android:id="@+id/profile_edit_button"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/button_height"
@@ -119,13 +119,14 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="32dp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_card_button"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:gravity="center"
+                            style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Editar"
-                            android:textColor="@color/baseColor" />
+                            android:text="Editar" />
 
-                        <Button
+                        <TextView
                             android:id="@+id/profile_exit_button"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/button_height"
@@ -133,11 +134,12 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="32dp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_card_button"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:gravity="center"
+                            style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Sair"
-                            android:textColor="@color/baseColor" />
+                            android:text="Sair" />
 
                     </LinearLayout>
 
@@ -163,6 +165,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -184,7 +187,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
+                        android:layout_margin="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -207,7 +210,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
+                        android:layout_margin="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -230,7 +233,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
+                        android:layout_margin="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -253,38 +256,37 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
                         android:orientation="horizontal">
 
-                        <Button
+                        <TextView
                             android:id="@+id/user_profile_save_button"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="@dimen/button_height"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/background_card_button"
+                            android:layout_marginTop="32dp"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:gravity="center"
+                            style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Salvar"
-                            android:textColor="@color/baseColor" />
+                            android:text="Salvar" />
 
-                        <Button
+                        <TextView
                             android:id="@+id/user_profile_back_button"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/button_height"
-                            android:layout_weight="1"
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/background_card_button"
+                            android:layout_marginTop="32dp"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/holo_blue_dark"
+                            android:gravity="center"
+                            style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Voltar"
-                            android:textColor="@color/baseColor" />
+                            android:text="Voltar" />
 
                     </LinearLayout>
                 </LinearLayout>
