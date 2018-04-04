@@ -15,22 +15,12 @@ import javax.inject.Singleton
  * Created by samila on 18/12/17.
  */
 @Singleton
-class BritaCoin @Inject constructor(val service: Service<BancoCentralResponse>, val preferences: SharedPreferencesHelper) : Coin, EventResponseListener<BancoCentralResponse> {
+class BritaCoin @Inject constructor(private val service: Service<BancoCentralResponse>, private val preferences: SharedPreferencesHelper) : Coin, EventResponseListener<BancoCentralResponse> {
 
     private lateinit var mListener : EventResponseListener<String>
-    private lateinit var mCalendar : Calendar
-
-    val service : Service<BancoCentralResponse>
-    val preferences : SharedPreferencesHelper
+    private val mCalendar : Calendar = Calendar.getInstance()
 
 
-
-    @Inject
-    constructor(service: Service<BancoCentralResponse>, preferences : SharedPreferencesHelper) {
-        this.service = service
-        this.preferences = preferences
-        mCalendar = Calendar.getInstance()
-    }
 
 
     override fun loadCoin(listener: EventResponseListener<String>) {

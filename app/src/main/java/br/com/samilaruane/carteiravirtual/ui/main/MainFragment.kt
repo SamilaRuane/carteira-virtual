@@ -51,7 +51,7 @@ class MainFragment : Fragment(), OnDatabaseAccessListener<List<Account>> {
             txt_brl_account_balance.text = accounts[2].getAccountBalance().roundTo(2).toString()
            // txt_brl_initials.text = accounts[2].getCoin().getCoinInitials()
 
-            val preferences = SharedPreferencesHelper (activity)
+            val preferences = SharedPreferencesHelper (this?.activity)
             if(preferences.getBitcoinQuotation().isNotEmpty() && preferences.getBritaQuotation().isNotEmpty()) {
                 txt_brita_salePrice.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
                 txt_brita_purchase_quot.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
