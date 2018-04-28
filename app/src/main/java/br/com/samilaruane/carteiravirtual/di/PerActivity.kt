@@ -1,4 +1,4 @@
-package br.com.samilaruane.carteiravirtual.dependencies
+package br.com.samilaruane.carteiravirtual.di
 
 import javax.inject.Qualifier
 import javax.inject.Scope

@@ -1,7 +1,7 @@
-package br.com.samilaruane.carteiravirtual.dependencies.components
+package br.com.samilaruane.carteiravirtual.di.components
 
-import br.com.samilaruane.carteiravirtual.dependencies.PerActivity
-import br.com.samilaruane.carteiravirtual.dependencies.modules.MainModule
+import br.com.samilaruane.carteiravirtual.di.PerActivity
+import br.com.samilaruane.carteiravirtual.di.modules.MainModule
 import br.com.samilaruane.carteiravirtual.ui.main.MainActivity
 import dagger.Component
 
