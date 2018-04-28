@@ -1,4 +1,4 @@
-package br.com.samilaruane.carteiravirtual.domain
+package br.com.samilaruane.carteiravirtual.domain.entities
 
 import br.com.samilaruane.carteiravirtual.extension.formatter
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
