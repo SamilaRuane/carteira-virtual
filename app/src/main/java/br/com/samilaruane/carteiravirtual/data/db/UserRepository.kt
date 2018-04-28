@@ -1,4 +1,4 @@
-package br.com.samilaruane.carteiravirtual.repository.db
+package br.com.samilaruane.carteiravirtual.data.db
 
 import android.content.ContentValues
 import br.com.samilaruane.carteiravirtual.domain.entities.User

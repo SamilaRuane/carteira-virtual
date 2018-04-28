@@ -1,11 +1,11 @@
-package br.com.samilaruane.carteiravirtual.repository.remote
+package br.com.samilaruane.carteiravirtual.data.remote
 
 import br.com.samilaruane.carteiravirtual.BuildConfig
 import br.com.samilaruane.carteiravirtual.utils.constants.EndpointConstants
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 /**

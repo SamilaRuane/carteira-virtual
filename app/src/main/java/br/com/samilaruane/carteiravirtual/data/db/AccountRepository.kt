@@ -1,12 +1,8 @@
-package br.com.samilaruane.carteiravirtual.repository.db
+package br.com.samilaruane.carteiravirtual.data.db
 
 import android.content.ContentValues
-import br.com.samilaruane.carteiravirtual.domain.BRLCoin
-import br.com.samilaruane.carteiravirtual.domain.BTCoin
-import br.com.samilaruane.carteiravirtual.domain.BritaCoin
-import br.com.samilaruane.carteiravirtual.domain.Coin
 import br.com.samilaruane.carteiravirtual.domain.entities.Account
-import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
+import br.com.samilaruane.carteiravirtual.domain.entities.Coin
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,14 +11,14 @@ import javax.inject.Singleton
  * Created by samila on 07/01/18.
  */
 @Singleton
-class AccountRepository @Inject constructor(val mWalletDatabaseHelper: WalletDatabaseHelper, val britacoin: BritaCoin, val bitcoin: BTCoin) : Repository<Account>{
+class AccountRepository @Inject constructor(val mWalletDatabaseHelper: WalletDatabaseHelper) : Repository<Account>{
 
     override fun create(item: Account): Long {
         val db = mWalletDatabaseHelper.writableDatabase
         val insertValues = ContentValues()
         insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.USER_ID, item.getUserId())
         insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.BALANCE, item.getAccountBalance())
-        insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.COIN_INITIALS, item.getCoin().getCoinInitials())
+        insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.COIN_INITIALS, item.getCoin().name)
 
         return db.insert(DatabaseConstants.ACCOUNT.TABLE_NAME, null, insertValues)
     }
@@ -36,7 +32,7 @@ class AccountRepository @Inject constructor(val mWalletDatabaseHelper: WalletDat
         val insertValues = ContentValues()
         insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.USER_ID, item.getUserId())
         insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.BALANCE, item.getAccountBalance())
-        insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.COIN_INITIALS, item.getCoin().getCoinInitials())
+        insertValues.put(DatabaseConstants.ACCOUNT.COLUMNS.COIN_INITIALS, item.getCoin().name)
 
         db.update(DatabaseConstants.ACCOUNT.TABLE_NAME,  insertValues, "id=${item.getId()}", null)
     }
@@ -55,12 +51,7 @@ class AccountRepository @Inject constructor(val mWalletDatabaseHelper: WalletDat
             val balance = cursor.getDouble(cursor.getColumnIndex(DatabaseConstants.ACCOUNT.COLUMNS.BALANCE))
             val coin = cursor.getString(cursor.getColumnIndex(DatabaseConstants.ACCOUNT.COLUMNS.COIN_INITIALS))
 
-            var coinReference : Coin = BRLCoin ()
-
-            when (coin){
-                BaseConstants.BITCOIN_ACCOUNT -> {coinReference = bitcoin}
-                BaseConstants.BRITA_ACCOUNT-> {coinReference = britacoin}
-            }
+            var coinReference = Coin (coin, 1.0, 1.0)
 
             val item = Account(id, userId, coinReference, balance)
 

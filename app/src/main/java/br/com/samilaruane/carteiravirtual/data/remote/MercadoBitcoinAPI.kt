@@ -1,6 +1,6 @@
-package br.com.samilaruane.carteiravirtual.repository.remote
+package br.com.samilaruane.carteiravirtual.data.remote
 
-import br.com.samilaruane.carteiravirtual.domain.entities.MercadoBitcoinResponse
+import br.com.samilaruane.carteiravirtual.data.model.MercadoBitcoinResponse
 import retrofit2.Call
 import retrofit2.http.GET
 

@@ -1,4 +1,4 @@
-package br.com.samilaruane.carteiravirtual.repository.db
+package br.com.samilaruane.carteiravirtual.data.db
 
 /**
  * Created by samila on 14/03/18.

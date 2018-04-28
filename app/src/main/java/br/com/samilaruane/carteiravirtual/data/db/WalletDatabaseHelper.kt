@@ -1,4 +1,4 @@
-package br.com.samilaruane.carteiravirtual.repository.db
+package br.com.samilaruane.carteiravirtual.data.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -46,11 +46,20 @@ class WalletDatabaseHelper (context: Context?) : SQLiteOpenHelper (context, DATA
                         );
 """
 
+    /*private val createTableCoin = """
+                        CREATE TABLE ${DatabaseConstants.COIN.TABLE_NAME} (
+                        ${DatabaseConstants.COIN.COLUMNS.NAME} INTEGER PRIMARY KEY,
+                        ${DatabaseConstants.COIN.COLUMNS.PURCHASE} INTEGER,
+                        ${DatabaseConstants.COIN.COLUMNS.SALE} TEXT
+                        );
+"""*/
+
     override fun onCreate(db: SQLiteDatabase?) {
         db?.let {
             it.execSQL(createTableUser)
             it.execSQL(createTableAccount)
             it.execSQL(createTableTransaction)
+//          it.execSQL(createTableCoin)
         }
     }
 

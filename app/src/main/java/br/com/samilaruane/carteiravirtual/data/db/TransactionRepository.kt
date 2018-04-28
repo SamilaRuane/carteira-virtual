@@ -1,7 +1,7 @@
-package br.com.samilaruane.carteiravirtual.repository.db
+package br.com.samilaruane.carteiravirtual.data.db
 
 import android.content.ContentValues
-import br.com.samilaruane.carteiravirtual.domain.Transaction
+import br.com.samilaruane.carteiravirtual.domain.entities.Transaction
 import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 import javax.inject.Inject
 import javax.inject.Singleton
