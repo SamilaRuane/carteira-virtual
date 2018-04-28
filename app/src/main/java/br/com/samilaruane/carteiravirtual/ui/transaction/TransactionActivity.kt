@@ -1,15 +1,15 @@
 package br.com.samilaruane.carteiravirtual.ui.transaction
 
 import android.content.DialogInterface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerTransactionComponent
-import br.com.samilaruane.carteiravirtual.dependencies.modules.TransactionModule
+import br.com.samilaruane.carteiravirtual.di.components.DaggerTransactionComponent
+import br.com.samilaruane.carteiravirtual.di.modules.TransactionModule
 import br.com.samilaruane.carteiravirtual.extension.alert
 import br.com.samilaruane.carteiravirtual.extension.component
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
@@ -33,7 +33,7 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
     }
 
     /* Transaction Contract */
-    override fun showError(error: String) {
+    override fun onError(error: String) {
         layout_progress.visibility = View.GONE
         alert( error, null )
     }

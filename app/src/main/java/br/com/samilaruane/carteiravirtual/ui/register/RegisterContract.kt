@@ -1,5 +1,6 @@
 package br.com.samilaruane.carteiravirtual.ui.register
 
+import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.ui.base.BasePresenter
 import br.com.samilaruane.carteiravirtual.ui.base.BaseView
 
@@ -13,9 +14,13 @@ interface RegisterContract {
 
     interface Presenter : BasePresenter<View> {
         fun create (name :  String, email : String, phone : String, password : String, passwordConfirmation : String)
-        fun sendMessage (phoneNumber : String, msg : String)
-        fun generateToken() : String
-        fun saveTokenOnPreference (phoneNumber: String, token : String)
+        fun sendMessage (phoneNumber : String)
+        fun verifyToken (token : String) : Boolean
+    }
+
+    interface Interactor {
+        fun create (user : User) : Boolean
+        fun sendToken (phoneNumber : String)
         fun getToken () : String
     }
 

@@ -1,28 +1,26 @@
 package br.com.samilaruane.carteiravirtual.ui.login
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerLoginComponent
-import br.com.samilaruane.carteiravirtual.dependencies.modules.LoginModule
+import br.com.samilaruane.carteiravirtual.data.SharedPreferencesHelper
+import br.com.samilaruane.carteiravirtual.di.components.DaggerLoginComponent
+import br.com.samilaruane.carteiravirtual.di.modules.LoginModule
 import br.com.samilaruane.carteiravirtual.extension.alert
 import br.com.samilaruane.carteiravirtual.extension.component
-import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.ui.base.BaseActivity
 import br.com.samilaruane.carteiravirtual.ui.main.MainActivity
+import br.com.samilaruane.carteiravirtual.ui.recoverypassw.RecoveryPasswordActivity
 import br.com.samilaruane.carteiravirtual.ui.register.RegisterActivity
 import br.com.samilaruane.carteiravirtual.utils.PermissionManager
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
 import com.github.rtoshiro.util.format.text.MaskTextWatcher
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.dialog_recovery_password.view.*
 import kotlinx.android.synthetic.main.layout_progress.*
 import javax.inject.Inject
 
@@ -72,7 +70,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     }
 
     /* MainContract.View */
-    override fun showError(error: String) {
+    override fun onError(error: String) {
         alert(error, null)
     }
 
@@ -110,46 +108,7 @@ class LoginActivity : BaseActivity(), LoginContract.View {
         }
 
         txt_recovery_password.setOnClickListener {
-           recoveryPassword()
-        }
-
-    }
-
-    private fun recoveryPassword (){
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_recovery_password, null, false)
-        val dialog = AlertDialog.Builder(this).setView(view).setCancelable(true).show()
-
-        val phoneNumberMask = SimpleMaskFormatter("+NN (NN) NNNNN-NNNN")
-        val phoneNumberWatcher = MaskTextWatcher(view.recovery_password_phonenumber, phoneNumberMask)
-        view.recovery_password_phonenumber?.addTextChangedListener(phoneNumberWatcher)
-        view.recovery_password_description.text = getString(R.string.recovery_password_ask_phone_number)
-
-        view.recovery_password_btn_go_to_code.setOnClickListener {
-            if(loginPresenter.sendRecoveryCode(view.recovery_password_phonenumber.text.toString(), getString(R.string.recovery_password_message))){
-                view.recovery_password_phonenumber.visibility = View.GONE
-                view.recovery_password_code.visibility = View.VISIBLE
-                view.recovery_password_btn_go_to_code.visibility = View.GONE
-                view.recovery_password_btn_next.visibility = View.VISIBLE
-                view.recovery_password_description.text = getString(R.string.recovery_password_description)
-            }
-        }
-
-        view.recovery_password_btn_next.setOnClickListener {
-            if(loginPresenter.ckeckRecoveryCode(view.recovery_password_code.text.toString())){
-                view.recovery_password_code.visibility = View.GONE
-                view.recovery_password_btn_next.visibility = View.GONE
-                view.recovery_password_btn_finish.visibility = View.VISIBLE
-                view.recovery_password_new_password.visibility = View.VISIBLE
-                view.recovery_password_description.text = getString(R.string.recovery_password_ask_new_pass)
-            }
-        }
-
-        view.recovery_password_btn_finish.setOnClickListener {
-            if(loginPresenter.changePassword(view.recovery_password_new_password.text.toString())){
-                alert(getString(R.string.recovery_password_success_message), null)
-            }else showError(getString(R.string.recovery_password_error_on_change_pass))
-
-                dialog.dismiss()
+           navigateTo(RecoveryPasswordActivity :: class.java)
         }
 
     }

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.view.View
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerMainComponent
-import br.com.samilaruane.carteiravirtual.dependencies.modules.MainModule
+import br.com.samilaruane.carteiravirtual.di.components.DaggerMainComponent
+import br.com.samilaruane.carteiravirtual.di.modules.MainModule
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.extension.alert
 import br.com.samilaruane.carteiravirtual.extension.component
@@ -23,9 +23,9 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
     @Inject
     lateinit var presenter: MainContract.Presenter
 
-    val accountsExtract = ExtractFragment()
-    val accountDetails = MainFragment()
-    val userProfile = UserProfileFragment()
+    private val accountsExtract = ExtractFragment()
+    private val accountDetails = MainFragment()
+    private val userProfile = UserProfileFragment()
 
     /* Activity Lifecycle */
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +70,7 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
         super.onResumeFragments()
     }
 
-    override fun showError(error: String) {
+    override fun onError(error: String) {
       alert(error, null)
     }
 
@@ -87,7 +87,7 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
         if(presenter.updateProfile(user))
             alert( getString(R.string.edit_profile_success_message), null )
         else
-            showError(getString(R.string.edit_profile_error_message))
+            onError(getString(R.string.edit_profile_error_message))
     }
 
     override fun onSuccess(msg: String) {

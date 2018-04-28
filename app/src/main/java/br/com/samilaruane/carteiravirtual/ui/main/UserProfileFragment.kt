@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.data.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.extension.alert
-import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_user_profile.*
  */
 class UserProfileFragment : Fragment(), EventResponseListener<User> {
 
-    private var user : User = User (0, "", "", "", "")
+    private var user : User = User(0, "", "", "", "")
     private lateinit var mListener : UserProfileListener
 
     /* Fragment Lifecycle */

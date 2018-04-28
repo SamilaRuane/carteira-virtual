@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.domain.Transaction
+import br.com.samilaruane.carteiravirtual.domain.entities.Transaction
 import br.com.samilaruane.carteiravirtual.extension.inflate
 import kotlinx.android.synthetic.main.transaction_item.view.*
 

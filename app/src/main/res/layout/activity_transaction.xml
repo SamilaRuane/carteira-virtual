@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:fillViewport="true">
 
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
@@ -12,7 +13,7 @@
     android:background="@drawable/degr_background"
     tools:activity="br.com.samilaruane.carteiravirtual.ui.transaction.TransactionActivity"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -121,9 +122,7 @@
 
     </LinearLayout>
 
-
     <include layout="@layout/layout_progress" />
-
 
 </android.support.constraint.ConstraintLayout>
 

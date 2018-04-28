@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.domain.Transaction
+import br.com.samilaruane.carteiravirtual.domain.entities.Transaction
 import br.com.samilaruane.carteiravirtual.extension.inflate
 import br.com.samilaruane.carteiravirtual.ui.adapters.AccountExtractAdapter
-import br.com.samilaruane.carteiravirtual.utils.OnDatabaseAccessListener
+import br.com.samilaruane.carteiravirtual.utils.DataCallback
 import kotlinx.android.synthetic.main.fragment_account_extract.*
 import kotlinx.android.synthetic.main.transaction_item.*
 
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.transaction_item.*
  * Created by samila on 20/12/17.
  */
 
-class ExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>{
+class ExtractFragment : Fragment (), DataCallback<List<Transaction>>{
 
     lateinit var transactions : List<Transaction>
     lateinit var presenter : MainContract.Presenter
@@ -51,10 +51,11 @@ class ExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>
         }else{
             recycler_account_extract.visibility = View.GONE
             txt_transaction.visibility = View.VISIBLE
+            transaction_empty_view.visibility = View.VISIBLE
         }
     }
 
-    override fun onSelectSuccess(obj: List<Transaction>) {
+    override fun onSuccess(obj: List<Transaction>) {
         transactions = obj
     }
 }
