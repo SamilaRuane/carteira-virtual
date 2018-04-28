@@ -6,38 +6,50 @@ package br.com.samilaruane.carteiravirtual.utils.constants
 class DatabaseConstants {
 
     object USER {
-        val TABLE_NAME = "user"
+        const val TABLE_NAME = "user"
+
         object COLUMNS {
-            val ID = "id"
-            val NAME = "name"
-            val PHONE = "phone"
-            val PASSWORD = "password"
-            val EMAIL = "email"
+            const val ID = "id"
+            const val NAME = "name"
+            const val PHONE = "phone"
+            const val PASSWORD = "password"
+            const val EMAIL = "email"
 
         }
     }
 
-
     object ACCOUNT {
-        val TABLE_NAME = "account"
+        const val TABLE_NAME = "account"
+
         object COLUMNS {
-            val ID = "id"
-            val BALANCE = "balance"
-            val USER_ID = "user_id"
-            val COIN_INITIALS = "coin_initials"
+            const val ID = "id"
+            const val BALANCE = "balance"
+            const val USER_ID = "user_id"
+            const val COIN_INITIALS = "coin_initials"
         }
     }
 
     object TRANSACTION {
-        val TABLE_NAME = "transaction_"
+        const val TABLE_NAME = "transaction_"
+
         object COLUMNS {
-            val TYPE = "type"
-            val ID = "id"
-            val SOURCE_ACCOUNT = "source_account"
-            val DESTINATION_ACCOUNT = "destination_account"
-            val DATE = "date"
-            val AMOUNT = "amount"
-            val USER_ID = "user_id"
+            const val TYPE = "type"
+            const val ID = "id"
+            const val SOURCE_ACCOUNT = "source_account"
+            const val DESTINATION_ACCOUNT = "destination_account"
+            const val DATE = "date"
+            const val AMOUNT = "amount"
+            const val USER_ID = "user_id"
+        }
+    }
+
+    object COIN {
+        const val TABLE_NAME = "coin"
+
+        object COLUMNS {
+            const val NAME = "name"
+            const val PURCHASE = "purchase_quotation"
+            const val SALE = "sale_price"
         }
     }
 

@@ -1,9 +1,9 @@
 package br.com.samilaruane.carteiravirtual
 
 import android.app.Application
-import br.com.samilaruane.carteiravirtual.dependencies.components.AppComponent
-import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerAppComponent
-import br.com.samilaruane.carteiravirtual.dependencies.modules.AppModule
+import br.com.samilaruane.carteiravirtual.di.components.AppComponent
+import br.com.samilaruane.carteiravirtual.di.components.DaggerAppComponent
+import br.com.samilaruane.carteiravirtual.di.modules.AppModule
 
 /**
  * Created by samila on 21/03/18.

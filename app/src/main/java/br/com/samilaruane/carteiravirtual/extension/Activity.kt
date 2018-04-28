@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import br.com.samilaruane.carteiravirtual.App
-import br.com.samilaruane.carteiravirtual.dependencies.components.AppComponent
+import br.com.samilaruane.carteiravirtual.di.components.AppComponent
 
 /**
  * Created by samila on 24/03/18.
