@@ -1,11 +1,12 @@
-package br.com.samilaruane.carteiravirtual.domain
+package br.com.samilaruane.carteiravirtual.domain.entities
 
-import br.com.samilaruane.carteiravirtual.domain.entities.Account
 import br.com.samilaruane.carteiravirtual.domain.exceptions.InsufficientBalanceException
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
 import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.assertThat
+import org.junit.Before
 import org.junit.Test
 
 
@@ -15,10 +16,16 @@ import org.junit.Test
 
 
 class AccountTest {
+
+    private lateinit var aCoin: Coin
+
+    @Before
+    fun config (){
+        aCoin = Coin(BaseConstants.BRL_ACCOUNT, 1.0, 1.0)
+    }
     @Test (expected = InsufficientBalanceException :: class)
     fun shouldNotWithdrawnAnAmountGraterThanAccountBalance () {
         //cenário
-        val aCoin = BRLCoin()
         val target = Account(0, 0, aCoin, 0.0)
 
         //ação
@@ -29,7 +36,6 @@ class AccountTest {
     @Test
     fun shouldDepositAmountInTheAccount () {
         //cenário
-        val aCoin = BRLCoin()
         val target = Account(0, 0, aCoin, 0.0)
 
         //ação
@@ -42,7 +48,6 @@ class AccountTest {
     @Test
     fun shouldNotAcceptNegativeInputsOnDeposit (){
         //cenário
-        val aCoin = BRLCoin()
         val target = Account(0, 0, aCoin, 0.0)
 
         //ação
@@ -55,7 +60,6 @@ class AccountTest {
     @Test
     fun shouldNotAcceptNegativeInputsOnWithdraw (){
         //cenário
-        val aCoin = BRLCoin()
         val target = Account(0, 0, aCoin, 0.0)
 
         //ação
@@ -69,11 +73,10 @@ class AccountTest {
     fun shouldReturnCoinInitials () {
 
         //cenário
-        val aCoin = BRLCoin()
         val target = Account(0, 0, aCoin, 0.0)
 
         //ação
-        val initials = target.getCoin().getCoinInitials()
+        val initials = target.getCoin().name
 
         //Verificação
 
