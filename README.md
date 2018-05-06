@@ -19,7 +19,7 @@ O aplicativo usa o Retrofit para gerenciar requisições para a API do [Banco Ce
 7. Cadastre-se e use as informações cadastradas para fazer o login;
 8. Digite o número do telefone e a senha cadastrados e clique em Login;
 9. Se as informações fornecidas forem as mesmas cadastradas você será redirecionado para a Tela principal a qual contém as informações de saldo de todas as contas do usuário, além de apresentar a cotação de compra e venda de cada criptomoeda;
-10. Ao arrastar a tela para o lado ou clicar em algum dos ícones na barra inferior da tela, você será redirecionado para o extrato das transações ou para as informações do perfil do usuário de acordo com a opção escolhida;
+10. Ao arrastar a tela para o lado ou clicar em algum dos ícones na barra superior da tela, você será redirecionado para o extrato das transações ou para as informações do perfil do usuário de acordo com a opção escolhida;
 11. No extrato é possível visualizar a data e as transações realizadas, podendo ser venda ou compra de alguma das criptomoedas ou troca entre elas;
 12. No perfil do usuário, é possível visualizar e editar as informações do usuário;
 
