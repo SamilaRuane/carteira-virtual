@@ -63,7 +63,7 @@ class UserBusinessTest {
     }
 
     @Test
-    fun shouldNotEditAnUserWithBlanckEmail () {
+    fun shouldNotEditAnUserWithBlankEmail () {
 
         //cenario
         val anUser = User(0, "Usuário de Teste", "+55(78)99134-5678", "", "123456")

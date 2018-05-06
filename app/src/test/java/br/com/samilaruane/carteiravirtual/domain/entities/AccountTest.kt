@@ -21,7 +21,7 @@ class AccountTest {
 
     @Before
     fun config (){
-        aCoin = Coin(BaseConstants.BRL_ACCOUNT, 1.0, 1.0)
+        aCoin = Coin(BaseConstants.BRL, 1.0, 1.0)
     }
     @Test (expected = InsufficientBalanceException :: class)
     fun shouldNotWithdrawnAnAmountGraterThanAccountBalance () {
@@ -80,7 +80,7 @@ class AccountTest {
 
         //Verificação
 
-        assertThat(initials, `is`(BaseConstants.BRL_ACCOUNT))
+        assertThat(initials, `is`(BaseConstants.BRL))
     }
 
 }
