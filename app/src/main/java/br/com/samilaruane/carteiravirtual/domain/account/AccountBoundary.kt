@@ -6,7 +6,7 @@ import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 
 interface AccountBoundary {
     fun createAccountsTo(id : Long) : Boolean
-    fun edit (account: Account)
+    fun edit (account: Account) : Boolean
     fun getFrom (userId : Long) : List<Account>
     fun callServices (listener : EventResponseListener<String>)
     fun getQuotation(coinName : String): Coin

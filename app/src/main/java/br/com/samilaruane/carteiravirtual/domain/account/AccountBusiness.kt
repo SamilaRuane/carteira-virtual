@@ -18,43 +18,41 @@ import javax.inject.Inject
 
 class AccountBusiness @Inject constructor(val gateway: AccountGateway) : AccountBoundary, ServiceListener.Bitcoin, ServiceListener.Brita {
 
-    private val brita = Coin(BaseConstants.BRITA_ACCOUNT, 1.0, 1.0)
-    private val bitcoin = Coin(BaseConstants.BITCOIN_ACCOUNT, 1.0, 1.0)
+    private val brita = Coin(BaseConstants.BRITA, 1.0, 1.0)
+    private val bitcoin = Coin(BaseConstants.BITCOIN, 1.0, 1.0)
     private val mCalendar: Calendar = Calendar.getInstance()
     private lateinit var mListener: EventResponseListener<String>
 
     override fun createAccountsTo(id: Long): Boolean {
-        val brl = Coin(BaseConstants.BRL_ACCOUNT, 1.0, 1.0)
+        val brl = Coin(BaseConstants.BRL, 1.0, 1.0)
 
         return gateway.create(Account(0, id, brl, 100000.00)) > 0 &&
                 gateway.create(Account(0, id, brita, 0.0)) > 0 &&
                 gateway.create(Account(0, id, bitcoin, 0.0)) > 0
     }
 
-    override fun edit(account: Account) {
-        gateway.edit(account)
-    }
+    override fun edit(account: Account): Boolean = gateway.edit(account)
 
     override fun getFrom(userId: Long): List<Account> = gateway.get(userId)
 
-    override fun getAccount(coin: String, accounts : List <Account>) : Account? {
-        var baseAccount : Account? = null
-        var britaAccount : Account? = null
-        var bitcoinAccount : Account? = null
+    override fun getAccount(coin: String, accounts: List<Account>): Account? {
+        var baseAccount: Account? = null
+        var britaAccount: Account? = null
+        var bitcoinAccount: Account? = null
 
         for (acc: Account in accounts) {
             when (acc.getCoin().name) {
-                BaseConstants.BRITA_ACCOUNT -> britaAccount = acc
-                BaseConstants.BITCOIN_ACCOUNT -> bitcoinAccount = acc
-                BaseConstants.BRL_ACCOUNT -> baseAccount = acc
+                BaseConstants.BRITA -> britaAccount = acc
+                BaseConstants.BITCOIN -> bitcoinAccount = acc
+                BaseConstants.BRL -> baseAccount = acc
             }
         }
 
-        if(britaAccount != null && bitcoinAccount != null && baseAccount != null) {
+        if (britaAccount != null && bitcoinAccount != null && baseAccount != null) {
             when (coin) {
-                BaseConstants.BRL_ACCOUNT -> return baseAccount
-                BaseConstants.BRITA_ACCOUNT -> return britaAccount
-                BaseConstants.BITCOIN_ACCOUNT -> return bitcoinAccount
+                BaseConstants.BRL -> return baseAccount
+                BaseConstants.BRITA -> return britaAccount
+                BaseConstants.BITCOIN -> return bitcoinAccount
             }
         }
 
@@ -77,16 +75,17 @@ class AccountBusiness @Inject constructor(val gateway: AccountGateway) : Account
     }
 
 
-    override fun getQuotation (coinName : String) : Coin {
-        var result = Coin(BaseConstants.BRL_ACCOUNT, 1.0, 1.0)
+    override fun getQuotation(coinName: String): Coin {
+        var result = Coin(BaseConstants.BRL, 1.0, 1.0)
 
         when (coinName) {
-            BaseConstants.BITCOIN_ACCOUNT -> result = getBitcoin()
-            BaseConstants.BRITA_ACCOUNT -> result = getBrita()
+            BaseConstants.BITCOIN -> result = getBitcoin()
+            BaseConstants.BRITA -> result = getBrita()
         }
 
         return result
     }
+
     fun getBrita(): Coin {
 
         try {
@@ -99,13 +98,13 @@ class AccountBusiness @Inject constructor(val gateway: AccountGateway) : Account
                     .get(BaseConstants.SALE_PRICE)
                     .toString()
                     .toDouble()
-        }catch (e : JSONException){
+        } catch (e: JSONException) {
             Log.i("APPTRACKER", e.message)
         }
         return brita
     }
 
-     fun getBitcoin(): Coin {
+    fun getBitcoin(): Coin {
 
         try {
             bitcoin.purchaseQuotation = JSONObject(gateway
@@ -119,7 +118,7 @@ class AccountBusiness @Inject constructor(val gateway: AccountGateway) : Account
                     .get(BaseConstants.SALE_PRICE)
                     .toString()
                     .toDouble()
-        }catch (e : JSONException){
+        } catch (e: JSONException) {
             Log.i("APPTRACKER", e.message)
         }
 

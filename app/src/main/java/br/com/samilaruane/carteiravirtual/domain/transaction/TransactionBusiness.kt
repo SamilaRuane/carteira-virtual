@@ -39,8 +39,8 @@ class TransactionBusiness @Inject constructor(val gateway: TransactionGateway) :
 
     private fun sell(sourceAccount: Account, destinationAccount: Account, amount: Double) : Boolean {
         try {
-            val saleValue = sourceAccount.getCoin().salePrice
-            saleValue.times(amount)
+            var saleValue = sourceAccount.getCoin().salePrice
+            saleValue = saleValue.times(amount)
             sourceAccount.withdraw(amount)
             destinationAccount.deposit(saleValue)
             return true
@@ -52,8 +52,8 @@ class TransactionBusiness @Inject constructor(val gateway: TransactionGateway) :
 
     private fun buy(sourceAccount: Account, destinationAccount: Account, amount: Double) : Boolean {
         try {
-            val purchaseValue = destinationAccount.getCoin().purchaseQuotation
-            purchaseValue.times(amount)
+            var purchaseValue = destinationAccount.getCoin().purchaseQuotation
+            purchaseValue = purchaseValue.times(amount)
             sourceAccount.withdraw(purchaseValue)
             destinationAccount.deposit(amount)
             return true
@@ -64,8 +64,8 @@ class TransactionBusiness @Inject constructor(val gateway: TransactionGateway) :
 
     private fun trade(sourceAccount: Account, destinationAccount: Account, amount: Double) : Boolean {
         try {
-            val saleValue = sourceAccount.getCoin().salePrice
-            saleValue.times(amount)
+            var saleValue = sourceAccount.getCoin().salePrice
+            saleValue = saleValue.times(amount)
             val tradeValue = saleValue / destinationAccount.getCoin().purchaseQuotation
 
             sourceAccount.withdraw(amount)
