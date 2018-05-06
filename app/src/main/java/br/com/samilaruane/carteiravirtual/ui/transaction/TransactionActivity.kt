@@ -42,6 +42,7 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
 
         layout_progress.visibility = View.GONE
 
+        supportActionBar?.title = getString(R.string.transaction_screen)
 
         spinner_transaction_type.adapter = ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
@@ -69,10 +70,10 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
                     BaseConstants.SELL -> {
                         mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(),
                                 spinner_source_account.selectedItem.toString(),
-                                BaseConstants.BRL_ACCOUNT, edt_transaction_amount.text.toString().toDouble())
+                                BaseConstants.BRL, edt_transaction_amount.text.toString().toDouble())
                     }
                     BaseConstants.BUY -> {
-                        mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(), BaseConstants.BRL_ACCOUNT,
+                        mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(), BaseConstants.BRL,
                                 spinner_source_account.selectedItem.toString(), edt_transaction_amount.text.toString().toDouble())
                     }
                     BaseConstants.TRADE -> {

@@ -5,13 +5,13 @@ package br.com.samilaruane.carteiravirtual.utils.constants
  */
 class BaseConstants {
     companion object {
-        val SELL = "VENDA"
-        val BUY = "COMPRA"
-        val TRADE = "TROCA"
+        const val SELL = "VENDA"
+        const val BUY = "COMPRA"
+        const val TRADE = "TROCA"
 
-        val BRITA_ACCOUNT = "BRITA"
-        val BITCOIN_ACCOUNT = "BITCOIN"
-        val BRL_ACCOUNT = "BRL"
+        const val BRITA = "BRITA"
+        const val BITCOIN = "BITCOIN"
+        const val BRL = "BRL"
 
         val SALE_PRICE = "salePrice"
         val PURCHASE_QUOTATION = "purchaseQuotation"

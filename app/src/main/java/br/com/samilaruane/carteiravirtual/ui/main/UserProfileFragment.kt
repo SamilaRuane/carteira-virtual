@@ -34,6 +34,7 @@ class UserProfileFragment : Fragment(), EventResponseListener<User> {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         txt_user_name.text = user.name
         txt_user_phone.text = user.phone
         txt_user_email.text = user.email
@@ -49,7 +50,8 @@ class UserProfileFragment : Fragment(), EventResponseListener<User> {
         profile_edit_button.setOnClickListener {
             user_profile_info_card.visibility = View.GONE
             user_profile_edit_card.visibility = View.VISIBLE
-
+            user_profile_edit_phone_number.visibility = View.GONE
+            img_phone.visibility = View.GONE
         }
         user_profile_save_button.setOnClickListener {
            if (user_profile_edit_user_name.text.toString().isNotEmpty())

@@ -12,32 +12,26 @@ import br.com.samilaruane.carteiravirtual.extension.inflate
 import br.com.samilaruane.carteiravirtual.ui.adapters.AccountExtractAdapter
 import br.com.samilaruane.carteiravirtual.utils.DataCallback
 import kotlinx.android.synthetic.main.fragment_account_extract.*
-import kotlinx.android.synthetic.main.transaction_item.*
 
 
 /**
  * Created by samila on 20/12/17.
  */
 
-class ExtractFragment : Fragment (), DataCallback<List<Transaction>>{
+class ExtractFragment : Fragment(), DataCallback<List<Transaction>> {
 
-    lateinit var transactions : List<Transaction>
-    lateinit var presenter : MainContract.Presenter
+    lateinit var transactions: List<Transaction>
+    lateinit var presenter: MainContract.Presenter
 
-     override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-         if (transactions == null) transactions = ArrayList<Transaction> ()
-     }
+        if (transactions == null) transactions = ArrayList()
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = container?.inflate(R.layout.fragment_account_extract)
         return view
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onResume() {
@@ -45,12 +39,12 @@ class ExtractFragment : Fragment (), DataCallback<List<Transaction>>{
         val adapter = AccountExtractAdapter(transactions)
         recycler_account_extract?.adapter = adapter
         recycler_account_extract?.layoutManager = LinearLayoutManager(activity)
-        if(transactions.isNotEmpty() || transactions != null){
+        if (transactions.isNotEmpty() && transactions != null) {
             recycler_account_extract.visibility = View.VISIBLE
             transaction_empty_view.visibility = View.GONE
-        }else{
+        } else {
             recycler_account_extract.visibility = View.GONE
-            txt_transaction.visibility = View.VISIBLE
+           // txt_transaction.visibility = View.VISIBLE
             transaction_empty_view.visibility = View.VISIBLE
         }
     }

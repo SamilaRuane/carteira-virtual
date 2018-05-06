@@ -13,7 +13,7 @@ import br.com.samilaruane.carteiravirtual.extension.formatter
 import br.com.samilaruane.carteiravirtual.extension.roundTo
 import br.com.samilaruane.carteiravirtual.utils.DataCallback
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
-import kotlinx.android.synthetic.main.fragment_account_details.*
+import kotlinx.android.synthetic.main.fragment_main.*
 import org.json.JSONObject
 import java.util.*
 
@@ -22,28 +22,24 @@ import java.util.*
  */
 class MainFragment : Fragment(), DataCallback<List<Account>> {
 
-    private lateinit var accounts : List <Account>
+    private lateinit var accounts: List<Account>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(accounts == null)  accounts = ArrayList ()
+        if (accounts == null) accounts = ArrayList()
 
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_account_details, container, false)
+        val view = inflater?.inflate(R.layout.fragment_main, container, false)
         return view
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onResume() {
         super.onResume()
-        if(!accounts.isEmpty()) {
+        if (!accounts.isEmpty()) {
             txt_brita_account_balance.text = accounts[1].getAccountBalance().roundTo(2).toString()
             txt_brita_coin_initials.text = accounts[1].getCoin().name
             txt_bitcoin_account_balance.text = accounts[2].getAccountBalance().roundTo(2).toString()
@@ -51,13 +47,6 @@ class MainFragment : Fragment(), DataCallback<List<Account>> {
             txt_brl_account_balance.text = accounts[0].getAccountBalance().roundTo(2).toString()
             //txt_brl_initials.text = accounts[0].getCoin().name
 
-            val preferences = SharedPreferencesHelper (this?.activity)
-            if(preferences.getBitcoinQuotation().isNotEmpty() && preferences.getBritaQuotation().isNotEmpty()) {
-                txt_brita_salePrice.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
-                txt_brita_purchase_quot.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
-                txt_bitcoin_salePrice.text = JSONObject(preferences.getBitcoinQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
-                txt_bitcoin_purchase_quot.text = JSONObject(preferences.getBitcoinQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
-            }
 
             val date = Calendar.getInstance()
             today.text = date.formatter("dd")
@@ -68,6 +57,16 @@ class MainFragment : Fragment(), DataCallback<List<Account>> {
     }
 
     override fun onSuccess(obj: List<Account>) {
-       accounts = obj
+        accounts = obj
+    }
+
+    fun update() {
+        val preferences = SharedPreferencesHelper(this?.activity)
+        if (preferences.getBitcoinQuotation().isNotEmpty() && preferences.getBritaQuotation().isNotEmpty()) {
+            txt_brita_salePrice.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
+            txt_brita_purchase_quot.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
+            txt_bitcoin_salePrice.text = JSONObject(preferences.getBitcoinQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
+            txt_bitcoin_purchase_quot.text = JSONObject(preferences.getBitcoinQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()
+        }
     }
 }

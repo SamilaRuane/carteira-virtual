@@ -24,14 +24,15 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
     lateinit var presenter: MainContract.Presenter
 
     private val accountsExtract = ExtractFragment()
-    private val accountDetails = MainFragment()
+    private val mainFragment = MainFragment()
     private val userProfile = UserProfileFragment()
 
     /* Activity Lifecycle */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
+
         initDependencies()
         initViews()
     }
@@ -46,7 +47,7 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
 
         /******* Add Tabs *********/
         val pageAdapter = TabsPagerAdapter(supportFragmentManager)
-        pageAdapter.addFragment(accountDetails)
+        pageAdapter.addFragment(mainFragment)
         pageAdapter.addFragment(accountsExtract)
         pageAdapter.addFragment(userProfile)
 
@@ -64,13 +65,16 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
     override fun onResumeFragments() {
         layout_progress.visibility = View.VISIBLE
         presenter.loadCoins()
-        presenter.loadAccounts(accountDetails)
+        presenter.loadAccounts(mainFragment)
         presenter.loadTransactions(accountsExtract)
         presenter.getUserInfo(userProfile)
         super.onResumeFragments()
     }
 
     override fun onError(error: String) {
+        if(layout_progress.visibility == View.VISIBLE)
+            layout_progress.visibility = View.GONE
+
       alert(error, null)
     }
 
@@ -91,6 +95,9 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
     }
 
     override fun onSuccess(msg: String) {
-        layout_progress.visibility = View.GONE
+        if(layout_progress.visibility == View.VISIBLE)
+            layout_progress.visibility = View.GONE
+            mainFragment.update()
     }
+
 }
