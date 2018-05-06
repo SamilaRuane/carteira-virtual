@@ -7,6 +7,15 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/extract_screen"
+            android:textColor="@color/baseColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="150dp"
@@ -26,12 +35,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:src="@drawable/ic_transaction_gray"/>
-        <TextView
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

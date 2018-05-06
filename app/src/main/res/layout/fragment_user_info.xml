@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/button_background"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:elevation="8dp"
             android:text="@string/btn_confirm"
             android:textColor="@color/baseColor" />
