@@ -17,6 +17,7 @@
     <string name="btn_send">Enviar</string>
     <string name="btn_confirm">Confirmar</string>
     <string name="btn_login">Logar</string>
+    <string name="btn_next">Próximo</string>
     <string name="permissions_alert">A permissão deve ser concedida para que o app funcione</string>
     <string name="create_user_error_alert">Erro ao cadastrar usuário</string>
     <string name="service_error_alert">Caro cliente, no momento não foi possível atualizar as informações. Tente Novamente em instantes</string>
@@ -36,6 +37,12 @@
     <string name="send_code_message"> Uma mensagem está sendo enviada para o número informado. Isso pode levar alguns instantes.</string>
     <string name="recovery_password_send_code_error"> Usuário não cadastrado no sistema</string>
     <string name="recovery_password_incorrect_code"> Código Inválido</string>
+    <string name="no_transaction"> Não existem transações realizadas</string>
+    <string name="edit"> Editar </string>
+    <string name="exit"> Sair </string>
+    <string name="save"> Salvar </string>
+    <string name="loading"> Carregando </string>
+    <string name="back"> Voltar </string>
 
     <!--Screen title -->
     <string name="main_screen">Resumo das contas </string>

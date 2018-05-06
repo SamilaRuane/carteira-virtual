@@ -9,13 +9,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class RecoveryPasswordModule {
-
-    private val mView: RecoveryPasswordContract.View
-
-    constructor(mView: RecoveryPasswordContract.View) {
-        this.mView = mView
-    }
+class RecoveryPasswordModule(private val mView: RecoveryPasswordContract.View) {
 
 
     @Provides

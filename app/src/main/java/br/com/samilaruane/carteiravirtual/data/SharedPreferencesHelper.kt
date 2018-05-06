@@ -24,7 +24,7 @@ class SharedPreferencesHelper @Inject constructor(val context: Context) {
 
 
     fun keepTokenForConfirmation(userPhoneNumber: String, token: String) {
-        sharedPreference.edit().putString(SHARED_PREFERENCE_USER_TOKEN, token).commit()
+        sharedPreference.edit().putString(SHARED_PREFERENCE_USER_TOKEN, token).apply()
     }
 
     fun getToken(): String =
@@ -33,7 +33,7 @@ class SharedPreferencesHelper @Inject constructor(val context: Context) {
 
     fun saveUserId(user: User) {
         if (user.id != null) {
-            sharedPreference.edit().putLong(SHARED_PREFERENCE_USER_ID, user.id).commit()
+            sharedPreference.edit().putLong(SHARED_PREFERENCE_USER_ID, user.id).apply()
         }
     }
 
@@ -42,7 +42,7 @@ class SharedPreferencesHelper @Inject constructor(val context: Context) {
     }
 
     fun setIsAuth(auth: Boolean) {
-        sharedPreference.edit().putBoolean(SHARED_PREFERENCES_CHECK_IS_AUTH, auth).commit()
+        sharedPreference.edit().putBoolean(SHARED_PREFERENCES_CHECK_IS_AUTH, auth).apply()
     }
 
 
@@ -51,7 +51,7 @@ class SharedPreferencesHelper @Inject constructor(val context: Context) {
     }
 
     fun setBritaQuotation(body: String) {
-        sharedPreference.edit().putString(SHARED_PREFERENCES_BRITA_QUOTATION, body).commit()
+        sharedPreference.edit().putString(SHARED_PREFERENCES_BRITA_QUOTATION, body).apply()
     }
 
     fun getBritaQuotation(): String {
@@ -59,7 +59,7 @@ class SharedPreferencesHelper @Inject constructor(val context: Context) {
     }
 
     fun setBitcoinQuotation(body: String) {
-        sharedPreference.edit().putString(SHARED_PREFERENCES_BITCOIN_QUOTATION, body).commit()
+        sharedPreference.edit().putString(SHARED_PREFERENCES_BITCOIN_QUOTATION, body).apply()
     }
 
     fun getBitcoinQuotation(): String {

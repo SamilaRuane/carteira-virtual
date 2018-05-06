@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -133,7 +133,7 @@
                             style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Editar" />
+                            android:text="@string/edit" />
 
                         <TextView
                             android:id="@+id/profile_exit_button"
@@ -148,7 +148,7 @@
                             style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Sair" />
+                            android:text="@string/exit" />
 
                     </LinearLayout>
 
@@ -194,6 +194,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id = "@+id/phone_linear"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
@@ -281,7 +282,7 @@
                             style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Salvar" />
+                            android:text="@string/save" />
 
                         <TextView
                             android:id="@+id/user_profile_back_button"
@@ -296,7 +297,7 @@
                             style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Voltar" />
+                            android:text="@string/back" />
 
                     </LinearLayout>
                 </LinearLayout>

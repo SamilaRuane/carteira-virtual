@@ -43,14 +43,4 @@ class DatabaseConstants {
         }
     }
 
-    object COIN {
-        const val TABLE_NAME = "coin"
-
-        object COLUMNS {
-            const val NAME = "name"
-            const val PURCHASE = "purchase_quotation"
-            const val SALE = "sale_price"
-        }
-    }
-
 }

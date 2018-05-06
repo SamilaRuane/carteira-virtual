@@ -35,6 +35,7 @@ class UserBusinessTest {
         Assert.assertTrue(result > 0)
     }
 
+    @Test
     fun shoudNotCreateAnUser () {
         //cenario
         val anUser = User(0, "Usuário de Teste", "+55(78)99134-5678", "", "123456")

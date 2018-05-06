@@ -31,7 +31,7 @@ import dagger.Provides
 @Module
 class AppModule(app: App) {
 
-    val mApp: App = app
+    private val mApp: App = app
 
     @Provides
     fun provideContext(): Context = mApp

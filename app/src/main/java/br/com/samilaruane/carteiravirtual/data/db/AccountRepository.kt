@@ -51,7 +51,7 @@ class AccountRepository @Inject constructor(val mWalletDatabaseHelper: WalletDat
             val balance = cursor.getDouble(cursor.getColumnIndex(DatabaseConstants.ACCOUNT.COLUMNS.BALANCE))
             val coin = cursor.getString(cursor.getColumnIndex(DatabaseConstants.ACCOUNT.COLUMNS.COIN_INITIALS))
 
-            var coinReference = Coin (coin, 1.0, 1.0)
+            val coinReference = Coin (coin, 1.0, 1.0)
 
             val item = Account(id, userId, coinReference, balance)
 

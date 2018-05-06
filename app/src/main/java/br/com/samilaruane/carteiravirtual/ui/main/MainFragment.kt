@@ -33,8 +33,7 @@ class MainFragment : Fragment(), DataCallback<List<Account>> {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_main, container, false)
-        return view
+        return inflater?.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onResume() {
@@ -53,6 +52,8 @@ class MainFragment : Fragment(), DataCallback<List<Account>> {
             this_month.text = date.formatter("MMM")
             this_year.text = date.formatter("yyyy")
             day_of_week.text = date.dayOfWeek()
+
+            update()
         }
     }
 
@@ -61,7 +62,7 @@ class MainFragment : Fragment(), DataCallback<List<Account>> {
     }
 
     fun update() {
-        val preferences = SharedPreferencesHelper(this?.activity)
+        val preferences = SharedPreferencesHelper(this.activity)
         if (preferences.getBitcoinQuotation().isNotEmpty() && preferences.getBritaQuotation().isNotEmpty()) {
             txt_brita_salePrice.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.SALE_PRICE).toString().toDouble().roundTo(2).toString()
             txt_brita_purchase_quot.text = JSONObject(preferences.getBritaQuotation()).get(BaseConstants.PURCHASE_QUOTATION).toString().toDouble().roundTo(2).toString()

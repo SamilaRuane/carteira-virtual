@@ -86,7 +86,7 @@ class AccountBusiness @Inject constructor(val gateway: AccountGateway) : Account
         return result
     }
 
-    fun getBrita(): Coin {
+    private fun getBrita(): Coin {
 
         try {
             brita.purchaseQuotation = JSONObject(gateway.getBritaQuotation())
@@ -104,7 +104,7 @@ class AccountBusiness @Inject constructor(val gateway: AccountGateway) : Account
         return brita
     }
 
-    fun getBitcoin(): Coin {
+    private fun getBitcoin(): Coin {
 
         try {
             bitcoin.purchaseQuotation = JSONObject(gateway

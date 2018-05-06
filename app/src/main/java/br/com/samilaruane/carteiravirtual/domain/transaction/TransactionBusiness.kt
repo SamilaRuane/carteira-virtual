@@ -38,41 +38,41 @@ class TransactionBusiness @Inject constructor(val gateway: TransactionGateway) :
     }
 
     private fun sell(sourceAccount: Account, destinationAccount: Account, amount: Double) : Boolean {
-        try {
+        return try {
             var saleValue = sourceAccount.getCoin().salePrice
             saleValue = saleValue.times(amount)
             sourceAccount.withdraw(amount)
             destinationAccount.deposit(saleValue)
-            return true
+            true
         } catch (e: InsufficientBalanceException) {
-            return false
+            false
         }
     }
 
 
     private fun buy(sourceAccount: Account, destinationAccount: Account, amount: Double) : Boolean {
-        try {
+        return try {
             var purchaseValue = destinationAccount.getCoin().purchaseQuotation
             purchaseValue = purchaseValue.times(amount)
             sourceAccount.withdraw(purchaseValue)
             destinationAccount.deposit(amount)
-            return true
+            true
         } catch (e: InsufficientBalanceException) {
-            return false
+            false
         }
     }
 
     private fun trade(sourceAccount: Account, destinationAccount: Account, amount: Double) : Boolean {
-        try {
+        return try {
             var saleValue = sourceAccount.getCoin().salePrice
             saleValue = saleValue.times(amount)
             val tradeValue = saleValue / destinationAccount.getCoin().purchaseQuotation
 
             sourceAccount.withdraw(amount)
             destinationAccount.deposit(tradeValue)
-                return true
+            true
         } catch (e: InsufficientBalanceException) {
-                return false
+            false
         }
     }
 

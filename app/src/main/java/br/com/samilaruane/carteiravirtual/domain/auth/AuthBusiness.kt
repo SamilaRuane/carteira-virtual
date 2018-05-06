@@ -27,7 +27,7 @@ class AuthBusiness(private val gateway: AuthGateway) : AuthBoundary {
 
     override fun sendToken(phoneNumber: String) {
         val random = Random().generateToken()
-        val msg = "Use este token para recuperar sua senha"
+        val msg = "Token Carteira Virtual"
         gateway.keepToken(phoneNumber, random)
         val smsManager = SmsManager.getDefault()
         smsManager.sendTextMessage(phoneNumber, null, "$msg - $random", null, null)

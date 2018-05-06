@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_account_extract.*
 
 class ExtractFragment : Fragment(), DataCallback<List<Transaction>> {
 
-    lateinit var transactions: List<Transaction>
+    private lateinit var transactions: List<Transaction>
     lateinit var presenter: MainContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +30,7 @@ class ExtractFragment : Fragment(), DataCallback<List<Transaction>> {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = container?.inflate(R.layout.fragment_account_extract)
-        return view
+        return container?.inflate(R.layout.fragment_account_extract)
     }
 
     override fun onResume() {

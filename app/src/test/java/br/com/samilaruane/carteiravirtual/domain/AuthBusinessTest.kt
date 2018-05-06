@@ -11,8 +11,8 @@ import org.mockito.Mockito
 
 class AuthBusinessTest {
 
-    lateinit var authBusiness : AuthBusiness
-    lateinit var gateway: AuthGateway
+    private lateinit var authBusiness : AuthBusiness
+    private lateinit var gateway: AuthGateway
 
     @Before
     fun config (){

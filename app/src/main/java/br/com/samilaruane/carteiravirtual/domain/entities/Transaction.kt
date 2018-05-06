@@ -20,12 +20,11 @@ data class Transaction(val date: Long,
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = date
         val transactionSummary: String
-        if (transactionType == BaseConstants.BUY)
-            transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $destinationCoin"
-        else if (transactionType == BaseConstants.SELL)
-            transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin"
-        else
-            transactionSummary = "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin por $destinationCoin"
+        transactionSummary = when (transactionType) {
+            BaseConstants.BUY -> "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $destinationCoin"
+            BaseConstants.SELL -> "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin"
+            else -> "${calendar.formatter("dd/MM/yyyy")} - $transactionType de $amount $sourceCoin por $destinationCoin"
+        }
 
         return transactionSummary
     }

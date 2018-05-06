@@ -3,8 +3,8 @@ package br.com.samilaruane.carteiravirtual.data.db
 /**
  * Created by samila on 14/03/18.
  */
-class ByIdSearcher(val tableName:String,
-                   val idColumn:String,
+class ByIdSearcher(private val tableName:String,
+                   private val idColumn:String,
                    val id:String): Statment {
 
 

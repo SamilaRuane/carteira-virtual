@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_type_phone_number.*
  */
 class PhoneNumberFragment : Fragment () {
 
-    lateinit var mListener : OnPhoneNumberTypedListener
+    private lateinit var mListener : OnPhoneNumberTypedListener
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -29,8 +29,7 @@ class PhoneNumberFragment : Fragment () {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = container?.inflate(R.layout.fragment_type_phone_number)
-        return view
+        return container?.inflate(R.layout.fragment_type_phone_number)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

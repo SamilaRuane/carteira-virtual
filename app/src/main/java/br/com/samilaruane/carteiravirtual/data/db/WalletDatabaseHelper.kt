@@ -11,8 +11,8 @@ import br.com.samilaruane.carteiravirtual.utils.constants.DatabaseConstants
 class WalletDatabaseHelper (context: Context?) : SQLiteOpenHelper (context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        val DATABASE_NAME = "wallet.db"
-        val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "wallet.db"
+        const val DATABASE_VERSION = 1
     }
 
     private val createTableUser = """

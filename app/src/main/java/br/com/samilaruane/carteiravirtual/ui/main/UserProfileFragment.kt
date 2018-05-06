@@ -28,8 +28,7 @@ class UserProfileFragment : Fragment(), EventResponseListener<User> {
     /* Fragment Lifecycle */
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_user_profile, container, false)
-        return view
+        return inflater?.inflate(R.layout.fragment_user_profile, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -50,8 +49,7 @@ class UserProfileFragment : Fragment(), EventResponseListener<User> {
         profile_edit_button.setOnClickListener {
             user_profile_info_card.visibility = View.GONE
             user_profile_edit_card.visibility = View.VISIBLE
-            user_profile_edit_phone_number.visibility = View.GONE
-            img_phone.visibility = View.GONE
+            phone_linear.visibility = View.GONE
         }
         user_profile_save_button.setOnClickListener {
            if (user_profile_edit_user_name.text.toString().isNotEmpty())

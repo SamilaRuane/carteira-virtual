@@ -28,7 +28,7 @@ class AccountExtractAdapter(private val transactions : List<Transaction> ) : Rec
     }
 
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder (itemView){
-        val accountBalance : TextView? = itemView.txt_transaction
+        private val accountBalance : TextView? = itemView.txt_transaction
 
         fun bindView (item : Transaction){
             accountBalance?.text = item.toString()
