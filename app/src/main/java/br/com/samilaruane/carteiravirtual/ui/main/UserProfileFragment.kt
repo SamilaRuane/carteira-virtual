@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.samilaruane.carteiravirtual.R
+import br.com.samilaruane.carteiravirtual.data.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.extension.alert
-import br.com.samilaruane.carteiravirtual.repository.SharedPreferencesHelper
 import br.com.samilaruane.carteiravirtual.ui.login.LoginActivity
 import br.com.samilaruane.carteiravirtual.utils.EventResponseListener
 import com.github.rtoshiro.util.format.SimpleMaskFormatter
@@ -20,21 +20,20 @@ import kotlinx.android.synthetic.main.fragment_user_profile.*
 /**
  * Created by samila on 20/12/17.
  */
-class UserProfileFragment : Fragment, EventResponseListener<User> {
+class UserProfileFragment : Fragment(), EventResponseListener<User> {
 
-    private var user : User = User (0, "", "", "", "")
+    private var user : User = User(0, "", "", "", "")
     private lateinit var mListener : UserProfileListener
-    constructor() : super()
 
     /* Fragment Lifecycle */
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_user_profile, container, false)
-        return view
+        return inflater?.inflate(R.layout.fragment_user_profile, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         txt_user_name.text = user.name
         txt_user_phone.text = user.phone
         txt_user_email.text = user.email
@@ -50,7 +49,7 @@ class UserProfileFragment : Fragment, EventResponseListener<User> {
         profile_edit_button.setOnClickListener {
             user_profile_info_card.visibility = View.GONE
             user_profile_edit_card.visibility = View.VISIBLE
-
+            phone_linear.visibility = View.GONE
         }
         user_profile_save_button.setOnClickListener {
            if (user_profile_edit_user_name.text.toString().isNotEmpty())

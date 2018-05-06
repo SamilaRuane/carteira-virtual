@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,6 +19,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/profile_screen"
+                    android:textColor="@color/baseColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="150dp"
@@ -124,7 +133,7 @@
                             style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Editar" />
+                            android:text="@string/edit" />
 
                         <TextView
                             android:id="@+id/profile_exit_button"
@@ -139,7 +148,7 @@
                             style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Sair" />
+                            android:text="@string/exit" />
 
                     </LinearLayout>
 
@@ -185,12 +194,14 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id = "@+id/phone_linear"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/img_phone"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
@@ -271,7 +282,7 @@
                             style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Salvar" />
+                            android:text="@string/save" />
 
                         <TextView
                             android:id="@+id/user_profile_back_button"
@@ -286,7 +297,7 @@
                             style="@android:style/TextAppearance.Material.Button"
                             android:paddingLeft="@dimen/button_left_right_padding"
                             android:paddingRight="@dimen/button_left_right_padding"
-                            android:text="Voltar" />
+                            android:text="@string/back" />
 
                     </LinearLayout>
                 </LinearLayout>

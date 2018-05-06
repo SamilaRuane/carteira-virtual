@@ -1,15 +1,15 @@
 package br.com.samilaruane.carteiravirtual.ui.transaction
 
 import android.content.DialogInterface
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerTransactionComponent
-import br.com.samilaruane.carteiravirtual.dependencies.modules.TransactionModule
+import br.com.samilaruane.carteiravirtual.di.components.DaggerTransactionComponent
+import br.com.samilaruane.carteiravirtual.di.modules.TransactionModule
 import br.com.samilaruane.carteiravirtual.extension.alert
 import br.com.samilaruane.carteiravirtual.extension.component
 import br.com.samilaruane.carteiravirtual.utils.constants.BaseConstants
@@ -33,7 +33,7 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
     }
 
     /* Transaction Contract */
-    override fun showError(error: String) {
+    override fun onError(error: String) {
         layout_progress.visibility = View.GONE
         alert( error, null )
     }
@@ -42,6 +42,7 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
 
         layout_progress.visibility = View.GONE
 
+        supportActionBar?.title = getString(R.string.transaction_screen)
 
         spinner_transaction_type.adapter = ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
@@ -69,10 +70,10 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
                     BaseConstants.SELL -> {
                         mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(),
                                 spinner_source_account.selectedItem.toString(),
-                                BaseConstants.BRL_ACCOUNT, edt_transaction_amount.text.toString().toDouble())
+                                BaseConstants.BRL, edt_transaction_amount.text.toString().toDouble())
                     }
                     BaseConstants.BUY -> {
-                        mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(), BaseConstants.BRL_ACCOUNT,
+                        mPresenter.saveTransaction(spinner_transaction_type.selectedItem.toString(), BaseConstants.BRL,
                                 spinner_source_account.selectedItem.toString(), edt_transaction_amount.text.toString().toDouble())
                     }
                     BaseConstants.TRADE -> {
@@ -95,8 +96,8 @@ class TransactionActivity : AppCompatActivity(), TransactionContract.View, Adapt
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (spinner_transaction_type.getItemAtPosition(position).equals(BaseConstants.SELL) ||
-                spinner_transaction_type.getItemAtPosition(position).equals(BaseConstants.BUY)) {
+        if (spinner_transaction_type.getItemAtPosition(position) == BaseConstants.SELL ||
+                spinner_transaction_type.getItemAtPosition(position) == BaseConstants.BUY) {
             txt_destination_account.visibility = View.GONE
             spinner_destination_account.visibility = View.GONE
         } else {

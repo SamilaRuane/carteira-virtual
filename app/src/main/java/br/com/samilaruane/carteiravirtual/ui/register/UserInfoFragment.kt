@@ -16,7 +16,7 @@ import br.com.samilaruane.carteiravirtual.R
  */
 class UserInfoFragment : Fragment () {
 
-    lateinit var mListener : OnRegisterFinishedListener
+    private lateinit var mListener : OnRegisterFinishedListener
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

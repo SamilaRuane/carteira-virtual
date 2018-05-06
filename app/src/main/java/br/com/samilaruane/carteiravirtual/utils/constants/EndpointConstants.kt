@@ -5,7 +5,7 @@ package br.com.samilaruane.carteiravirtual.utils.constants
  */
 class EndpointConstants {
      object BASE {
-        val URL_API_MERCADO_BITCOIN = "https://www.mercadobitcoin.net/api/BTC/"
-        val URL_API_BANCO_CENTRAL = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/"
+        const val URL_API_MERCADO_BITCOIN = "https://www.mercadobitcoin.net/api/BTC/"
+        const val URL_API_BANCO_CENTRAL = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/"
     }
 }

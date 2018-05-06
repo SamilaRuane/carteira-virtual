@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_type_code.*
  */
 class CodeFragment : Fragment(){
 
-    lateinit var mListener : OnCodeConfirmedListener
+    private lateinit var mListener : OnCodeConfirmedListener
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -28,8 +28,7 @@ class CodeFragment : Fragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = container?.inflate(R.layout.fragment_type_code)
-        return view
+        return container?.inflate(R.layout.fragment_type_code)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

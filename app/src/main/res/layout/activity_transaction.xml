@@ -4,15 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:fillViewport="true">
 
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/degr_background"
     tools:activity="br.com.samilaruane.carteiravirtual.ui.transaction.TransactionActivity"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="159dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <Spinner
             android:id="@+id/spinner_transaction_type"
@@ -53,7 +54,7 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="287dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <Spinner
             android:id="@+id/spinner_destination_account"
@@ -71,7 +72,7 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="222dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <Spinner
             android:id="@+id/spinner_source_account"
@@ -88,7 +89,7 @@
             android:text="@string/text_label_to_amount"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="353dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"/>
 
         <EditText
@@ -112,8 +113,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/btn_confirm"
-            android:background="@color/colorPrimary"
-            style="@android:style/Widget.Material.Button"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:textColor="@color/baseColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -121,9 +121,7 @@
 
     </LinearLayout>
 
-
     <include layout="@layout/layout_progress" />
-
 
 </android.support.constraint.ConstraintLayout>
 

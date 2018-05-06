@@ -5,25 +5,25 @@ package br.com.samilaruane.carteiravirtual.utils.constants
  */
 class BaseConstants {
     companion object {
-        val SELL = "VENDA"
-        val BUY = "COMPRA"
-        val TRADE = "TROCA"
+        const val SELL = "VENDA"
+        const val BUY = "COMPRA"
+        const val TRADE = "TROCA"
 
-        val BRITA_ACCOUNT = "BRITA"
-        val BITCOIN_ACCOUNT = "BITCOIN"
-        val BRL_ACCOUNT = "BRL"
+        const val BRITA = "BRITA"
+        const val BITCOIN = "BITCOIN"
+        const val BRL = "BRL"
 
-        val SALE_PRICE = "salePrice"
-        val PURCHASE_QUOTATION = "purchaseQuotation"
+        const val SALE_PRICE = "salePrice"
+        const val PURCHASE_QUOTATION = "purchaseQuotation"
     }
 
     object MESSAGES {
-        val GENERIC_ERROR = "Caro cliente, no momento não foi possível recuperar as informações. Tente Novamente em instantes"
-        val INVALID_PASSWORD = "Usuário ou senha inválida"
-        val USER_NOT_FOUND = "Usuário não cadastrado no sistema"
-        val SUCCESS_ON_TASK = "Operação realizada com Sucesso"
-        val PASSWORD_NOT_MATCH = "Senhas não conferem"
-        val SUCCESS_ON_CREATE_USER = "Usuário cadastrado com Sucesso"
-        val EMPTY_FIELDS = "Preencha todos os campos"
+        const val GENERIC_ERROR = "Caro cliente, no momento não foi possível recuperar as informações. Tente Novamente em instantes"
+        const val INVALID_PASSWORD = "Usuário ou senha inválida"
+        const val SUCCESS_ON_TASK = "Operação realizada com Sucesso"
+        const val PASSWORD_NOT_MATCH = "Senhas não conferem"
+        const val EMPTY_FIELDS = "Preencha todos os campos"
+        const val USER_ALREADY_EXISTS = "O usuário informado já está cadastrado no sistema"
+        const val INSUFFICIENT_BALANCE = "Saldo Insuficiente"
     }
 }

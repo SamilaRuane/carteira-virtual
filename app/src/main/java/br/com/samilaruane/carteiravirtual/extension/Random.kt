@@ -7,7 +7,6 @@ import java.util.*
  */
 fun Random.generateToken () : String{
     val randomicNumber = this.nextInt(9999 - 1000) + 1000
-    val token = randomicNumber.toString()
 
-    return token
+    return randomicNumber.toString()
 }

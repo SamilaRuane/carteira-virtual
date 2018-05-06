@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Carteira Virtual</string>
-    <string name="bitcoin_wallet_details_page_title">Carteira Bitcoin</string>
-    <string name="brita_wallet_details_page_title">Carteira Brita</string>
-    <string name="brl_wallet_details_page_title">Carteira BRL</string>
     <string name="hint_login_user_phone_number">Digite seu número de telefone</string>
     <string name="hint_login_user_password">Digite sua senha</string>
     <string name="hint_user_name">Digite seu nome</string>
@@ -20,6 +17,7 @@
     <string name="btn_send">Enviar</string>
     <string name="btn_confirm">Confirmar</string>
     <string name="btn_login">Logar</string>
+    <string name="btn_next">Próximo</string>
     <string name="permissions_alert">A permissão deve ser concedida para que o app funcione</string>
     <string name="create_user_error_alert">Erro ao cadastrar usuário</string>
     <string name="service_error_alert">Caro cliente, no momento não foi possível atualizar as informações. Tente Novamente em instantes</string>
@@ -37,14 +35,29 @@
     <string name="edit_profile_success_message"> Alterações salvas com sucesso </string>
     <string name="edit_profile_error_message"> Erro ao salvar as alterações do usuário </string>
     <string name="send_code_message"> Uma mensagem está sendo enviada para o número informado. Isso pode levar alguns instantes.</string>
+    <string name="recovery_password_send_code_error"> Usuário não cadastrado no sistema</string>
+    <string name="recovery_password_incorrect_code"> Código Inválido</string>
+    <string name="no_transaction"> Não existem transações realizadas</string>
+    <string name="edit"> Editar </string>
+    <string name="exit"> Sair </string>
+    <string name="save"> Salvar </string>
+    <string name="loading"> Carregando </string>
+    <string name="back"> Voltar </string>
 
-    <string-array name = "transactiontypes">
+    <!--Screen title -->
+    <string name="main_screen">Resumo das contas </string>
+    <string name="extract_screen">Extrato das transações</string>
+    <string name="recovery_password_screen">Esqueci a senha</string>
+    <string name="profile_screen">Perfil</string>
+    <string name="transaction_screen">Nova Transação</string>
+
+    <string-array name="transactiontypes">
         <item>VENDA</item>
         <item>COMPRA</item>
         <item>TROCA</item>
     </string-array>
 
-    <string-array name = "coins">
+    <string-array name="coins">
         <item>BRITA</item>
         <item>BITCOIN</item>
     </string-array>

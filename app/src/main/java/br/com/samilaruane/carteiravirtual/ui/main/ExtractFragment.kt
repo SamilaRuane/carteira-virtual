@@ -7,54 +7,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.domain.Transaction
+import br.com.samilaruane.carteiravirtual.domain.entities.Transaction
 import br.com.samilaruane.carteiravirtual.extension.inflate
 import br.com.samilaruane.carteiravirtual.ui.adapters.AccountExtractAdapter
-import br.com.samilaruane.carteiravirtual.utils.OnDatabaseAccessListener
+import br.com.samilaruane.carteiravirtual.utils.DataCallback
 import kotlinx.android.synthetic.main.fragment_account_extract.*
-import kotlinx.android.synthetic.main.transaction_item.*
 
 
 /**
  * Created by samila on 20/12/17.
  */
 
-class ExtractFragment : Fragment (), OnDatabaseAccessListener<List<Transaction>>{
+class ExtractFragment : Fragment(), DataCallback<List<Transaction>> {
 
-    lateinit var transactions : List<Transaction>
-    lateinit var presenter : MainContract.Presenter
+    private lateinit var transactions: List<Transaction>
+    lateinit var presenter: MainContract.Presenter
 
-     override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-         if (transactions == null) transactions = ArrayList<Transaction> ()
-     }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = container?.inflate(R.layout.fragment_account_extract)
-        return view
+        if (transactions == null) transactions = ArrayList()
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return container?.inflate(R.layout.fragment_account_extract)
     }
 
     override fun onResume() {
         super.onResume()
-        val adapter = AccountExtractAdapter(activity, transactions)
+        val adapter = AccountExtractAdapter(transactions)
         recycler_account_extract?.adapter = adapter
         recycler_account_extract?.layoutManager = LinearLayoutManager(activity)
-        if(transactions.isNotEmpty() || transactions != null){
+        if (transactions.isNotEmpty() && transactions != null) {
             recycler_account_extract.visibility = View.VISIBLE
             transaction_empty_view.visibility = View.GONE
-        }else{
+        } else {
             recycler_account_extract.visibility = View.GONE
-            txt_transaction.visibility = View.VISIBLE
+           // txt_transaction.visibility = View.VISIBLE
+            transaction_empty_view.visibility = View.VISIBLE
         }
     }
 
-    override fun onSelectSuccess(obj: List<Transaction>) {
+    override fun onSuccess(obj: List<Transaction>) {
         transactions = obj
     }
 }

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.view.View
 import br.com.samilaruane.carteiravirtual.R
-import br.com.samilaruane.carteiravirtual.dependencies.components.DaggerMainComponent
-import br.com.samilaruane.carteiravirtual.dependencies.modules.MainModule
+import br.com.samilaruane.carteiravirtual.di.components.DaggerMainComponent
+import br.com.samilaruane.carteiravirtual.di.modules.MainModule
 import br.com.samilaruane.carteiravirtual.domain.entities.User
 import br.com.samilaruane.carteiravirtual.extension.alert
 import br.com.samilaruane.carteiravirtual.extension.component
@@ -23,15 +23,16 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
     @Inject
     lateinit var presenter: MainContract.Presenter
 
-    val accountsExtract = ExtractFragment()
-    val accountDetails = MainFragment()
-    val userProfile = UserProfileFragment()
+    private val accountsExtract = ExtractFragment()
+    private val mainFragment = MainFragment()
+    private val userProfile = UserProfileFragment()
 
     /* Activity Lifecycle */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
+
         initDependencies()
         initViews()
     }
@@ -46,7 +47,7 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
 
         /******* Add Tabs *********/
         val pageAdapter = TabsPagerAdapter(supportFragmentManager)
-        pageAdapter.addFragment(accountDetails)
+        pageAdapter.addFragment(mainFragment)
         pageAdapter.addFragment(accountsExtract)
         pageAdapter.addFragment(userProfile)
 
@@ -64,13 +65,16 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
     override fun onResumeFragments() {
         layout_progress.visibility = View.VISIBLE
         presenter.loadCoins()
-        presenter.loadAccounts(accountDetails)
+        presenter.loadAccounts(mainFragment)
         presenter.loadTransactions(accountsExtract)
         presenter.getUserInfo(userProfile)
         super.onResumeFragments()
     }
 
-    override fun showError(error: String) {
+    override fun onError(error: String) {
+        if(layout_progress.visibility == View.VISIBLE)
+            layout_progress.visibility = View.GONE
+
       alert(error, null)
     }
 
@@ -87,10 +91,13 @@ class MainActivity : BaseActivity(), MainContract.View, UserProfileFragment.User
         if(presenter.updateProfile(user))
             alert( getString(R.string.edit_profile_success_message), null )
         else
-            showError(getString(R.string.edit_profile_error_message))
+            onError(getString(R.string.edit_profile_error_message))
     }
 
     override fun onSuccess(msg: String) {
-        layout_progress.visibility = View.GONE
+        if(layout_progress.visibility == View.VISIBLE)
+            layout_progress.visibility = View.GONE
+            mainFragment.update()
     }
+
 }

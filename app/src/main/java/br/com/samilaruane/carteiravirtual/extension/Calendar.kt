@@ -18,7 +18,7 @@ fun Calendar.isWorkingDay(): Boolean = !this.isSaturday() && !this.isSunday()
 
 fun Calendar.formatter(pattern: String): String {
     val sdf = SimpleDateFormat(pattern)
-    return sdf?.format(this.time)
+    return sdf.format(this.time)
 }
 
 fun Calendar.dayOfWeek(): String? {
@@ -31,5 +31,5 @@ fun Calendar.dayOfWeek(): String? {
     daysMap.put(Calendar.FRIDAY, "Sexta-Feira")
     daysMap.put(Calendar.SATURDAY, "Sábado")
 
-    return daysMap.get(this.get(Calendar.DAY_OF_WEEK))
+    return daysMap[this.get(Calendar.DAY_OF_WEEK)]
 }
